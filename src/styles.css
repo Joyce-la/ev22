@@ -1,0 +1,229 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant purple (&:is(.purple *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-panel: var(--panel);
+  --color-panel-soft: var(--panel-soft);
+  --color-active: var(--active);
+  --color-brand: var(--brand);
+}
+
+/* Light (Default) */
+:root {
+  --radius: 1.25rem;
+  --background: oklch(0.97 0.005 250);
+  --foreground: oklch(0.18 0.02 270);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 270);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 270);
+  --primary: oklch(0.55 0.22 295);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0.01 250);
+  --secondary-foreground: oklch(0.18 0.02 270);
+  --muted: oklch(0.94 0.01 250);
+  --muted-foreground: oklch(0.5 0.02 270);
+  --accent: oklch(0.92 0.02 290);
+  --accent-foreground: oklch(0.2 0.05 290);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.01 250);
+  --input: oklch(0.93 0.01 250);
+  --ring: oklch(0.55 0.22 295);
+  --sidebar-bg: oklch(0.97 0.005 250);
+  --panel: oklch(1 0 0);
+  --panel-soft: oklch(0.96 0.005 250);
+  --active: oklch(0.88 0.01 250);
+  --brand: oklch(0.6 0.25 300);
+  --app-bg: oklch(0.85 0.005 250);
+  --app-border: oklch(0.55 0.22 295);
+}
+
+.dark {
+  --background: oklch(0.26 0.015 270);
+  --foreground: oklch(0.95 0.01 255);
+  --card: oklch(0.31 0.015 270);
+  --card-foreground: oklch(0.95 0.01 255);
+  --popover: oklch(0.31 0.015 270);
+  --popover-foreground: oklch(0.95 0.01 255);
+  --primary: oklch(0.68 0.17 296);
+  --primary-foreground: oklch(0.2 0.02 270);
+  --secondary: oklch(0.35 0.015 270);
+  --secondary-foreground: oklch(0.95 0.01 255);
+  --muted: oklch(0.33 0.015 270);
+  --muted-foreground: oklch(0.8 0.01 265);
+  --accent: oklch(0.4 0.05 292);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.4 0.015 270 / 0.55);
+  --input: oklch(0.35 0.015 270);
+  --ring: oklch(0.66 0.17 296);
+  /* Left vertical menu: deeper near-black (match reference) */
+  --sidebar-bg: linear-gradient(
+    180deg,
+    oklch(0.18 0.012 270) 0%,
+    oklch(0.14 0.01 270) 55%,
+    oklch(0.12 0.01 270) 100%
+  );
+  /* Surfaces: slightly darker panels + noticeably brighter active/hover */
+  --panel: oklch(0.29 0.015 270);
+  --panel-soft: oklch(0.32 0.015 270);
+  --active: oklch(0.44 0.05 292);
+  --brand: oklch(0.7 0.18 300);
+  --app-bg: oklch(0.18 0.015 270);
+  --app-border: oklch(0.22 0.01 270);
+}
+
+.purple {
+  /* Palette tuned to match the provided purple dashboard screenshot */
+  /* Make purple clearly different from Light theme */
+  /* Inner screen base: DARK PURPLE */
+  --background: linear-gradient(
+    145deg,
+    oklch(0.30 0.09 300) 0%,
+    oklch(0.24 0.08 300) 55%,
+    oklch(0.20 0.07 300) 100%
+  );
+  --foreground: oklch(0.97 0.01 300);
+
+  /* Card surfaces (gradient purple panels, not glass) */
+  --card: oklch(0.30 0.09 300);
+  --card-foreground: oklch(0.98 0.01 300);
+  --popover: oklch(0.30 0.09 300);
+  --popover-foreground: oklch(0.98 0.01 300);
+
+  /* Accents */
+  --primary: #b55af5;
+  --primary-foreground: oklch(0.98 0.01 300);
+  --secondary: oklch(0.34 0.08 300);
+  --secondary-foreground: oklch(0.98 0.01 300);
+  --muted: oklch(0.36 0.07 300);
+  --muted-foreground: oklch(0.92 0.01 300);
+  /* Avoid pink cast; keep accents in purple family */
+  --accent: oklch(0.62 0.16 300 / 0.35);
+  --accent-foreground: oklch(0.98 0.01 300);
+
+  --destructive: oklch(0.7 0.22 20);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  /* Borders / focus */
+  --border: oklch(0.85 0.03 295 / 0.45);
+  --input: oklch(0.85 0.03 295 / 0.45);
+  --ring: oklch(0.72 0.19 300);
+
+  /* Sidebar + panel surfaces */
+  --sidebar-bg: linear-gradient(180deg, #7a33b7 0%, #3b155f 52%, #160527 100%);
+  --panel: linear-gradient(165deg, #6a2aa8 0%, #2f0f4f 48%, #160527 100%);
+  --panel-soft: linear-gradient(165deg, #55227f 0%, #22073e 55%, #12031f 100%);
+  --active: oklch(0.72 0.18 300 / 0.35);
+
+  /* Highlight (no pink): vivid purple */
+  --brand: #b55af5;
+
+  /* Outer frame background + border */
+  --app-bg: linear-gradient(145deg, #7a33b7 0%, #2f0f4f 45%, #12031f 100%);
+  --app-border: oklch(0.72 0.18 300 / 0.65);
+}
+
+/* Purple theme: stronger card separation */
+.purple [class*="bg-[var(--panel)]"],
+.purple [class*="bg-[var(--panel-soft)]"] {
+  border: 1px solid oklch(0.9 0.05 300 / 0.28);
+  box-shadow:
+    0 10px 20px -14px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  backdrop-filter: none;
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body { background-color: var(--color-background); color: var(--color-foreground); }
+}
+
+/* Shared animations */
+@keyframes carDriveLeft {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(-6px) translateY(2px); }
+}
+@keyframes carDriveRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+@keyframes scanBeam {
+  0% { transform: translateY(0) scaleY(0.95); opacity: 0.7; }
+  50% { transform: translateY(-6px) scaleY(1); opacity: 1; }
+  100% { transform: translateY(0) scaleY(0.95); opacity: 0.7; }
+}
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.55 0.22 295 / 0.5); }
+  50% { box-shadow: 0 0 0 16px oklch(0.55 0.22 295 / 0); }
+}
+@keyframes carBob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+}
+@keyframes panDrift {
+  0%, 100% { transform: rotate(0deg) scale(1.08); }
+  25% { transform: rotate(1.5deg) scale(1.1) translateX(-1.5%) translateY(-1%); }
+  50% { transform: rotate(0deg) scale(1.12) translateX(1%) translateY(-1.5%); }
+  75% { transform: rotate(-1.2deg) scale(1.1) translateX(1.2%) translateY(1%); }
+}
+@keyframes panOrbit {
+  0% { transform: rotate(0deg) scale(1.16) translateX(0) translateY(0); }
+  25% { transform: rotate(2deg) scale(1.2) translateX(-2.5%) translateY(-1%); }
+  50% { transform: rotate(0deg) scale(1.22) translateX(2.2%) translateY(-2.2%); }
+  75% { transform: rotate(-2deg) scale(1.2) translateX(2%) translateY(1.2%); }
+  100% { transform: rotate(0deg) scale(1.16) translateX(0) translateY(0); }
+}
+.animate-mic-pulse { animation: micPulse 1.6s ease-out infinite; }
+.animate-car-left { animation: carDriveLeft 2.4s ease-in-out infinite; }
+.animate-car-right { animation: carDriveRight 3s ease-in-out infinite; }
+.animate-scan { animation: scanBeam 1.4s ease-in-out infinite; transform-origin: top center; }
+.animate-car-bob { animation: carBob 2.2s ease-in-out infinite; }
+.animate-pan-drift { animation: panDrift 9s ease-in-out infinite; transform-origin: center center; }
+.animate-pan-orbit { animation: panOrbit 7.5s ease-in-out infinite; transform-origin: center center; }
+
+@keyframes laneDash {
+  0% { transform: translate(-50%, -120%) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-50%, 600%) scale(1.6); opacity: 0; }
+}
+.animate-lane-dash { animation: laneDash 1.4s linear infinite; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in { animation: fadeIn 0.25s ease-out; }
