@@ -31,6 +31,25 @@ export function GearPanel() {
     const next = gear === "P" ? 0 : gear === "R" ? 5 : gear === "N" ? 0 : 70;
     setSpeedKmh(next);
   }, [gear, setSpeedKmh]);
+
+  // Handle Ctrl+P/D/R/N keyboard shortcuts for gear changes.
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        const key = e.key.toUpperCase();
+        if (key === "P" || key === "D" || key === "R" || key === "N") {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          setGear(key as (typeof GEARS)[number]);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
+  }, [setGear]);
+
   const reversePanelClass = theme === "purple"
     ? "bg-[#3f226a] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-white/30"
     : theme === "dark"
