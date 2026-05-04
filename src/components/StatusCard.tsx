@@ -117,7 +117,7 @@ export function StatusCard() {
         <div className="font-extrabold leading-none" style={{ fontSize: "clamp(0.9rem, 1rem, 1rem)" }}>
           {weather.tempC}°
         </div>
-        <div className="w-full truncate px-1 font-semibold leading-none" style={{ fontSize: "clamp(0.6rem, 0.68rem, 0.68rem)" }}>
+        <div className="w-full break-words px-1 font-semibold leading-none text-center" style={{ fontSize: "clamp(0.6rem, 0.68rem, 0.68rem)" }}>
           {t(`weather.${conditionKey}`)}
         </div>
       </div>

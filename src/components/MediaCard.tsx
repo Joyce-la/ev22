@@ -96,7 +96,7 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   if (hidden) {
     return (
       <div
-        className="relative flex h-full w-full items-center justify-center rounded-[24px] bg-[var(--panel)] shadow-sm ring-1 ring-black/5"
+        className="relative flex h-full min-h-[120px] w-full items-center justify-center rounded-[24px] bg-[var(--panel)] shadow-sm ring-1 ring-black/5"
         aria-hidden="true"
       />
     );
@@ -105,23 +105,22 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   if (expanded) {
     const remainingSec = Math.max(0, durationSec - currentSec);
     return (
-      <div className="relative flex h-full w-full flex-col gap-2.5 rounded-[24px] bg-[var(--panel)] p-3 shadow-sm ring-1 ring-black/5 animate-fade-in">
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-[24px] bg-[var(--panel)] px-5 py-4 shadow-sm ring-1 ring-black/5 animate-fade-in">
         {/* Album art card */}
         <div className="relative h-[120px] shrink-0 overflow-hidden rounded-[18px] bg-gradient-to-br from-amber-300 via-rose-400 to-indigo-600 ring-2 ring-sky-400">
           <div className="absolute inset-0 bg-black/15" />
           <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-            <div className="max-w-full whitespace-normal text-[30px] font-extrabold italic uppercase leading-[0.95] tracking-tight text-white drop-shadow">
+            <div className="max-w-full break-words whitespace-normal text-[30px] font-extrabold italic uppercase leading-[0.95] tracking-tight text-white drop-shadow">
               {cur.title}
             </div>
-            <div className="mt-1 max-w-full whitespace-normal text-[10px] font-bold uppercase tracking-[0.16em] text-white/95">
+            <div className="mt-1 max-w-full break-words whitespace-normal text-[10px] font-bold uppercase tracking-[0.16em] text-white/95">
               {cur.artist}
             </div>
           </div>
         </div>
 
         {/* Now playing title (left-aligned) */}
-        <div className="px-1 truncate text-[15px] font-semibold leading-none">{cur.title}</div>
-
+        <div className="max-w-full break-words whitespace-normal px-1 text-[15px] font-semibold leading-tight text-foreground/95">
         {/* Progress bar */}
         <div className="px-1">
           <input
@@ -130,42 +129,46 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
             className="h-1 w-full accent-foreground"
             aria-label="Progress"
           />
-          <div className="mt-1 flex items-center justify-between text-[10px] tabular-nums text-foreground/60">
+          <div className="mt-2 flex items-center justify-between text-[10px] tabular-nums text-foreground/60">
             <span>{formatTime(currentSec)}</span>
             <span>-{formatTime(remainingSec)}</span>
           </div>
         </div>
 
         {/* Controls: repeat, prev, play (big circle), next, random */}
-        <div className="flex items-center justify-center gap-6 px-1">
+        <div className="flex items-center justify-center gap-5 px-1">
           <button
             onClick={() => {
               const next = !repeatOne;
               setRepeatOne(next);
               if (next) setShuffle(false);
             }}
-            className={`${repeatOne ? "text-[var(--brand)]" : "text-foreground/80"}`}
+            className={`${repeatOne ? "text-[var(--brand)]" : "text-foreground/80"} flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] transition hover:bg-[var(--active)]/80`}
             aria-label="Repeat current"
             aria-pressed={repeatOne}
           >
             <Repeat className="h-4 w-4" />
           </button>
-          <button onClick={() => skip(-1)} aria-label="Previous"><SkipBack className="h-5 w-5" /></button>
+          <button onClick={() => skip(-1)} aria-label="Previous" className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] transition hover:bg-[var(--active)]/80">
+            <SkipBack className="h-4 w-4" />
+          </button>
           <button
             onClick={() => setPlaying(!playing)}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-foreground text-background shadow"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-background shadow-lg shadow-[rgba(15,23,42,0.12)] transition hover:scale-[1.03]"
             aria-label="Play/Pause"
           >
-            {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {playing ? <Pause className="h-4.5 w-4.5" /> : <Play className="h-4.5 w-4.5" />}
           </button>
-          <button onClick={() => skip(1)} aria-label="Next"><SkipForward className="h-5 w-5" /></button>
+          <button onClick={() => skip(1)} aria-label="Next" className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] transition hover:bg-[var(--active)]/80">
+            <SkipForward className="h-4 w-4" />
+          </button>
           <button
             onClick={() => {
               const next = !shuffle;
               setShuffle(next);
               if (next) setRepeatOne(false);
             }}
-            className={`${shuffle ? "text-[var(--brand)]" : "text-foreground/80"}`}
+            className={`${shuffle ? "text-[var(--brand)]" : "text-foreground/80"} flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] transition hover:bg-[var(--active)]/80`}
             aria-label="Shuffle"
             aria-pressed={shuffle}
           >
@@ -173,15 +176,16 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
           </button>
         </div>
 
-        {/* Volume slider with single icon (left) */}
-        <div className="flex items-center gap-2 px-1">
-          <Volume2 className="h-3.5 w-3.5 text-foreground/70" />
+        {/* Volume slider with icons */}
+        <div className="flex items-center gap-3 px-1">
+          <Volume2 className="h-4 w-4 text-foreground/70" />
           <input
             type="range" min={0} max={1} step={0.01} value={volume}
             onChange={(e) => setVolume(parseFloat(e.target.value))}
             className="h-1 flex-1 accent-foreground"
             aria-label="Volume"
           />
+          <Volume2 className="h-4 w-4 text-foreground/70" />
         </div>
 
         {/* Playlist as light pills */}
@@ -199,7 +203,7 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
                   : "bg-[var(--panel-soft)] hover:brightness-95"
               }`}
             >
-              <span className="truncate font-medium">{tt.title}</span>
+              <span className="flex-1 break-words font-medium leading-tight">{tt.title}</span>
               <span className="text-foreground/55">– {tt.artist}</span>
             </button>
           ))}
@@ -219,67 +223,88 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   const stop = (e: React.SyntheticEvent) => e.stopPropagation();
   return (
     <div
-      className={`relative flex h-full w-full flex-col rounded-[24px] bg-[var(--panel)] px-3 py-2.5 text-foreground shadow-sm ring-1 ring-black/5 transition ${
+      className={`relative flex h-full min-h-[120px] w-full flex-col items-center justify-center rounded-[24px] bg-[var(--panel)] px-5 py-4 text-foreground shadow-sm ring-1 ring-black/5 transition ${
         canExpand ? "cursor-pointer hover:ring-black/10" : ""
       }`}
       onClick={canExpand ? onToggleExpand : undefined}
       role={canExpand ? "button" : undefined}
       aria-label={canExpand ? "Expand music panel" : undefined}
     >
-      <div className="mb-1.5 truncate text-center text-sm font-bold leading-tight text-foreground/95">
-        {cur.title}
-      </div>
-      <div className="grid grid-cols-3 items-center gap-1">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            const next = !repeatOne;
-            setRepeatOne(next);
-            if (next) setShuffle(false);
-          }}
-          className={`${repeatOne ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-start`}
-          aria-label="Repeat current"
-          aria-pressed={repeatOne}
-        >
-          <Repeat className="h-3.5 w-3.5" />
-        </button>
-        <div className="flex items-center justify-self-center gap-2">
-          <button onClick={(e) => { stop(e); skip(-1); }} aria-label="Previous"><SkipBack className="h-4 w-4" /></button>
-          <button onClick={(e) => { stop(e); setPlaying(!playing); }} className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--active)] hover:bg-[var(--active)]/80" aria-label="Play/Pause">
-            {playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
-          </button>
-          <button onClick={(e) => { stop(e); skip(1); }} aria-label="Next"><SkipForward className="h-4 w-4" /></button>
+      <div className="flex w-full flex-col items-center gap-4 text-center">
+          <div className="max-w-full break-words whitespace-normal text-[15px] font-semibold leading-tight text-foreground/95">
         </div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            const next = !shuffle;
-            setShuffle(next);
-            if (next) setRepeatOne(false);
-          }}
-          className={`${shuffle ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-end`}
-          aria-label="Shuffle"
-          aria-pressed={shuffle}
-        >
-          <Shuffle className="h-3.5 w-3.5" />
-        </button>
-      </div>
-      <div className="mt-1.5 flex items-center gap-1.5 px-0.5">
-        <Volume2 className="h-3 w-3 shrink-0 text-foreground/85" />
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={volume}
-          onChange={(e) => setVolume(parseFloat(e.target.value))}
-          onClick={stop}
-          onMouseDown={stop}
-          onTouchStart={stop}
-          className="h-1 flex-1 accent-[var(--brand)]"
-          aria-label="Volume"
-        />
-        <Volume2 className="h-3 w-3 shrink-0 text-foreground/85" />
+
+        <div className="flex w-full items-center justify-center gap-4">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const next = !repeatOne;
+              setRepeatOne(next);
+              if (next) setShuffle(false);
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/80 transition hover:bg-[var(--active)]/80"
+            aria-label="Repeat current"
+            aria-pressed={repeatOne}
+          >
+            <Repeat className="h-4 w-4" />
+          </button>
+
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={(e) => { stop(e); skip(-1); }}
+              aria-label="Previous"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/80 transition hover:bg-[var(--active)]/80"
+            >
+              <SkipBack className="h-4 w-4" />
+            </button>
+            <button
+              onClick={(e) => { stop(e); setPlaying(!playing); }}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--active)] text-background shadow-lg shadow-[rgba(15,23,42,0.12)] transition hover:scale-[1.03]"
+              aria-label="Play/Pause"
+            >
+              {playing ? <Pause className="h-4.5 w-4.5" /> : <Play className="h-4.5 w-4.5" />}
+            </button>
+            <button
+              onClick={(e) => { stop(e); skip(1); }}
+              aria-label="Next"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/80 transition hover:bg-[var(--active)]/80"
+            >
+              <SkipForward className="h-4 w-4" />
+            </button>
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const next = !shuffle;
+              setShuffle(next);
+              if (next) setRepeatOne(false);
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/80 transition hover:bg-[var(--active)]/80"
+            aria-label="Shuffle"
+            aria-pressed={shuffle}
+          >
+            <Shuffle className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="flex w-full items-center gap-3 px-1">
+          <Volume2 className="h-4 w-4 text-foreground/70" />
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            onClick={stop}
+            onMouseDown={stop}
+            onTouchStart={stop}
+            className="h-1 w-full flex-1 accent-[var(--brand)]"
+            aria-label="Volume"
+          />
+          <Volume2 className="h-4 w-4 text-foreground/70" />
+        </div>
       </div>
     </div>
   );

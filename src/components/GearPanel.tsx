@@ -30,24 +30,21 @@ export function GearPanel() {
     setSpeedKmh(next);
   }, [gear, setSpeedKmh]);
   
-  // Handle Ctrl+P/D/R/N keyboard shortcuts for gear changes, and Ctrl+N to go home
+  // Handle Ctrl+P/D/R/N keyboard shortcuts for gear changes.
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.metaKey) {
         const key = e.key.toUpperCase();
-        if (key === "P" || key === "D" || key === "R") {
+        if (key === "P" || key === "D" || key === "R" || key === "N") {
           e.preventDefault();
           setGear(key as typeof gear);
-        } else if (key === "N") {
-          e.preventDefault();
-          navigate({ to: "/" });
         }
       }
     };
     
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setGear, navigate]);
+  }, [setGear]);
   const reversePanelClass = theme === "purple"
     ? "bg-[#3f226a] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-white/30"
     : theme === "dark"
@@ -156,7 +153,7 @@ export function GearPanel() {
           <div className={`font-extrabold leading-none text-[3.4rem] ${reversing ? reverseSpeedTextClass : ""}`}>
             {Math.round(speedKmh)}
           </div>
-          <div className={`text-[12px] font-bold tracking-[0.18em] ${reversing ? reverseSpeedTextClass : "text-foreground/80"}`}>
+          <div className={`text-[12px] font-bold tracking-[0.18em] whitespace-normal break-words ${reversing ? reverseSpeedTextClass : "text-foreground/80"}`}>
             {t("gear.kmh")}
           </div>
         </div>

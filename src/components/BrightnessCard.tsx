@@ -10,7 +10,7 @@ export function BrightnessCard() {
   const inc = () => setBrightnessManual(Math.min(1, +(brightness + 0.1).toFixed(2)));
 
   return (
-    <div className="flex h-full w-full items-center justify-around rounded-[28px] bg-[var(--panel)] px-[20px] shadow-sm ring-1 ring-black/5">
+    <div className="flex h-full min-h-[120px] w-full items-center justify-around rounded-[28px] bg-[var(--panel)] px-[20px] shadow-sm ring-1 ring-black/5">
       <button onClick={dec} className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[var(--panel-soft)] hover:bg-[var(--active)]" aria-label={t("brightness.decrease")}>
         <ChevronLeft className="h-5 w-5" strokeWidth={2.4} />
       </button>
@@ -27,7 +27,7 @@ export function BrightnessCard() {
         title={autoBrightness ? t("brightness.autoToManual") : t("brightness.manualToAuto")}
       >
         <SunMedium className="h-5 w-5" strokeWidth={2} />
-        <span className="mt-0.5 font-bold leading-none text-sm">
+        <span className="mt-0.5 font-bold leading-none break-words text-[10px] text-center whitespace-normal">
           {autoBrightness ? t("brightness.auto") : t("brightness.manual")}
         </span>
       </button>
