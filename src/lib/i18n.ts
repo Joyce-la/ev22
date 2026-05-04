@@ -2,6 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { applyLocalizedUserManuals } from "./user-manual-translations";
 import { applyWeatherCarTranslations } from "./weather-car-translations";
+import { mergeRegionalBase } from "./sarawak-merge";
+import { BIDAYUH_DISPLAY, IBAN_DISPLAY, KELABIT_DISPLAY, MELANAU_DISPLAY } from "./sarawak-dayak-displays";
 
 // Minimal, practical dictionaries to prove end-to-end localization.
 // Fallback is English for any missing keys/languages.
@@ -39,7 +41,7 @@ const resources = {
       topbar: {
         searchLocked: "Search (locked while reversing)",
         searchBar: "Search Bar",
-        gearShortcutTip: "Tip: Press Ctrl+P / Ctrl+N / Ctrl+D to change gear",
+        gearShortcutTip: "Tip: Press Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D to change gear",
       },
       map: {
         enterDestination: "Enter Destination",
@@ -85,14 +87,14 @@ const resources = {
         previousGear: "Previous gear",
         nextGear: "Next gear",
         kmh: "KM/H",
-        useCtrlShortcut: "Use Ctrl+P/D/R/N to change gear",
+        useCtrlShortcut: "Use Ctrl+Alt+P/R/N/D to change gear",
       },
       settings: {
         userManualTitle: "User manual",
         userManualTeaser:
           "Tap to view the full manual. It covers dashboard layout, media, brightness, navigation, and phone pairing.",
         userManualHint:
-          "Tap the music card to open your playlist. Use Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D to switch gear, and set brightness to Auto or Manual here.",
+          "Tap the music card to open your playlist. Use Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D to switch gear, and set brightness to Auto or Manual here.",
         userManualChrome:
           "Open this page in Chrome for the best keyboard shortcut and brightness support.",
         manual: {
@@ -109,7 +111,7 @@ const resources = {
             points: [
               "Tap the music card to expand the player and use playback controls.",
               "Use play/pause and skip to change tracks.",
-              "Keyboard: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R switches gear while driving.",
+              "Keyboard: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D switches gear while driving.",
               "Open this page in Chrome for the best keyboard shortcut and brightness support.",
               "The compact music card lines up with other cards in the bottom row.",
             ],
@@ -264,7 +266,7 @@ const resources = {
       topbar: {
         searchLocked: "Carian (dikunci semasa undur)",
         searchBar: "Bar Carian",
-        gearShortcutTip: "Petua: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk tukar gear",
+        gearShortcutTip: "Petua: Tekan Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D untuk tukar gear",
       },
       map: {
         enterDestination: "Masukkan Destinasi",
@@ -310,7 +312,7 @@ const resources = {
         previousGear: "Gear sebelumnya",
         nextGear: "Gear seterusnya",
         kmh: "KM/J",
-        useCtrlShortcut: "Gunakan Ctrl+P/D/R/N untuk tukar gear",
+        useCtrlShortcut: "Gunakan Ctrl+Alt+P/R/N/D untuk tukar gear",
       },
       search: {
         voiceSearch: "Carian suara",
@@ -406,7 +408,7 @@ const resources = {
         userManualTeaser:
           "Ketik untuk buka manual penuh. Merangkumi susun atur papan pemuka, media, kecerahan, navigasi, dan pemasangan telefon.",
         userManualHint:
-          "Ketik kad muzik untuk buka senarai main. Gunakan Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D untuk tukar gear, dan tetapkan kecerahan kepada Auto atau Manual di sini.",
+          "Ketik kad muzik untuk buka senarai main. Gunakan Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D untuk tukar gear, dan tetapkan kecerahan kepada Auto atau Manual di sini.",
         userManualChrome:
           "Buka halaman ini dalam Chrome untuk sokongan pintasan papan kekunci dan kecerahan terbaik.",
         manual: {
@@ -423,7 +425,7 @@ const resources = {
             points: [
               "Ketik kad muzik untuk kembangkan pemain dan kawalan main balik.",
               "Gunakan main/jeda dan langkau untuk urus trek.",
-              "Papan kekunci: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R menukar gear semasa memandu.",
+              "Papan kekunci: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D menukar gear semasa memandu.",
               "Buka halaman ini dalam Chrome untuk sokongan pintasan papan kekunci dan kecerahan terbaik.",
               "Kad muzik padat sejajar dengan kad lain di baris bawah.",
             ],
@@ -457,179 +459,10 @@ const resources = {
       },
     },
   },
-  iba: {
-    translation: {
-      common: {
-        language: "Bahasa Iban",
-        phoneAutoConnect: "Auto Sambung Telipun",
-        customization: "Ngerunding",
-        changeFontSize: "Ubah Besai Hurup",
-        changeThemeColour: "Ubah Tema Warna",
-        linked: "Nyambung: {{name}}",
-        unpaired: "Enda nyambung · scan QR",
-        unlinkPhone: "Putus Sambung",
-        themeLight: "Cahaya",
-        themeDark: "Gelap",
-        themePurple: "Ungu",
-      },
-      sidebar: {
-        settings: "Setting",
-        map: "Map",
-        voice: "Suara",
-        bluetooth: "Bluetooth",
-        car: "Kereta",
-      },
-      topbar: {
-        searchLocked: "Carian dikunci semasa undur",
-        searchBar: "Bar Carian",
-        gearShortcutTip: "Tip: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk tukar gear",
-      },
-      map: {
-        enterDestination: "Masuk Destinasi",
-        routingTo: "Ngagai: {{destination}}",
-        nearbyStations: "Stesen Mengecas Berdekatan",
-        navigateToStation: "Begulai ngagai {{station}}",
-      },
-      car: {
-        drivingModes: "Mod Pemanduan",
-        adaptiveCruise: "Kawalan Jelajah Adaptif",
-        autoParking: "Parkir Otomatis",
-        laneCentering: "Pusat Lorong",
-      },
-      bluetooth: {
-        title: "Bluetooth",
-        deviceName: "Nama Device",
-        pairedDevice: "Device Nyambung",
-        availableDevices: "Device Bisi",
-        unpairedShort: "Enda nyambung",
-        unpair: "Unpair",
-      },
-      notFound: {
-        title: "Page nadai",
-        goHome: "Pulih",
-      },
-      reverse: {
-        topView: "TOP VIEW",
-      },
-    },
-  },
-  melanau: {
-    translation: {
-      common: {
-        language: "Bahasa Melanau",
-        phoneAutoConnect: "Sambung Telefon Otomatis",
-        customization: "Penyesuaian",
-        changeFontSize: "Ubah Saiz Fon",
-        changeThemeColour: "Ubah Warna Tema",
-        linked: "Terhubung: {{name}}",
-        unpaired: "Belum terhubung · imbas QR untuk sambung",
-        unlinkPhone: "Putus Sambungan",
-        themeLight: "Cahaya",
-        themeDark: "Gelap",
-        themePurple: "Ungu",
-      },
-      sidebar: {
-        settings: "Tetapan",
-        map: "Peta",
-        voice: "Suara",
-        bluetooth: "Bluetooth",
-        car: "Kereta",
-      },
-      topbar: {
-        searchLocked: "Carian dikunci semasa undur",
-        searchBar: "Bar Carian",
-        gearShortcutTip: "Tip: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk tukar gear",
-      },
-      car: {
-        drivingModes: "Mod Pemanduan",
-        adaptiveCruise: "Kawalan Jelajah Adaptif",
-        autoParking: "Parkir Otomatis",
-        laneCentering: "Pusat Lorong",
-      },
-      brightness: {
-        auto: "Otomatis",
-        manual: "Manual",
-      },
-    },
-  },
-  bidayuh: {
-    translation: {
-      common: {
-        language: "Bahasa Bidayuh",
-        phoneAutoConnect: "Sambung Telefon Otomatis",
-        customization: "Penyesuaian",
-        changeFontSize: "Ubah Saiz Fon",
-        changeThemeColour: "Ubah Warna Tema",
-        linked: "Terhubung: {{name}}",
-        unpaired: "Belum terhubung · imbas QR untuk sambung",
-        unlinkPhone: "Putus Sambungan",
-        themeLight: "Cahaya",
-        themeDark: "Gelap",
-        themePurple: "Ungu",
-      },
-      sidebar: {
-        settings: "Tetapan",
-        map: "Peta",
-        voice: "Suara",
-        bluetooth: "Bluetooth",
-        car: "Kereta",
-      },
-      topbar: {
-        searchLocked: "Carian dikunci semasa undur",
-        searchBar: "Bar Carian",
-        gearShortcutTip: "Tip: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk tukar gear",
-      },
-      car: {
-        drivingModes: "Mod Pemanduan",
-        adaptiveCruise: "Kawalan Jelajah Adaptif",
-        autoParking: "Parkir Otomatis",
-        laneCentering: "Pusat Lorong",
-      },
-      brightness: {
-        auto: "Otomatis",
-        manual: "Manual",
-      },
-    },
-  },
-  kelabit: {
-    translation: {
-      common: {
-        language: "Bahasa Kelabit",
-        phoneAutoConnect: "Sambung Telefon Otomatis",
-        customization: "Penyesuaian",
-        changeFontSize: "Ubah Saiz Fon",
-        changeThemeColour: "Ubah Warna Tema",
-        linked: "Terhubung: {{name}}",
-        unpaired: "Belum terhubung · imbas QR untuk sambung",
-        unlinkPhone: "Putus Sambungan",
-        themeLight: "Cahaya",
-        themeDark: "Gelap",
-        themePurple: "Ungu",
-      },
-      sidebar: {
-        settings: "Tetapan",
-        map: "Peta",
-        voice: "Suara",
-        bluetooth: "Bluetooth",
-        car: "Kereta",
-      },
-      topbar: {
-        searchLocked: "Carian dikunci semasa undur",
-        searchBar: "Bar Carian",
-        gearShortcutTip: "Tip: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk tukar gear",
-      },
-      car: {
-        drivingModes: "Mod Pemanduan",
-        adaptiveCruise: "Kawalan Jelajah Adaptif",
-        autoParking: "Parkir Otomatis",
-        laneCentering: "Pusat Lorong",
-      },
-      brightness: {
-        auto: "Otomatis",
-        manual: "Manual",
-      },
-    },
-  },
+  iba: { translation: {} as Record<string, unknown> },
+  melanau: { translation: {} as Record<string, unknown> },
+  bidayuh: { translation: {} as Record<string, unknown> },
+  kelabit: { translation: {} as Record<string, unknown> },
   "zh-Hans": {
     translation: {
       common: {
@@ -662,7 +495,7 @@ const resources = {
       topbar: {
         searchLocked: "搜索（倒车时锁定）",
         searchBar: "搜索栏",
-        gearShortcutTip: "提示：按 Ctrl+P / Ctrl+N / Ctrl+D 切换挡位",
+        gearShortcutTip: "提示：按 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切换挡位",
       },
       map: {
         enterDestination: "输入目的地",
@@ -699,7 +532,7 @@ const resources = {
         previousGear: "上一挡",
         nextGear: "下一挡",
         kmh: "公里/小时",
-        useCtrlShortcut: "使用 Ctrl+P / D / R / N 切换挡位",
+        useCtrlShortcut: "按住 Ctrl+Alt 并按 P、R、N 或 D 切换挡位",
       },
       bluetooth: {
         title: "蓝牙",
@@ -801,7 +634,7 @@ const resources = {
         userManualTeaser:
           "点击查看完整说明，包括仪表布局、媒体与音乐、亮度与空调、地图导航，以及手机配对等。",
         userManualHint:
-          "点击音乐卡片可展开播放列表。使用 Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D 切换挡位，并在此将亮度设为自动或手动。",
+          "点击音乐卡片可展开播放列表。使用 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切换挡位，并在此将亮度设为自动或手动。",
         userManualChrome:
           "使用 Chrome 打开此页面可获得更佳的键盘快捷键与亮度支持。",
         manual: {
@@ -818,7 +651,7 @@ const resources = {
             points: [
               "点击音乐卡片可展开播放器并使用播放控制。",
               "使用播放/暂停与切歌按钮切换曲目。",
-              "键盘快捷键：行驶中可用 Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R 切换挡位。",
+              "键盘快捷键：行驶中可用 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切换挡位。",
               "使用 Chrome 打开此页面可获得更佳的键盘快捷键与亮度支持。",
               "收起时的音乐卡片与底部其他卡片高度对齐。",
             ],
@@ -884,7 +717,7 @@ const resources = {
       topbar: {
         searchLocked: "搜尋（倒車時鎖定）",
         searchBar: "搜尋列",
-        gearShortcutTip: "提示：按 Ctrl+P / Ctrl+N / Ctrl+D 切換排檔",
+        gearShortcutTip: "提示：按 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切換排檔",
       },
       map: {
         enterDestination: "輸入目的地",
@@ -921,7 +754,7 @@ const resources = {
         previousGear: "上一檔",
         nextGear: "下一檔",
         kmh: "公里／小時",
-        useCtrlShortcut: "使用 Ctrl+P / D / R / N 切換排檔",
+        useCtrlShortcut: "按住 Ctrl+Alt 並按 P、R、N 或 D 切換排檔",
       },
       bluetooth: {
         title: "藍牙",
@@ -1023,7 +856,7 @@ const resources = {
         userManualTeaser:
           "點擊檢視完整說明，包含儀表版面、媒體與音樂、亮度與空調、地圖導航，以及手機配對等。",
         userManualHint:
-          "點擊音樂卡片可展開播放清單。使用 Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D 切換排檔，並在此將亮度設為自動或手動。",
+          "點擊音樂卡片可展開播放清單。使用 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切換排檔，並在此將亮度設為自動或手動。",
         userManualChrome:
           "使用 Chrome 開啟此頁面可獲得更佳的鍵盤快捷鍵與亮度支援。",
         manual: {
@@ -1040,7 +873,7 @@ const resources = {
             points: [
               "點擊音樂卡片可展開播放器並使用播放控制。",
               "使用播放/暫停與切換曲目按鈕。",
-              "鍵盤快捷鍵：行駛中可用 Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R 切換排檔。",
+              "鍵盤快捷鍵：行駛中可用 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 切換排檔。",
               "使用 Chrome 開啟此頁面可獲得更佳的鍵盤快捷鍵與亮度支援。",
               "收合時的音樂卡片與底部其他卡片高度對齊。",
             ],
@@ -1199,7 +1032,7 @@ const resources = {
       topbar: {
         searchLocked: "Búsqueda (bloqueada al retroceder)",
         searchBar: "Barra de búsqueda",
-        gearShortcutTip: "Consejo: presione Ctrl+P / Ctrl+N / Ctrl+D para cambiar marcha",
+        gearShortcutTip: "Consejo: presione Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para cambiar marcha",
       },
       map: {
         enterDestination: "Ingrese destino",
@@ -1313,7 +1146,7 @@ const resources = {
       topbar: {
         searchLocked: "Cari (terkunci saat mundur)",
         searchBar: "Bilah Pencarian",
-        gearShortcutTip: "Tips: Tekan Ctrl+P / Ctrl+N / Ctrl+D untuk ganti gigi",
+        gearShortcutTip: "Tips: Tekan Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D untuk ganti gigi",
       },
       map: {
         enterDestination: "Masukkan Tujuan",
@@ -1358,14 +1191,14 @@ const resources = {
         previousGear: "Gigi sebelumnya",
         nextGear: "Gigi berikutnya",
         kmh: "KM/J",
-        useCtrlShortcut: "Gunakan Ctrl+P/D/R/N untuk ganti gigi",
+        useCtrlShortcut: "Gunakan Ctrl+Alt+P/R/N/D untuk ganti gigi",
       },
       settings: {
         userManualTitle: "Panduan pengguna",
         userManualTeaser:
           "Ketuk untuk melihat panduan lengkap. Mencakup layout dashboard, media, kecerahan, navigasi, dan pemasangan ponsel.",
         userManualHint:
-          "Ketuk kartu musik untuk membuka playlist. Gunakan Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D untuk ganti gigi, dan atur kecerahan ke Auto atau Manual di sini.",
+          "Ketuk kartu musik untuk membuka playlist. Gunakan Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D untuk ganti gigi, dan atur kecerahan ke Auto atau Manual di sini.",
         userManualChrome:
           "Buka halaman ini di Chrome untuk dukungan pintasan keyboard dan kecerahan terbaik.",
       },
@@ -1492,7 +1325,7 @@ const resources = {
       topbar: {
         searchLocked: "ค้นหา (ล็อกขณะถอยหลัง)",
         searchBar: "แถบค้นหา",
-        gearShortcutTip: "เคล็ดลับ: กด Ctrl+P / Ctrl+N / Ctrl+D เพื่อเปลี่ยนเกียร์",
+        gearShortcutTip: "เคล็ดลับ: กด Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D เพื่อเปลี่ยนเกียร์",
       },
       map: {
         enterDestination: "ใส่จุดหมาย",
@@ -1638,7 +1471,7 @@ const resources = {
       topbar: {
         searchLocked: "Tìm kiếm (khóa khi lùi xe)",
         searchBar: "Thanh tìm kiếm",
-        gearShortcutTip: "Mẹo: Nhấn Ctrl+P / Ctrl+N / Ctrl+D để đổi số",
+        gearShortcutTip: "Mẹo: Nhấn Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D để đổi số",
       },
       map: {
         enterDestination: "Nhập điểm đến",
@@ -1762,7 +1595,7 @@ const resources = {
       topbar: {
         searchLocked: "検索（リバース中はロック）",
         searchBar: "検索バー",
-        gearShortcutTip: "ヒント：Ctrl+P / Ctrl+N / Ctrl+D でギア変更",
+        gearShortcutTip: "ヒント：Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D でギア変更",
       },
       map: {
         enterDestination: "目的地を入力",
@@ -1801,14 +1634,14 @@ const resources = {
         previousGear: "前のギア",
         nextGear: "次のギア",
         kmh: "km/h",
-        useCtrlShortcut: "Ctrl+P/D/R/N でギア変更",
+        useCtrlShortcut: "Ctrl+Alt+P/R/N/D でギア変更",
       },
       settings: {
         userManualTitle: "ユーザーマニュアル",
         userManualTeaser:
           "タップしてマニュアルを表示。レイアウト、メディア、明るさ、ナビ、スマホ連携など。",
         userManualHint:
-          "音楽カードをタップしてプレイリストを開きます。Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D でギア切替。",
+          "音楽カードをタップしてプレイリストを開きます。Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D でギア切替。",
         userManualChrome: "このページは Chrome で開くと最適に動作します。",
         manual: {
           home: {
@@ -1824,7 +1657,7 @@ const resources = {
             points: [
               "音楽カードをタップしてプレイヤーを展開し、再生操作を行えます。",
               "再生／一時停止、スキップで曲を切り替えます。",
-              "キーボード: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R で走行中にギアを切り替えます。",
+              "キーボード: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D で走行中にギアを切り替えます。",
               "キーボード操作と明るさのサポートを最適化するため、このページは Chrome で開いてください。",
               "コンパクトな音楽カードは下段の他カードと高さが揃います。",
             ],
@@ -1947,7 +1780,7 @@ const resources = {
       topbar: {
         searchLocked: "검색(후진 중 잠김)",
         searchBar: "검색 바",
-        gearShortcutTip: "팁: Ctrl+P / Ctrl+N / Ctrl+D 로 기어 변경",
+        gearShortcutTip: "팁: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 로 기어 변경",
       },
       map: {
         enterDestination: "목적지 입력",
@@ -1981,7 +1814,7 @@ const resources = {
         previousGear: "이전 기어",
         nextGear: "다음 기어",
         kmh: "km/h",
-        useCtrlShortcut: "Ctrl+P/D/R/N 로 기어 변경",
+        useCtrlShortcut: "Ctrl+Alt+P/R/N/D 로 기어 변경",
       },
       settings: {
         userManualTitle: "사용 설명서",
@@ -2048,7 +1881,7 @@ const resources = {
         unitKm: "किमी",
       },
       sidebar: { settings: "सेटिंग्स", map: "मैप", voice: "वॉइस", bluetooth: "ब्लूटूथ", car: "कार" },
-      topbar: { searchLocked: "खोज (रिवर्स में लॉक)", searchBar: "खोज बार", gearShortcutTip: "टिप: गियर बदलने के लिए Ctrl+P / Ctrl+N / Ctrl+D दबाएं" },
+      topbar: { searchLocked: "खोज (रिवर्स में लॉक)", searchBar: "खोज बार", gearShortcutTip: "टिप: गियर बदलने के लिए Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D दबाएं" },
       map: {
         enterDestination: "गंतव्य दर्ज करें",
         routingTo: "रूट: {{destination}}",
@@ -2102,7 +1935,7 @@ const resources = {
         unitKm: "كم",
       },
       sidebar: { settings: "الإعدادات", map: "الخريطة", voice: "الصوت", bluetooth: "بلوتوث", car: "السيارة" },
-      topbar: { searchLocked: "بحث (مقفل أثناء الرجوع)", searchBar: "شريط البحث", gearShortcutTip: "نصيحة: اضغط Ctrl+P / Ctrl+N / Ctrl+D لتغيير الغيار" },
+      topbar: { searchLocked: "بحث (مقفل أثناء الرجوع)", searchBar: "شريط البحث", gearShortcutTip: "نصيحة: اضغط Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D لتغيير الغيار" },
       map: { enterDestination: "أدخل الوجهة", routingTo: "المسار إلى: {{destination}}", nearbyStations: "محطات الشحن القريبة", navigateToStation: "اذهب إلى {{station}}", endNavigation: "إنهاء الملاحة", navigation: "الملاحة", tapToEnlarge: "اضغط للتكبير", openFullMap: "فتح الخريطة كاملة", searchDestination: "بحث عن وجهة", geoUnavailable: "GPS غير متاح. سيتم استخدام موقع تجريبي حتى يتم السماح بالموقع.", homeShortcut: "المنزل", navigateHome: "الذهاب للمنزل" },
       voice: { listening: "جارٍ الاستماع…", sayCommand: "قل أمرًا…", notSupported: "التعرّف على الصوت غير مدعوم في هذا المتصفح.", tapToStart: "اضغط لبدء الاستماع" },
       search: { voiceSearch: "بحث صوتي", stop: "إيقاف" },
@@ -2141,7 +1974,7 @@ const resources = {
         unitKm: "км",
       },
       sidebar: { settings: "Настройки", map: "Карта", voice: "Голос", bluetooth: "Bluetooth", car: "Авто" },
-      topbar: { searchLocked: "Поиск (заблокирован при заднем ходе)", searchBar: "Поиск", gearShortcutTip: "Совет: Ctrl+P / Ctrl+N / Ctrl+D — смена передачи" },
+      topbar: { searchLocked: "Поиск (заблокирован при заднем ходе)", searchBar: "Поиск", gearShortcutTip: "Совет: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — смена передачи" },
       map: { enterDestination: "Введите пункт назначения", routingTo: "Маршрут: {{destination}}", nearbyStations: "Ближайшие зарядные станции", navigateToStation: "Навигация к {{station}}", endNavigation: "Завершить навигацию", navigation: "Навигация", tapToEnlarge: "Нажмите для увеличения", openFullMap: "Открыть полную карту", searchDestination: "Поиск назначения", geoUnavailable: "GPS недоступен. Используется демо-локация до разрешения доступа.", homeShortcut: "Дом", navigateHome: "Навигация домой" },
       voice: { listening: "Слушаю…", sayCommand: "Скажите команду…", notSupported: "Распознавание речи не поддерживается в этом браузере.", tapToStart: "Нажмите, чтобы начать слушать" },
       search: { voiceSearch: "Голосовой поиск", stop: "Стоп" },
@@ -2157,19 +1990,19 @@ const resources = {
       nearby: { refresh: "Обновить", closePanel: "Закрыть" },
     },
   },
-  de: { translation: { common: { language: "Anzeigesprache", phoneAutoConnect: "Telefon automatisch verbinden", customization: "Anpassung", changeFontSize: "Schriftgröße ändern", changeThemeColour: "Themenfarbe ändern", linked: "Verbunden: {{name}}", unpaired: "Nicht verbunden · QR scannen", unlinkPhone: "Verbindung trennen", themeLight: "Hell", themeDark: "Dunkel", themePurple: "Lila", close: "Schließen", search: "Suchen", selectDisplayLanguage: "Anzeigesprache wählen", home: "Start", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Doppeltippen für Start", unitKm: "km" }, sidebar: { settings: "Einstellungen", map: "Karte", voice: "Sprache", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Suche (beim Rückwärtsfahren gesperrt)", searchBar: "Suchleiste", gearShortcutTip: "Tipp: Ctrl+P / Ctrl+N / Ctrl+D wechselt Gang" }, map: { enterDestination: "Ziel eingeben", routingTo: "Route zu: {{destination}}", nearbyStations: "Nahe Ladestationen", navigateToStation: "Navigiere zu {{station}}", endNavigation: "Navigation beenden", navigation: "Navigation", tapToEnlarge: "Tippen zum Vergrößern", openFullMap: "Vollkarte öffnen", searchDestination: "Ziel suchen", geoUnavailable: "GPS nicht verfügbar. Demo-Standort bis Standortzugriff erlaubt ist.", homeShortcut: "Zuhause", navigateHome: "Nach Hause navigieren" }, voice: { listening: "Höre zu…", sayCommand: "Sag einen Befehl…", notSupported: "Spracherkennung wird in diesem Browser nicht unterstützt.", tapToStart: "Tippen, um zuzuhören" }, search: { voiceSearch: "Sprachsuche", stop: "Stopp" }, bluetooth: { title: "Bluetooth", deviceName: "Gerätename", pairedDevice: "Gekoppelt", availableDevices: "Verfügbare Geräte", unpairedShort: "Nicht gekoppelt · kein Gerät", unpair: "Entkoppeln" }, brightness: { auto: "Auto", manual: "Manuell", decrease: "Helligkeit verringern", increase: "Helligkeit erhöhen", toggle: "Auto/Manuell umschalten", autoToManual: "Auto - tippen für Manuell", manualToAuto: "Manuell - tippen für Auto" }, climate: { decrease: "Temperatur senken", increase: "Temperatur erhöhen", ac: "A/C", ventDown: "Unten", ventMiddle: "Mitte", ventUp: "Oben" }, status: { nearbyCharging: "NAHE LADESTATION", left: "Rest", traveled: "Gefahren", back: "Zurück" }, traffic: { tooClose: "ZU NAH - ABSTAND HALTEN", warning: "WARNUNG", closeWarning: "Warnung minimieren", live: "LIVE", view360: "360° Ansicht", fullscreenHint: "Smart Traffic - ziehen (360°)" }, notFound: { title: "Seite nicht gefunden", goHome: "Start" }, reverse: { topView: "OBENANSICHT", reverseCam: "RÜCKFAHRKAMERA", cameraUnavailable: "Kamera nicht verfügbar", allowCamera: "Kamerazugriff erlauben" }, media: { progress: "Fortschritt", repeatOne: "Wiederholen", previousTrack: "Zurück", playPause: "Play/Pause", nextTrack: "Weiter", shuffle: "Zufall", volume: "Lautstärke", collapse: "Einklappen", expandPanel: "Ausklappen" }, leaflet: { zoomIn: "Zoomen +", zoomOut: "Zoomen −" }, nearby: { refresh: "Aktualisieren", closePanel: "Schließen" } } },
-  fr: { translation: { common: { language: "Langue d’affichage", phoneAutoConnect: "Connexion auto du téléphone", customization: "Personnalisation", changeFontSize: "Changer la taille du texte", changeThemeColour: "Changer la couleur du thème", linked: "Connecté : {{name}}", unpaired: "Non connecté · scannez le QR", unlinkPhone: "Dissocier", themeLight: "Clair", themeDark: "Sombre", themePurple: "Violet", close: "Fermer", search: "Rechercher", selectDisplayLanguage: "Choisir la langue", home: "Accueil", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Double-tap pour accueil", unitKm: "km" }, sidebar: { settings: "Réglages", map: "Carte", voice: "Voix", bluetooth: "Bluetooth", car: "Voiture" }, topbar: { searchLocked: "Recherche (verrouillée en marche arrière)", searchBar: "Barre de recherche", gearShortcutTip: "Astuce : Ctrl+P / Ctrl+N / Ctrl+D pour changer de vitesse" }, map: { enterDestination: "Entrer la destination", routingTo: "Itinéraire vers : {{destination}}", nearbyStations: "Bornes proches", navigateToStation: "Naviguer vers {{station}}", endNavigation: "Fin de navigation", navigation: "Navigation", tapToEnlarge: "Touchez pour agrandir", openFullMap: "Ouvrir la carte complète", searchDestination: "Rechercher une destination", geoUnavailable: "GPS indisponible. Utilise une position démo jusqu’à autorisation.", homeShortcut: "Maison", navigateHome: "Rentrer à la maison" }, voice: { listening: "Écoute…", sayCommand: "Dites une commande…", notSupported: "La reconnaissance vocale n’est pas prise en charge dans ce navigateur.", tapToStart: "Touchez pour commencer l’écoute" }, search: { voiceSearch: "Recherche vocale", stop: "Arrêter" }, bluetooth: { title: "Bluetooth", deviceName: "Nom de l’appareil", pairedDevice: "Appareil associé", availableDevices: "Appareils disponibles", unpairedShort: "Non associé · aucun appareil", unpair: "Dissocier" }, brightness: { auto: "Auto", manual: "Manuel", decrease: "Baisser la luminosité", increase: "Augmenter la luminosité", toggle: "Basculer auto/manuel", autoToManual: "Auto - toucher pour Manuel", manualToAuto: "Manuel - toucher pour Auto" }, climate: { decrease: "Baisser la température", increase: "Monter la température", ac: "A/C", ventDown: "Bas", ventMiddle: "Milieu", ventUp: "Haut" }, status: { nearbyCharging: "BORNE DE CHARGE PROCHE", left: "Restant", traveled: "Parcouru", back: "Retour" }, traffic: { tooClose: "TROP PRÈS - GARDEZ UNE DISTANCE", warning: "ALERTE", closeWarning: "Réduire l’alerte", live: "EN DIRECT", view360: "Vue 360°", fullscreenHint: "Trafic intelligent - glissez (360°)" }, notFound: { title: "Page introuvable", goHome: "Accueil" }, reverse: { topView: "VUE DU DESSUS", reverseCam: "CAMÉRA DE RECUL", cameraUnavailable: "Caméra indisponible", allowCamera: "Autoriser la caméra" }, media: { progress: "Progression", repeatOne: "Répéter", previousTrack: "Précédent", playPause: "Lecture/Pause", nextTrack: "Suivant", shuffle: "Aléatoire", volume: "Volume", collapse: "Réduire", expandPanel: "Agrandir" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Rafraîchir", closePanel: "Fermer" } } },
-  it: { translation: { common: { language: "Lingua di visualizzazione", phoneAutoConnect: "Connessione automatica telefono", customization: "Personalizzazione", changeFontSize: "Cambia dimensione font", changeThemeColour: "Cambia colore tema", linked: "Collegato: {{name}}", unpaired: "Non collegato · scansiona QR", unlinkPhone: "Scollega", themeLight: "Chiaro", themeDark: "Scuro", themePurple: "Viola", close: "Chiudi", search: "Cerca", selectDisplayLanguage: "Seleziona lingua", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Doppio tap per Home", unitKm: "km" }, sidebar: { settings: "Impostazioni", map: "Mappa", voice: "Voce", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Cerca (bloccato in retromarcia)", searchBar: "Barra di ricerca", gearShortcutTip: "Suggerimento: Ctrl+P / Ctrl+N / Ctrl+D per cambiare marcia" }, map: { enterDestination: "Inserisci destinazione", routingTo: "Percorso per: {{destination}}", nearbyStations: "Stazioni di ricarica vicine", navigateToStation: "Naviga verso {{station}}", endNavigation: "Termina navigazione", navigation: "Navigazione", tapToEnlarge: "Tocca per ingrandire", openFullMap: "Apri mappa completa", searchDestination: "Cerca destinazione", geoUnavailable: "GPS non disponibile. Usa posizione demo finché non autorizzi.", homeShortcut: "Casa", navigateHome: "Naviga a casa" }, voice: { listening: "In ascolto…", sayCommand: "Di’ un comando…", notSupported: "Il riconoscimento vocale non è supportato in questo browser.", tapToStart: "Tocca per iniziare ad ascoltare" }, search: { voiceSearch: "Ricerca vocale", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Nome dispositivo", pairedDevice: "Dispositivo associato", availableDevices: "Dispositivi disponibili", unpairedShort: "Non associato · nessun dispositivo", unpair: "Disassocia" }, brightness: { auto: "Auto", manual: "Manuale", decrease: "Diminuisci luminosità", increase: "Aumenta luminosità", toggle: "Alterna auto/manuale", autoToManual: "Auto - tocca per Manuale", manualToAuto: "Manuale - tocca per Auto" }, climate: { decrease: "Abbassa temperatura", increase: "Alza temperatura", ac: "A/C", ventDown: "Giù", ventMiddle: "Centro", ventUp: "Su" }, status: { nearbyCharging: "STAZIONE DI RICARICA VICINA", left: "Rimanente", traveled: "Percorso", back: "Indietro" }, traffic: { tooClose: "TROPPO VICINO - MANTIENI DISTANZA", warning: "AVVISO", closeWarning: "Riduci avviso", live: "LIVE", view360: "Vista 360°", fullscreenHint: "Traffico smart - trascina (360°)" }, notFound: { title: "Pagina non trovata", goHome: "Home" }, reverse: { topView: "VISTA DALL’ALTO", reverseCam: "CAMERA RETROMARCIA", cameraUnavailable: "Camera non disponibile", allowCamera: "Consenti accesso camera" }, media: { progress: "Avanzamento", repeatOne: "Ripeti", previousTrack: "Precedente", playPause: "Play/Pausa", nextTrack: "Successivo", shuffle: "Casuale", volume: "Volume", collapse: "Comprimi", expandPanel: "Espandi" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Aggiorna", closePanel: "Chiudi" } } },
-  pt: { translation: { common: { language: "Idioma de exibição", phoneAutoConnect: "Conexão automática do telefone", customization: "Personalização", changeFontSize: "Alterar tamanho da fonte", changeThemeColour: "Alterar cor do tema", linked: "Vinculado: {{name}}", unpaired: "Sem vínculo · escaneie QR", unlinkPhone: "Desvincular", themeLight: "Claro", themeDark: "Escuro", themePurple: "Roxo", close: "Fechar", search: "Buscar", selectDisplayLanguage: "Selecionar idioma", home: "Início", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Toque duplo para início", unitKm: "km" }, sidebar: { settings: "Configurações", map: "Mapa", voice: "Voz", bluetooth: "Bluetooth", car: "Carro" }, topbar: { searchLocked: "Busca (bloqueada ao dar ré)", searchBar: "Barra de busca", gearShortcutTip: "Dica: Ctrl+P / Ctrl+N / Ctrl+D para mudar marcha" }, map: { enterDestination: "Digite o destino", routingTo: "Rota para: {{destination}}", nearbyStations: "Estações de recarga próximas", navigateToStation: "Navegar para {{station}}", endNavigation: "Encerrar navegação", navigation: "Navegação", tapToEnlarge: "Toque para ampliar", openFullMap: "Abrir mapa completo", searchDestination: "Buscar destino", geoUnavailable: "GPS indisponível. Usando local demo até permitir localização.", homeShortcut: "Casa", navigateHome: "Navegar para casa" }, voice: { listening: "Ouvindo…", sayCommand: "Diga um comando…", notSupported: "O reconhecimento de voz não é compatível com este navegador.", tapToStart: "Toque para começar a ouvir" }, search: { voiceSearch: "Busca por voz", stop: "Parar" }, bluetooth: { title: "Bluetooth", deviceName: "Nome do dispositivo", pairedDevice: "Dispositivo pareado", availableDevices: "Dispositivos disponíveis", unpairedShort: "Sem pareamento · sem dispositivo", unpair: "Desparear" }, brightness: { auto: "Auto", manual: "Manual", decrease: "Diminuir brilho", increase: "Aumentar brilho", toggle: "Alternar auto/manual", autoToManual: "Auto - toque para Manual", manualToAuto: "Manual - toque para Auto" }, climate: { decrease: "Diminuir temperatura", increase: "Aumentar temperatura", ac: "A/C", ventDown: "Baixo", ventMiddle: "Meio", ventUp: "Cima" }, status: { nearbyCharging: "ESTAÇÃO DE CARGA PRÓXIMA", left: "Restante", traveled: "Percorrido", back: "Voltar" }, traffic: { tooClose: "MUITO PERTO - MANTENHA DISTÂNCIA", warning: "AVISO", closeWarning: "Minimizar aviso", live: "AO VIVO", view360: "Visão 360°", fullscreenHint: "Tráfego inteligente - arraste (360°)" }, notFound: { title: "Página não encontrada", goHome: "Início" }, reverse: { topView: "VISTA SUPERIOR", reverseCam: "CÂMERA DE RÉ", cameraUnavailable: "Câmera indisponível", allowCamera: "Permita a câmera para usar a ré" }, media: { progress: "Progresso", repeatOne: "Repetir", previousTrack: "Anterior", playPause: "Play/Pausa", nextTrack: "Próxima", shuffle: "Aleatório", volume: "Volume", collapse: "Recolher", expandPanel: "Expandir" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Atualizar", closePanel: "Fechar" } } },
-  tr: { translation: { common: { language: "Görüntü dili", phoneAutoConnect: "Telefon otomatik bağlan", customization: "Kişiselleştirme", changeFontSize: "Yazı boyutunu değiştir", changeThemeColour: "Tema rengini değiştir", linked: "Bağlı: {{name}}", unpaired: "Eşleşmedi · QR tara", unlinkPhone: "Bağlantıyı kaldır", themeLight: "Açık", themeDark: "Koyu", themePurple: "Mor", close: "Kapat", search: "Ara", selectDisplayLanguage: "Görüntü dilini seç", home: "Ana sayfa", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Ana sayfaya dönmek için çift dokun", unitKm: "km" }, sidebar: { settings: "Ayarlar", map: "Harita", voice: "Ses", bluetooth: "Bluetooth", car: "Araç" }, topbar: { searchLocked: "Arama (geri viteste kilitli)", searchBar: "Arama çubuğu", gearShortcutTip: "İpucu: Ctrl+P / Ctrl+N / Ctrl+D ile vites değiştir" }, map: { enterDestination: "Hedef girin", routingTo: "Rota: {{destination}}", nearbyStations: "Yakındaki şarj istasyonları", navigateToStation: "{{station}} konumuna git", endNavigation: "Navigasyonu bitir", navigation: "Navigasyon", tapToEnlarge: "Büyütmek için dokun", openFullMap: "Tam haritayı aç", searchDestination: "Hedef ara", geoUnavailable: "GPS yok. Konum izni verilene kadar demo konum kullanılır.", homeShortcut: "Ev", navigateHome: "Eve git" }, voice: { listening: "Dinleniyor…", sayCommand: "Komut söyle…", notSupported: "Bu tarayıcı ses tanımayı desteklemiyor.", tapToStart: "Dinlemeyi başlatmak için dokun" }, search: { voiceSearch: "Sesli arama", stop: "Durdur" }, bluetooth: { title: "Bluetooth", deviceName: "Cihaz adı", pairedDevice: "Eşleşen cihaz", availableDevices: "Mevcut cihazlar", unpairedShort: "Eşleşmedi · cihaz yok", unpair: "Eşleşmeyi kaldır" }, brightness: { auto: "Oto", manual: "Manuel", decrease: "Parlaklığı azalt", increase: "Parlaklığı artır", toggle: "Oto/Manuel değiştir", autoToManual: "Oto - Manuel için dokun", manualToAuto: "Manuel - Oto için dokun" }, climate: { decrease: "Sıcaklığı düşür", increase: "Sıcaklığı artır", ac: "A/C", ventDown: "Aşağı", ventMiddle: "Orta", ventUp: "Yukarı" }, status: { nearbyCharging: "YAKIN ŞARJ İSTASYONU", left: "Kalan", traveled: "Gidilen", back: "Geri" }, traffic: { tooClose: "ÇOK YAKIN - GÜVENLİ MESAFE", warning: "UYARI", closeWarning: "Uyarıyı küçült", live: "CANLI", view360: "360° Görünüm", fullscreenHint: "Akıllı trafik - sürükle (360°)" }, notFound: { title: "Sayfa bulunamadı", goHome: "Ana sayfa" }, reverse: { topView: "ÜST GÖRÜNÜM", reverseCam: "GERİ KAMERA", cameraUnavailable: "Kamera yok", allowCamera: "Geri görüş için kameraya izin verin" }, media: { progress: "İlerleme", repeatOne: "Tekrar", previousTrack: "Önceki", playPause: "Oynat/Duraklat", nextTrack: "Sonraki", shuffle: "Karıştır", volume: "Ses", collapse: "Daralt", expandPanel: "Genişlet" }, leaflet: { zoomIn: "Yakınlaştır", zoomOut: "Uzaklaştır" }, nearby: { refresh: "Yenile", closePanel: "Kapat" } } },
-  nl: { translation: { common: { language: "Weergavetaal", phoneAutoConnect: "Telefoon automatisch verbinden", customization: "Aanpassing", changeFontSize: "Lettergrootte wijzigen", changeThemeColour: "Themakleur wijzigen", linked: "Gekoppeld: {{name}}", unpaired: "Niet gekoppeld · scan QR", unlinkPhone: "Ontkoppelen", themeLight: "Licht", themeDark: "Donker", themePurple: "Paars", close: "Sluiten", search: "Zoeken", selectDisplayLanguage: "Weergavetaal kiezen", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dubbeltik voor Home", unitKm: "km" }, sidebar: { settings: "Instellingen", map: "Kaart", voice: "Spraak", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Zoeken (vergrendeld bij achteruit)", searchBar: "Zoekbalk", gearShortcutTip: "Tip: Ctrl+P / Ctrl+N / Ctrl+D om versnelling te wijzigen" }, map: { enterDestination: "Bestemming invoeren", routingTo: "Route naar: {{destination}}", nearbyStations: "Dichtbij laadstations", navigateToStation: "Navigeer naar {{station}}", endNavigation: "Navigatie stoppen", navigation: "Navigatie", tapToEnlarge: "Tik om te vergroten", openFullMap: "Volledige kaart openen", searchDestination: "Bestemming zoeken", geoUnavailable: "GPS niet beschikbaar. Demo-locatie tot toestemming.", homeShortcut: "Thuis", navigateHome: "Naar huis" }, voice: { listening: "Luistert…", sayCommand: "Zeg een opdracht…", notSupported: "Spraakherkenning wordt niet ondersteund in deze browser.", tapToStart: "Tik om te luisteren" }, search: { voiceSearch: "Spraak zoeken", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Apparaatnaam", pairedDevice: "Gekoppeld apparaat", availableDevices: "Beschikbare apparaten", unpairedShort: "Niet gekoppeld · geen apparaat", unpair: "Ontkoppelen" }, brightness: { auto: "Auto", manual: "Handmatig", decrease: "Helderheid omlaag", increase: "Helderheid omhoog", toggle: "Auto/handmatig wisselen", autoToManual: "Auto - tik voor handmatig", manualToAuto: "Handmatig - tik voor auto" }, climate: { decrease: "Temperatuur omlaag", increase: "Temperatuur omhoog", ac: "A/C", ventDown: "Beneden", ventMiddle: "Midden", ventUp: "Boven" }, status: { nearbyCharging: "LAADSTATION IN DE BUURT", left: "Resterend", traveled: "Afgelegd", back: "Terug" }, traffic: { tooClose: "TE DICHTBIJ - HOUD AFSTAND", warning: "WAARSCHUWING", closeWarning: "Minimaliseren", live: "LIVE", view360: "360° weergave", fullscreenHint: "Slim verkeer - sleep (360°)" }, notFound: { title: "Pagina niet gevonden", goHome: "Home" }, reverse: { topView: "BOVENaanzicht", reverseCam: "ACHTERUITCAMERA", cameraUnavailable: "Camera niet beschikbaar", allowCamera: "Sta camera toe" }, media: { progress: "Voortgang", repeatOne: "Herhalen", previousTrack: "Vorige", playPause: "Play/Pauze", nextTrack: "Volgende", shuffle: "Shuffle", volume: "Volume", collapse: "Inklappen", expandPanel: "Uitklappen" }, leaflet: { zoomIn: "Inzoomen", zoomOut: "Uitzoomen" }, nearby: { refresh: "Vernieuwen", closePanel: "Sluiten" } } },
-  sv: { translation: { common: { language: "Visningsspråk", phoneAutoConnect: "Telefon autoanslutning", customization: "Anpassning", changeFontSize: "Ändra teckenstorlek", changeThemeColour: "Ändra temafärg", linked: "Ansluten: {{name}}", unpaired: "Ej ansluten · skanna QR", unlinkPhone: "Koppla från", themeLight: "Ljus", themeDark: "Mörk", themePurple: "Lila", close: "Stäng", search: "Sök", selectDisplayLanguage: "Välj visningsspråk", home: "Hem", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dubbeltryck för Hem", unitKm: "km" }, sidebar: { settings: "Inställningar", map: "Karta", voice: "Röst", bluetooth: "Bluetooth", car: "Bil" }, topbar: { searchLocked: "Sök (låst vid backning)", searchBar: "Sökfält", gearShortcutTip: "Tips: Ctrl+P / Ctrl+N / Ctrl+D för växel" }, map: { enterDestination: "Ange destination", routingTo: "Rutt till: {{destination}}", nearbyStations: "Närliggande laddstationer", navigateToStation: "Navigera till {{station}}", endNavigation: "Avsluta navigering", navigation: "Navigering", tapToEnlarge: "Tryck för att förstora", openFullMap: "Öppna helkarta", searchDestination: "Sök destination", geoUnavailable: "GPS ej tillgängligt. Demo-position tills plats tillåts.", homeShortcut: "Hem", navigateHome: "Navigera hem" }, voice: { listening: "Lyssnar…", sayCommand: "Säg ett kommando…", notSupported: "Röstigenkänning stöds inte i den här webbläsaren.", tapToStart: "Tryck för att börja lyssna" }, search: { voiceSearch: "Röstsök", stop: "Stoppa" }, bluetooth: { title: "Bluetooth", deviceName: "Enhetsnamn", pairedDevice: "Parat", availableDevices: "Tillgängliga enheter", unpairedShort: "Ej parat · ingen enhet", unpair: "Avpara" }, brightness: { auto: "Auto", manual: "Manuell", decrease: "Minska ljusstyrka", increase: "Öka ljusstyrka", toggle: "Växla auto/manuell", autoToManual: "Auto - tryck för Manuell", manualToAuto: "Manuell - tryck för Auto" }, climate: { decrease: "Sänk temperatur", increase: "Höj temperatur", ac: "A/C", ventDown: "Ner", ventMiddle: "Mitten", ventUp: "Upp" }, status: { nearbyCharging: "NÄRLIGGANDE LADDSTATION", left: "Kvar", traveled: "Kört", back: "Tillbaka" }, traffic: { tooClose: "FÖR NÄRA - HÅLL AVSTÅND", warning: "VARNING", closeWarning: "Minimera varning", live: "LIVE", view360: "360° vy", fullscreenHint: "Smart trafik - dra (360°)" }, notFound: { title: "Sidan hittades inte", goHome: "Hem" }, reverse: { topView: "TOPPVY", reverseCam: "BACKKAMERA", cameraUnavailable: "Kamera ej tillgänglig", allowCamera: "Tillåt kamera" }, media: { progress: "Förlopp", repeatOne: "Upprepa", previousTrack: "Föregående", playPause: "Spela/Paus", nextTrack: "Nästa", shuffle: "Blanda", volume: "Volym", collapse: "Fäll ihop", expandPanel: "Fäll ut" }, leaflet: { zoomIn: "Zooma in", zoomOut: "Zooma ut" }, nearby: { refresh: "Uppdatera", closePanel: "Stäng" } } },
-  pl: { translation: { common: { language: "Język wyświetlania", phoneAutoConnect: "Automatyczne łączenie telefonu", customization: "Personalizacja", changeFontSize: "Zmień rozmiar czcionki", changeThemeColour: "Zmień kolor motywu", linked: "Połączono: {{name}}", unpaired: "Niepołączono · zeskanuj QR", unlinkPhone: "Odłącz", themeLight: "Jasny", themeDark: "Ciemny", themePurple: "Fioletowy", close: "Zamknij", search: "Szukaj", selectDisplayLanguage: "Wybierz język", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dwuklik aby wrócić", unitKm: "km" }, sidebar: { settings: "Ustawienia", map: "Mapa", voice: "Głos", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Szukaj (zablokowane podczas cofania)", searchBar: "Pasek wyszukiwania", gearShortcutTip: "Wskazówka: Ctrl+P / Ctrl+N / Ctrl+D zmienia bieg" }, map: { enterDestination: "Wpisz cel", routingTo: "Trasa do: {{destination}}", nearbyStations: "Pobliskie stacje ładowania", navigateToStation: "Nawiguj do {{station}}", endNavigation: "Zakończ nawigację", navigation: "Nawigacja", tapToEnlarge: "Dotknij aby powiększyć", openFullMap: "Otwórz pełną mapę", searchDestination: "Szukaj celu", geoUnavailable: "GPS niedostępny. Używamy lokalizacji demo do czasu zezwolenia.", homeShortcut: "Dom", navigateHome: "Nawiguj do domu" }, voice: { listening: "Słucham…", sayCommand: "Powiedz komendę…", notSupported: "Rozpoznawanie mowy nie jest wspierane w tej przeglądarce.", tapToStart: "Dotknij, aby zacząć słuchać" }, search: { voiceSearch: "Wyszukiwanie głosowe", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Nazwa urządzenia", pairedDevice: "Sparowane urządzenie", availableDevices: "Dostępne urządzenia", unpairedShort: "Brak pary · brak urządzenia", unpair: "Rozparuj" }, brightness: { auto: "Auto", manual: "Ręcznie", decrease: "Zmniejsz jasność", increase: "Zwiększ jasność", toggle: "Przełącz auto/ręcznie", autoToManual: "Auto - dotknij na Ręcznie", manualToAuto: "Ręcznie - dotknij na Auto" }, climate: { decrease: "Obniż temperaturę", increase: "Podnieś temperaturę", ac: "A/C", ventDown: "Dół", ventMiddle: "Środek", ventUp: "Góra" }, status: { nearbyCharging: "POBLISKA STACJA ŁADOWANIA", left: "Pozostało", traveled: "Przejechano", back: "Wstecz" }, traffic: { tooClose: "ZA BLISKO - ZACHOWAJ ODSTĘP", warning: "OSTRZEŻENIE", closeWarning: "Minimalizuj", live: "NA ŻYWO", view360: "Widok 360°", fullscreenHint: "Smart traffic - przeciągnij (360°)" }, notFound: { title: "Nie znaleziono strony", goHome: "Strona główna" }, reverse: { topView: "WIDOK Z GÓRY", reverseCam: "KAMERA COFANIA", cameraUnavailable: "Kamera niedostępna", allowCamera: "Zezwól na kamerę" }, media: { progress: "Postęp", repeatOne: "Powtarzaj", previousTrack: "Poprzedni", playPause: "Odtwórz/Pauza", nextTrack: "Następny", shuffle: "Losowo", volume: "Głośność", collapse: "Zwiń", expandPanel: "Rozwiń" }, leaflet: { zoomIn: "Powiększ", zoomOut: "Pomniejsz" }, nearby: { refresh: "Odśwież", closePanel: "Zamknij" } } },
-  uk: { translation: { common: { language: "Мова інтерфейсу", phoneAutoConnect: "Автопідключення телефону", customization: "Налаштування", changeFontSize: "Змінити розмір шрифту", changeThemeColour: "Змінити тему", linked: "Підключено: {{name}}", unpaired: "Не підключено · скануйте QR", unlinkPhone: "Від’єднати", themeLight: "Світла", themeDark: "Темна", themePurple: "Фіолетова", close: "Закрити", search: "Пошук", selectDisplayLanguage: "Вибрати мову", home: "Додому", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Подвійний тап — додому", unitKm: "км" }, sidebar: { settings: "Налаштування", map: "Карта", voice: "Голос", bluetooth: "Bluetooth", car: "Авто" }, topbar: { searchLocked: "Пошук (заблоковано під час заднього ходу)", searchBar: "Пошук", gearShortcutTip: "Порада: Ctrl+P / Ctrl+N / Ctrl+D — зміна передачі" }, map: { enterDestination: "Введіть пункт призначення", routingTo: "Маршрут: {{destination}}", nearbyStations: "Поруч зарядні станції", navigateToStation: "Навігація до {{station}}", endNavigation: "Завершити навігацію", navigation: "Навігація", tapToEnlarge: "Натисніть для збільшення", openFullMap: "Відкрити повну карту", searchDestination: "Пошук пункту", geoUnavailable: "GPS недоступний. Використовується демо-локація до дозволу.", homeShortcut: "Дім", navigateHome: "Додому" }, voice: { listening: "Слухаю…", sayCommand: "Скажіть команду…", notSupported: "Розпізнавання мовлення не підтримується у цьому браузері.", tapToStart: "Натисніть, щоб почати слухати" }, search: { voiceSearch: "Голосовий пошук", stop: "Стоп" }, bluetooth: { title: "Bluetooth", deviceName: "Назва пристрою", pairedDevice: "Підключений пристрій", availableDevices: "Доступні пристрої", unpairedShort: "Не підключено · немає пристрою", unpair: "Від’єднати" }, brightness: { auto: "Авто", manual: "Вручну", decrease: "Зменшити яскравість", increase: "Збільшити яскравість", toggle: "Авто/вручну", autoToManual: "Авто - натисніть для вручну", manualToAuto: "Вручну - натисніть для авто" }, climate: { decrease: "Знизити температуру", increase: "Підвищити температуру", ac: "A/C", ventDown: "Вниз", ventMiddle: "По центру", ventUp: "Вгору" }, status: { nearbyCharging: "ПОРУЧ ЗАРЯДКА", left: "Залишилось", traveled: "Проїхано", back: "Назад" }, traffic: { tooClose: "ЗАНАДТО БЛИЗЬКО - ТРИМАЙТЕ ДИСТАНЦІЮ", warning: "ПОПЕРЕДЖЕННЯ", closeWarning: "Згорнути", live: "LIVE", view360: "360°", fullscreenHint: "Розумний трафік — перетягуйте (360°)" }, notFound: { title: "Сторінку не знайдено", goHome: "Додому" }, reverse: { topView: "ВИД ЗВЕРХУ", reverseCam: "КАМЕРА ЗАДНЬОГО ХОДУ", cameraUnavailable: "Камера недоступна", allowCamera: "Дозвольте камеру" }, media: { progress: "Прогрес", repeatOne: "Повтор", previousTrack: "Попередня", playPause: "Пауза/Пуск", nextTrack: "Наступна", shuffle: "Випадково", volume: "Гучність", collapse: "Згорнути", expandPanel: "Розгорнути" }, leaflet: { zoomIn: "Збільшити", zoomOut: "Зменшити" }, nearby: { refresh: "Оновити", closePanel: "Закрити" } } },
-  fa: { translation: { common: { language: "زبان نمایش", phoneAutoConnect: "اتصال خودکار تلفن", customization: "شخصی‌سازی", changeFontSize: "تغییر اندازه فونت", changeThemeColour: "تغییر رنگ تم", linked: "متصل: {{name}}", unpaired: "متصل نیست · اسکن QR", unlinkPhone: "قطع اتصال", themeLight: "روشن", themeDark: "تیره", themePurple: "بنفش", close: "بستن", search: "جستجو", selectDisplayLanguage: "انتخاب زبان نمایش", home: "خانه", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "برای رفتن به خانه دوبار لمس کنید", unitKm: "km" }, sidebar: { settings: "تنظیمات", map: "نقشه", voice: "صدا", bluetooth: "بلوتوث", car: "خودرو" }, topbar: { searchLocked: "جستجو (در دنده عقب قفل است)", searchBar: "نوار جستجو", gearShortcutTip: "نکته: برای تغییر دنده Ctrl+P / Ctrl+N / Ctrl+D" }, map: { enterDestination: "مقصد را وارد کنید", routingTo: "مسیر به: {{destination}}", nearbyStations: "ایستگاه‌های شارژ نزدیک", navigateToStation: "مسیریابی به {{station}}", endNavigation: "پایان مسیریابی", navigation: "مسیریابی", tapToEnlarge: "برای بزرگ‌نمایی لمس کنید", openFullMap: "باز کردن نقشه کامل", searchDestination: "جستجوی مقصد", geoUnavailable: "GPS در دسترس نیست. تا اجازه موقعیت، مکان دمو استفاده می‌شود.", homeShortcut: "خانه", navigateHome: "مسیریابی به خانه" }, voice: { listening: "در حال گوش دادن…", sayCommand: "یک فرمان بگویید…", notSupported: "تشخیص صدا در این مرورگر پشتیبانی نمی‌شود.", tapToStart: "برای شروع لمس کنید" }, search: { voiceSearch: "جستجوی صوتی", stop: "توقف" }, bluetooth: { title: "بلوتوث", deviceName: "نام دستگاه", pairedDevice: "دستگاه جفت‌شده", availableDevices: "دستگاه‌های موجود", unpairedShort: "جفت نشده · دستگاهی نیست", unpair: "قطع جفت" }, brightness: { auto: "خودکار", manual: "دستی", decrease: "کاهش روشنایی", increase: "افزایش روشنایی", toggle: "تغییر خودکار/دستی", autoToManual: "خودکار - لمس برای دستی", manualToAuto: "دستی - لمس برای خودکار" }, climate: { decrease: "کاهش دما", increase: "افزایش دما", ac: "A/C", ventDown: "پایین", ventMiddle: "وسط", ventUp: "بالا" }, status: { nearbyCharging: "ایستگاه شارژ نزدیک", left: "باقی‌مانده", traveled: "پیموده", back: "بازگشت" }, traffic: { tooClose: "خیلی نزدیک - فاصله امن را حفظ کنید", warning: "هشدار", closeWarning: "کوچک کردن هشدار", live: "زنده", view360: "نمای 360°", fullscreenHint: "ترافیک هوشمند - برای دیدن اطراف بکشید (360°)" }, notFound: { title: "صفحه پیدا نشد", goHome: "خانه" }, reverse: { topView: "نمای بالا", reverseCam: "دوربین دنده عقب", cameraUnavailable: "دوربین در دسترس نیست", allowCamera: "اجازه دوربین را بدهید" }, media: { progress: "پیشرفت", repeatOne: "تکرار", previousTrack: "قبلی", playPause: "پخش/مکث", nextTrack: "بعدی", shuffle: "تصادفی", volume: "صدا", collapse: "جمع کردن", expandPanel: "باز کردن" }, leaflet: { zoomIn: "بزرگ‌نمایی", zoomOut: "کوچک‌نمایی" }, nearby: { refresh: "بازآوری", closePanel: "بستن" } } },
-  bn: { translation: { common: { language: "ডিসপ্লে ভাষা", phoneAutoConnect: "ফোন অটো-কানেক্ট", customization: "কাস্টমাইজেশন", changeFontSize: "ফন্ট সাইজ বদলান", changeThemeColour: "থিম রং বদলান", linked: "সংযুক্ত: {{name}}", unpaired: "অসংযুক্ত · QR স্ক্যান করুন", unlinkPhone: "আনলিঙ্ক", themeLight: "লাইট", themeDark: "ডার্ক", themePurple: "পার্পল", close: "বন্ধ", search: "সার্চ", selectDisplayLanguage: "ডিসপ্লে ভাষা নির্বাচন করুন", home: "হোম", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "হোমে যেতে ডাবল-ট্যাপ", unitKm: "কিমি" }, sidebar: { settings: "সেটিংস", map: "ম্যাপ", voice: "ভয়েস", bluetooth: "ব্লুটুথ", car: "কার" }, topbar: { searchLocked: "সার্চ (রিভার্সে লক)", searchBar: "সার্চ বার", gearShortcutTip: "টিপ: গিয়ার বদলাতে Ctrl+P / Ctrl+N / Ctrl+D" }, map: { enterDestination: "গন্তব্য লিখুন", routingTo: "রুট: {{destination}}", nearbyStations: "কাছের চার্জিং স্টেশন", navigateToStation: "{{station}} এ ন্যাভিগেট", endNavigation: "ন্যাভিগেশন শেষ", navigation: "ন্যাভিগেশন", tapToEnlarge: "বড় করতে ট্যাপ", openFullMap: "পূর্ণ ম্যাপ খুলুন", searchDestination: "গন্তব্য খুঁজুন", geoUnavailable: "GPS নেই। অনুমতি না দেওয়া পর্যন্ত ডেমো লোকেশন ব্যবহার হবে।", homeShortcut: "বাড়ি", navigateHome: "বাড়ি যান" }, voice: { listening: "শুনছে…", sayCommand: "একটি কমান্ড বলুন…", notSupported: "এই ব্রাউজারে ভয়েস রিকগনিশন সমর্থিত নয়।", tapToStart: "শুরু করতে ট্যাপ করুন" }, search: { voiceSearch: "ভয়েস সার্চ", stop: "থামুন" }, bluetooth: { title: "ব্লুটুথ", deviceName: "ডিভাইস নাম", pairedDevice: "পেয়ারড ডিভাইস", availableDevices: "উপলব্ধ ডিভাইস", unpairedShort: "অসংযুক্ত · ডিভাইস নেই", unpair: "আনপেয়ার" }, brightness: { auto: "অটো", manual: "ম্যানুয়াল", decrease: "উজ্জ্বলতা কমান", increase: "উজ্জ্বলতা বাড়ান", toggle: "অটো/ম্যানুয়াল বদলান", autoToManual: "অটো - ট্যাপ করে ম্যানুয়াল", manualToAuto: "ম্যানুয়াল - ট্যাপ করে অটো" }, climate: { decrease: "তাপমাত্রা কমান", increase: "তাপমাত্রা বাড়ান", ac: "A/C", ventDown: "নিচে", ventMiddle: "মাঝে", ventUp: "উপরে" }, status: { nearbyCharging: "কাছের চার্জিং স্টেশন", left: "বাকি", traveled: "ভ্রমণ", back: "পেছনে" }, traffic: { tooClose: "খুব কাছে - নিরাপদ দূরত্ব রাখুন", warning: "সতর্কতা", closeWarning: "সতর্কতা ছোট করুন", live: "লাইভ", view360: "360° ভিউ", fullscreenHint: "স্মার্ট ট্রাফিক - টেনে দেখুন (360°)" }, notFound: { title: "পৃষ্ঠা পাওয়া যায়নি", goHome: "হোম" }, reverse: { topView: "টপ ভিউ", reverseCam: "রিভার্স ক্যাম", cameraUnavailable: "ক্যামেরা নেই", allowCamera: "ক্যামেরা অনুমতি দিন" }, media: { progress: "অগ্রগতি", repeatOne: "রিপিট", previousTrack: "আগের", playPause: "প্লে/পজ", nextTrack: "পরের", shuffle: "শাফল", volume: "ভলিউম", collapse: "ভাঁজ", expandPanel: "বড়" }, leaflet: { zoomIn: "জুম ইন", zoomOut: "জুম আউট" }, nearby: { refresh: "রিফ্রেশ", closePanel: "বন্ধ" } } },
-  ur: { translation: { common: { language: "ڈسپلے زبان", phoneAutoConnect: "فون آٹو کنیکٹ", customization: "حسب ضرورت", changeFontSize: "فونٹ سائز تبدیل کریں", changeThemeColour: "تھیم رنگ تبدیل کریں", linked: "منسلک: {{name}}", unpaired: "غیر منسلک · QR اسکین کریں", unlinkPhone: "ان لنک", themeLight: "لائٹ", themeDark: "ڈارک", themePurple: "پرپل", close: "بند کریں", search: "تلاش", selectDisplayLanguage: "ڈسپلے زبان منتخب کریں", home: "ہوم", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "ہوم کیلئے ڈبل ٹیپ", unitKm: "کلومیٹر" }, sidebar: { settings: "سیٹنگز", map: "نقشہ", voice: "آواز", bluetooth: "بلوٹوتھ", car: "کار" }, topbar: { searchLocked: "تلاش (ریورس میں لاک)", searchBar: "تلاش بار", gearShortcutTip: "ٹپ: گیئر بدلنے کیلئے Ctrl+P / Ctrl+N / Ctrl+D" }, map: { enterDestination: "منزل درج کریں", routingTo: "روٹ: {{destination}}", nearbyStations: "قریب چارجنگ اسٹیشن", navigateToStation: "{{station}} تک نیویگیٹ", endNavigation: "نیویگیشن ختم", navigation: "نیویگیشن", tapToEnlarge: "بڑا کرنے کیلئے ٹیپ", openFullMap: "مکمل نقشہ کھولیں", searchDestination: "منزل تلاش کریں", geoUnavailable: "GPS دستیاب نہیں۔ اجازت تک ڈیمو لوکیشن استعمال ہوگی۔", homeShortcut: "گھر", navigateHome: "گھر جائیں" }, voice: { listening: "سن رہا ہے…", sayCommand: "کمانڈ بولیں…", notSupported: "اس براؤزر میں وائس ریکگنیشن دستیاب نہیں۔", tapToStart: "شروع کرنے کیلئے ٹیپ کریں" }, search: { voiceSearch: "وائس سرچ", stop: "روکیں" }, bluetooth: { title: "بلوٹوتھ", deviceName: "ڈیوائس نام", pairedDevice: "پیئرڈ ڈیوائس", availableDevices: "دستیاب ڈیوائسز", unpairedShort: "غیر پیئرڈ · کوئی ڈیوائس نہیں", unpair: "ان پیئر" }, brightness: { auto: "آٹو", manual: "مینول", decrease: "چمک کم کریں", increase: "چمک بڑھائیں", toggle: "آٹو/مینول بدلیں", autoToManual: "آٹو - مینول کیلئے ٹیپ", manualToAuto: "مینول - آٹو کیلئے ٹیپ" }, climate: { decrease: "درجہ حرارت کم کریں", increase: "درجہ حرارت بڑھائیں", ac: "A/C", ventDown: "نیچے", ventMiddle: "درمیان", ventUp: "اوپر" }, status: { nearbyCharging: "قریب چارجنگ اسٹیشن", left: "باقی", traveled: "سفر", back: "واپس" }, traffic: { tooClose: "بہت قریب - محفوظ فاصلہ رکھیں", warning: "انتباہ", closeWarning: "انتباہ کم کریں", live: "لائیو", view360: "360° ویو", fullscreenHint: "اسمارٹ ٹریفک - گھسیٹیں (360°)" }, notFound: { title: "صفحہ نہیں ملا", goHome: "ہوم" }, reverse: { topView: "اوپر سے منظر", reverseCam: "ریورس کیم", cameraUnavailable: "کیمرا دستیاب نہیں", allowCamera: "کیمرا اجازت دیں" }, media: { progress: "پیش رفت", repeatOne: "دہرائیں", previousTrack: "پچھلا", playPause: "چلائیں/روکیں", nextTrack: "اگلا", shuffle: "شفّل", volume: "والیوم", collapse: "سمیٹیں", expandPanel: "پھیلائیں" }, leaflet: { zoomIn: "زوم اِن", zoomOut: "زوم آؤٹ" }, nearby: { refresh: "ریفریش", closePanel: "بند" } } },
-  fil: { translation: { common: { language: "Wika ng display", phoneAutoConnect: "Awtomatikong koneksyon ng phone", customization: "Pag-customize", changeFontSize: "Baguhin ang laki ng font", changeThemeColour: "Baguhin ang kulay ng tema", linked: "Nakakonekta: {{name}}", unpaired: "Hindi nakakonekta · i-scan ang QR", unlinkPhone: "I-unlink", themeLight: "Maliwanag", themeDark: "Madilim", themePurple: "Lila", close: "Isara", search: "Hanapin", selectDisplayLanguage: "Piliin ang wika", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Double-tap para sa Home", unitKm: "km" }, sidebar: { settings: "Mga Setting", map: "Mapa", voice: "Boses", bluetooth: "Bluetooth", car: "Sasakyan" }, topbar: { searchLocked: "Search (naka-lock habang reverse)", searchBar: "Search Bar", gearShortcutTip: "Tip: Ctrl+P / Ctrl+N / Ctrl+D para magpalit ng gear" }, map: { enterDestination: "Ilagay ang destinasyon", routingTo: "Ruta papunta: {{destination}}", nearbyStations: "Malalapit na charging station", navigateToStation: "Mag-navigate sa {{station}}", endNavigation: "Tapusin ang navigation", navigation: "Navigation", tapToEnlarge: "I-tap para palakihin", openFullMap: "Buksan ang full map", searchDestination: "Hanapin ang destinasyon", geoUnavailable: "Walang GPS. Gagamit ng demo location hanggang payagan ang location.", homeShortcut: "Bahay", navigateHome: "Umuwi" }, voice: { listening: "Nakikinig…", sayCommand: "Magsabi ng utos…", notSupported: "Hindi supported ang voice recognition sa browser na ito.", tapToStart: "I-tap para magsimulang makinig" }, search: { voiceSearch: "Voice search", stop: "Ihinto" }, bluetooth: { title: "Bluetooth", deviceName: "Pangalan ng device", pairedDevice: "Nakapares na device", availableDevices: "Available na device", unpairedShort: "Hindi nakapares · walang device", unpair: "I-unpair" }, brightness: { auto: "Auto", manual: "Manual", decrease: "Bawasan ang liwanag", increase: "Dagdagan ang liwanag", toggle: "Palit auto/manual", autoToManual: "Auto - tap para Manual", manualToAuto: "Manual - tap para Auto" }, climate: { decrease: "Bawasan ang temperatura", increase: "Dagdagan ang temperatura", ac: "A/C", ventDown: "Baba", ventMiddle: "Gitna", ventUp: "Taas" }, status: { nearbyCharging: "MALAPIT NA CHARGING STATION", left: "Natitira", traveled: "Nalakbay", back: "Bumalik" }, traffic: { tooClose: "MASYADONG MALAPIT - MAGING LIGTAS", warning: "BABALA", closeWarning: "I-minimize", live: "LIVE", view360: "360° View", fullscreenHint: "Smart traffic - i-drag (360°)" }, notFound: { title: "Hindi makita ang pahina", goHome: "Home" }, reverse: { topView: "TOP VIEW", reverseCam: "REVERSE CAM", cameraUnavailable: "Walang camera", allowCamera: "Payagan ang camera" }, media: { progress: "Progress", repeatOne: "Ulitin", previousTrack: "Nakaraan", playPause: "Play/Pause", nextTrack: "Susunod", shuffle: "Shuffle", volume: "Volume", collapse: "I-collapse", expandPanel: "I-expand" }, leaflet: { zoomIn: "Zoom in", zoomOut: "Zoom out" }, nearby: { refresh: "Refresh", closePanel: "Isara" } } },
+  de: { translation: { common: { language: "Anzeigesprache", phoneAutoConnect: "Telefon automatisch verbinden", customization: "Anpassung", changeFontSize: "Schriftgröße ändern", changeThemeColour: "Themenfarbe ändern", linked: "Verbunden: {{name}}", unpaired: "Nicht verbunden · QR scannen", unlinkPhone: "Verbindung trennen", themeLight: "Hell", themeDark: "Dunkel", themePurple: "Lila", close: "Schließen", search: "Suchen", selectDisplayLanguage: "Anzeigesprache wählen", home: "Start", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Doppeltippen für Start", unitKm: "km" }, sidebar: { settings: "Einstellungen", map: "Karte", voice: "Sprache", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Suche (beim Rückwärtsfahren gesperrt)", searchBar: "Suchleiste", gearShortcutTip: "Tipp: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D wechselt Gang" }, map: { enterDestination: "Ziel eingeben", routingTo: "Route zu: {{destination}}", nearbyStations: "Nahe Ladestationen", navigateToStation: "Navigiere zu {{station}}", endNavigation: "Navigation beenden", navigation: "Navigation", tapToEnlarge: "Tippen zum Vergrößern", openFullMap: "Vollkarte öffnen", searchDestination: "Ziel suchen", geoUnavailable: "GPS nicht verfügbar. Demo-Standort bis Standortzugriff erlaubt ist.", homeShortcut: "Zuhause", navigateHome: "Nach Hause navigieren" }, voice: { listening: "Höre zu…", sayCommand: "Sag einen Befehl…", notSupported: "Spracherkennung wird in diesem Browser nicht unterstützt.", tapToStart: "Tippen, um zuzuhören" }, search: { voiceSearch: "Sprachsuche", stop: "Stopp" }, bluetooth: { title: "Bluetooth", deviceName: "Gerätename", pairedDevice: "Gekoppelt", availableDevices: "Verfügbare Geräte", unpairedShort: "Nicht gekoppelt · kein Gerät", unpair: "Entkoppeln" }, brightness: { auto: "Auto", manual: "Manuell", decrease: "Helligkeit verringern", increase: "Helligkeit erhöhen", toggle: "Auto/Manuell umschalten", autoToManual: "Auto - tippen für Manuell", manualToAuto: "Manuell - tippen für Auto" }, climate: { decrease: "Temperatur senken", increase: "Temperatur erhöhen", ac: "A/C", ventDown: "Unten", ventMiddle: "Mitte", ventUp: "Oben" }, status: { nearbyCharging: "NAHE LADESTATION", left: "Rest", traveled: "Gefahren", back: "Zurück" }, traffic: { tooClose: "ZU NAH - ABSTAND HALTEN", warning: "WARNUNG", closeWarning: "Warnung minimieren", live: "LIVE", view360: "360° Ansicht", fullscreenHint: "Smart Traffic - ziehen (360°)" }, notFound: { title: "Seite nicht gefunden", goHome: "Start" }, reverse: { topView: "OBENANSICHT", reverseCam: "RÜCKFAHRKAMERA", cameraUnavailable: "Kamera nicht verfügbar", allowCamera: "Kamerazugriff erlauben" }, media: { progress: "Fortschritt", repeatOne: "Wiederholen", previousTrack: "Zurück", playPause: "Play/Pause", nextTrack: "Weiter", shuffle: "Zufall", volume: "Lautstärke", collapse: "Einklappen", expandPanel: "Ausklappen" }, leaflet: { zoomIn: "Zoomen +", zoomOut: "Zoomen −" }, nearby: { refresh: "Aktualisieren", closePanel: "Schließen" } } },
+  fr: { translation: { common: { language: "Langue d’affichage", phoneAutoConnect: "Connexion auto du téléphone", customization: "Personnalisation", changeFontSize: "Changer la taille du texte", changeThemeColour: "Changer la couleur du thème", linked: "Connecté : {{name}}", unpaired: "Non connecté · scannez le QR", unlinkPhone: "Dissocier", themeLight: "Clair", themeDark: "Sombre", themePurple: "Violet", close: "Fermer", search: "Rechercher", selectDisplayLanguage: "Choisir la langue", home: "Accueil", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Double-tap pour accueil", unitKm: "km" }, sidebar: { settings: "Réglages", map: "Carte", voice: "Voix", bluetooth: "Bluetooth", car: "Voiture" }, topbar: { searchLocked: "Recherche (verrouillée en marche arrière)", searchBar: "Barre de recherche", gearShortcutTip: "Astuce : Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D pour changer de vitesse" }, map: { enterDestination: "Entrer la destination", routingTo: "Itinéraire vers : {{destination}}", nearbyStations: "Bornes proches", navigateToStation: "Naviguer vers {{station}}", endNavigation: "Fin de navigation", navigation: "Navigation", tapToEnlarge: "Touchez pour agrandir", openFullMap: "Ouvrir la carte complète", searchDestination: "Rechercher une destination", geoUnavailable: "GPS indisponible. Utilise une position démo jusqu’à autorisation.", homeShortcut: "Maison", navigateHome: "Rentrer à la maison" }, voice: { listening: "Écoute…", sayCommand: "Dites une commande…", notSupported: "La reconnaissance vocale n’est pas prise en charge dans ce navigateur.", tapToStart: "Touchez pour commencer l’écoute" }, search: { voiceSearch: "Recherche vocale", stop: "Arrêter" }, bluetooth: { title: "Bluetooth", deviceName: "Nom de l’appareil", pairedDevice: "Appareil associé", availableDevices: "Appareils disponibles", unpairedShort: "Non associé · aucun appareil", unpair: "Dissocier" }, brightness: { auto: "Auto", manual: "Manuel", decrease: "Baisser la luminosité", increase: "Augmenter la luminosité", toggle: "Basculer auto/manuel", autoToManual: "Auto - toucher pour Manuel", manualToAuto: "Manuel - toucher pour Auto" }, climate: { decrease: "Baisser la température", increase: "Monter la température", ac: "A/C", ventDown: "Bas", ventMiddle: "Milieu", ventUp: "Haut" }, status: { nearbyCharging: "BORNE DE CHARGE PROCHE", left: "Restant", traveled: "Parcouru", back: "Retour" }, traffic: { tooClose: "TROP PRÈS - GARDEZ UNE DISTANCE", warning: "ALERTE", closeWarning: "Réduire l’alerte", live: "EN DIRECT", view360: "Vue 360°", fullscreenHint: "Trafic intelligent - glissez (360°)" }, notFound: { title: "Page introuvable", goHome: "Accueil" }, reverse: { topView: "VUE DU DESSUS", reverseCam: "CAMÉRA DE RECUL", cameraUnavailable: "Caméra indisponible", allowCamera: "Autoriser la caméra" }, media: { progress: "Progression", repeatOne: "Répéter", previousTrack: "Précédent", playPause: "Lecture/Pause", nextTrack: "Suivant", shuffle: "Aléatoire", volume: "Volume", collapse: "Réduire", expandPanel: "Agrandir" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Rafraîchir", closePanel: "Fermer" } } },
+  it: { translation: { common: { language: "Lingua di visualizzazione", phoneAutoConnect: "Connessione automatica telefono", customization: "Personalizzazione", changeFontSize: "Cambia dimensione font", changeThemeColour: "Cambia colore tema", linked: "Collegato: {{name}}", unpaired: "Non collegato · scansiona QR", unlinkPhone: "Scollega", themeLight: "Chiaro", themeDark: "Scuro", themePurple: "Viola", close: "Chiudi", search: "Cerca", selectDisplayLanguage: "Seleziona lingua", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Doppio tap per Home", unitKm: "km" }, sidebar: { settings: "Impostazioni", map: "Mappa", voice: "Voce", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Cerca (bloccato in retromarcia)", searchBar: "Barra di ricerca", gearShortcutTip: "Suggerimento: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D per cambiare marcia" }, map: { enterDestination: "Inserisci destinazione", routingTo: "Percorso per: {{destination}}", nearbyStations: "Stazioni di ricarica vicine", navigateToStation: "Naviga verso {{station}}", endNavigation: "Termina navigazione", navigation: "Navigazione", tapToEnlarge: "Tocca per ingrandire", openFullMap: "Apri mappa completa", searchDestination: "Cerca destinazione", geoUnavailable: "GPS non disponibile. Usa posizione demo finché non autorizzi.", homeShortcut: "Casa", navigateHome: "Naviga a casa" }, voice: { listening: "In ascolto…", sayCommand: "Di’ un comando…", notSupported: "Il riconoscimento vocale non è supportato in questo browser.", tapToStart: "Tocca per iniziare ad ascoltare" }, search: { voiceSearch: "Ricerca vocale", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Nome dispositivo", pairedDevice: "Dispositivo associato", availableDevices: "Dispositivi disponibili", unpairedShort: "Non associato · nessun dispositivo", unpair: "Disassocia" }, brightness: { auto: "Auto", manual: "Manuale", decrease: "Diminuisci luminosità", increase: "Aumenta luminosità", toggle: "Alterna auto/manuale", autoToManual: "Auto - tocca per Manuale", manualToAuto: "Manuale - tocca per Auto" }, climate: { decrease: "Abbassa temperatura", increase: "Alza temperatura", ac: "A/C", ventDown: "Giù", ventMiddle: "Centro", ventUp: "Su" }, status: { nearbyCharging: "STAZIONE DI RICARICA VICINA", left: "Rimanente", traveled: "Percorso", back: "Indietro" }, traffic: { tooClose: "TROPPO VICINO - MANTIENI DISTANZA", warning: "AVVISO", closeWarning: "Riduci avviso", live: "LIVE", view360: "Vista 360°", fullscreenHint: "Traffico smart - trascina (360°)" }, notFound: { title: "Pagina non trovata", goHome: "Home" }, reverse: { topView: "VISTA DALL’ALTO", reverseCam: "CAMERA RETROMARCIA", cameraUnavailable: "Camera non disponibile", allowCamera: "Consenti accesso camera" }, media: { progress: "Avanzamento", repeatOne: "Ripeti", previousTrack: "Precedente", playPause: "Play/Pausa", nextTrack: "Successivo", shuffle: "Casuale", volume: "Volume", collapse: "Comprimi", expandPanel: "Espandi" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Aggiorna", closePanel: "Chiudi" } } },
+  pt: { translation: { common: { language: "Idioma de exibição", phoneAutoConnect: "Conexão automática do telefone", customization: "Personalização", changeFontSize: "Alterar tamanho da fonte", changeThemeColour: "Alterar cor do tema", linked: "Vinculado: {{name}}", unpaired: "Sem vínculo · escaneie QR", unlinkPhone: "Desvincular", themeLight: "Claro", themeDark: "Escuro", themePurple: "Roxo", close: "Fechar", search: "Buscar", selectDisplayLanguage: "Selecionar idioma", home: "Início", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Toque duplo para início", unitKm: "km" }, sidebar: { settings: "Configurações", map: "Mapa", voice: "Voz", bluetooth: "Bluetooth", car: "Carro" }, topbar: { searchLocked: "Busca (bloqueada ao dar ré)", searchBar: "Barra de busca", gearShortcutTip: "Dica: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para mudar marcha" }, map: { enterDestination: "Digite o destino", routingTo: "Rota para: {{destination}}", nearbyStations: "Estações de recarga próximas", navigateToStation: "Navegar para {{station}}", endNavigation: "Encerrar navegação", navigation: "Navegação", tapToEnlarge: "Toque para ampliar", openFullMap: "Abrir mapa completo", searchDestination: "Buscar destino", geoUnavailable: "GPS indisponível. Usando local demo até permitir localização.", homeShortcut: "Casa", navigateHome: "Navegar para casa" }, voice: { listening: "Ouvindo…", sayCommand: "Diga um comando…", notSupported: "O reconhecimento de voz não é compatível com este navegador.", tapToStart: "Toque para começar a ouvir" }, search: { voiceSearch: "Busca por voz", stop: "Parar" }, bluetooth: { title: "Bluetooth", deviceName: "Nome do dispositivo", pairedDevice: "Dispositivo pareado", availableDevices: "Dispositivos disponíveis", unpairedShort: "Sem pareamento · sem dispositivo", unpair: "Desparear" }, brightness: { auto: "Auto", manual: "Manual", decrease: "Diminuir brilho", increase: "Aumentar brilho", toggle: "Alternar auto/manual", autoToManual: "Auto - toque para Manual", manualToAuto: "Manual - toque para Auto" }, climate: { decrease: "Diminuir temperatura", increase: "Aumentar temperatura", ac: "A/C", ventDown: "Baixo", ventMiddle: "Meio", ventUp: "Cima" }, status: { nearbyCharging: "ESTAÇÃO DE CARGA PRÓXIMA", left: "Restante", traveled: "Percorrido", back: "Voltar" }, traffic: { tooClose: "MUITO PERTO - MANTENHA DISTÂNCIA", warning: "AVISO", closeWarning: "Minimizar aviso", live: "AO VIVO", view360: "Visão 360°", fullscreenHint: "Tráfego inteligente - arraste (360°)" }, notFound: { title: "Página não encontrada", goHome: "Início" }, reverse: { topView: "VISTA SUPERIOR", reverseCam: "CÂMERA DE RÉ", cameraUnavailable: "Câmera indisponível", allowCamera: "Permita a câmera para usar a ré" }, media: { progress: "Progresso", repeatOne: "Repetir", previousTrack: "Anterior", playPause: "Play/Pausa", nextTrack: "Próxima", shuffle: "Aleatório", volume: "Volume", collapse: "Recolher", expandPanel: "Expandir" }, leaflet: { zoomIn: "Zoom +", zoomOut: "Zoom −" }, nearby: { refresh: "Atualizar", closePanel: "Fechar" } } },
+  tr: { translation: { common: { language: "Görüntü dili", phoneAutoConnect: "Telefon otomatik bağlan", customization: "Kişiselleştirme", changeFontSize: "Yazı boyutunu değiştir", changeThemeColour: "Tema rengini değiştir", linked: "Bağlı: {{name}}", unpaired: "Eşleşmedi · QR tara", unlinkPhone: "Bağlantıyı kaldır", themeLight: "Açık", themeDark: "Koyu", themePurple: "Mor", close: "Kapat", search: "Ara", selectDisplayLanguage: "Görüntü dilini seç", home: "Ana sayfa", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Ana sayfaya dönmek için çift dokun", unitKm: "km" }, sidebar: { settings: "Ayarlar", map: "Harita", voice: "Ses", bluetooth: "Bluetooth", car: "Araç" }, topbar: { searchLocked: "Arama (geri viteste kilitli)", searchBar: "Arama çubuğu", gearShortcutTip: "İpucu: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D ile vites değiştir" }, map: { enterDestination: "Hedef girin", routingTo: "Rota: {{destination}}", nearbyStations: "Yakındaki şarj istasyonları", navigateToStation: "{{station}} konumuna git", endNavigation: "Navigasyonu bitir", navigation: "Navigasyon", tapToEnlarge: "Büyütmek için dokun", openFullMap: "Tam haritayı aç", searchDestination: "Hedef ara", geoUnavailable: "GPS yok. Konum izni verilene kadar demo konum kullanılır.", homeShortcut: "Ev", navigateHome: "Eve git" }, voice: { listening: "Dinleniyor…", sayCommand: "Komut söyle…", notSupported: "Bu tarayıcı ses tanımayı desteklemiyor.", tapToStart: "Dinlemeyi başlatmak için dokun" }, search: { voiceSearch: "Sesli arama", stop: "Durdur" }, bluetooth: { title: "Bluetooth", deviceName: "Cihaz adı", pairedDevice: "Eşleşen cihaz", availableDevices: "Mevcut cihazlar", unpairedShort: "Eşleşmedi · cihaz yok", unpair: "Eşleşmeyi kaldır" }, brightness: { auto: "Oto", manual: "Manuel", decrease: "Parlaklığı azalt", increase: "Parlaklığı artır", toggle: "Oto/Manuel değiştir", autoToManual: "Oto - Manuel için dokun", manualToAuto: "Manuel - Oto için dokun" }, climate: { decrease: "Sıcaklığı düşür", increase: "Sıcaklığı artır", ac: "A/C", ventDown: "Aşağı", ventMiddle: "Orta", ventUp: "Yukarı" }, status: { nearbyCharging: "YAKIN ŞARJ İSTASYONU", left: "Kalan", traveled: "Gidilen", back: "Geri" }, traffic: { tooClose: "ÇOK YAKIN - GÜVENLİ MESAFE", warning: "UYARI", closeWarning: "Uyarıyı küçült", live: "CANLI", view360: "360° Görünüm", fullscreenHint: "Akıllı trafik - sürükle (360°)" }, notFound: { title: "Sayfa bulunamadı", goHome: "Ana sayfa" }, reverse: { topView: "ÜST GÖRÜNÜM", reverseCam: "GERİ KAMERA", cameraUnavailable: "Kamera yok", allowCamera: "Geri görüş için kameraya izin verin" }, media: { progress: "İlerleme", repeatOne: "Tekrar", previousTrack: "Önceki", playPause: "Oynat/Duraklat", nextTrack: "Sonraki", shuffle: "Karıştır", volume: "Ses", collapse: "Daralt", expandPanel: "Genişlet" }, leaflet: { zoomIn: "Yakınlaştır", zoomOut: "Uzaklaştır" }, nearby: { refresh: "Yenile", closePanel: "Kapat" } } },
+  nl: { translation: { common: { language: "Weergavetaal", phoneAutoConnect: "Telefoon automatisch verbinden", customization: "Aanpassing", changeFontSize: "Lettergrootte wijzigen", changeThemeColour: "Themakleur wijzigen", linked: "Gekoppeld: {{name}}", unpaired: "Niet gekoppeld · scan QR", unlinkPhone: "Ontkoppelen", themeLight: "Licht", themeDark: "Donker", themePurple: "Paars", close: "Sluiten", search: "Zoeken", selectDisplayLanguage: "Weergavetaal kiezen", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dubbeltik voor Home", unitKm: "km" }, sidebar: { settings: "Instellingen", map: "Kaart", voice: "Spraak", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Zoeken (vergrendeld bij achteruit)", searchBar: "Zoekbalk", gearShortcutTip: "Tip: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D om versnelling te wijzigen" }, map: { enterDestination: "Bestemming invoeren", routingTo: "Route naar: {{destination}}", nearbyStations: "Dichtbij laadstations", navigateToStation: "Navigeer naar {{station}}", endNavigation: "Navigatie stoppen", navigation: "Navigatie", tapToEnlarge: "Tik om te vergroten", openFullMap: "Volledige kaart openen", searchDestination: "Bestemming zoeken", geoUnavailable: "GPS niet beschikbaar. Demo-locatie tot toestemming.", homeShortcut: "Thuis", navigateHome: "Naar huis" }, voice: { listening: "Luistert…", sayCommand: "Zeg een opdracht…", notSupported: "Spraakherkenning wordt niet ondersteund in deze browser.", tapToStart: "Tik om te luisteren" }, search: { voiceSearch: "Spraak zoeken", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Apparaatnaam", pairedDevice: "Gekoppeld apparaat", availableDevices: "Beschikbare apparaten", unpairedShort: "Niet gekoppeld · geen apparaat", unpair: "Ontkoppelen" }, brightness: { auto: "Auto", manual: "Handmatig", decrease: "Helderheid omlaag", increase: "Helderheid omhoog", toggle: "Auto/handmatig wisselen", autoToManual: "Auto - tik voor handmatig", manualToAuto: "Handmatig - tik voor auto" }, climate: { decrease: "Temperatuur omlaag", increase: "Temperatuur omhoog", ac: "A/C", ventDown: "Beneden", ventMiddle: "Midden", ventUp: "Boven" }, status: { nearbyCharging: "LAADSTATION IN DE BUURT", left: "Resterend", traveled: "Afgelegd", back: "Terug" }, traffic: { tooClose: "TE DICHTBIJ - HOUD AFSTAND", warning: "WAARSCHUWING", closeWarning: "Minimaliseren", live: "LIVE", view360: "360° weergave", fullscreenHint: "Slim verkeer - sleep (360°)" }, notFound: { title: "Pagina niet gevonden", goHome: "Home" }, reverse: { topView: "BOVENaanzicht", reverseCam: "ACHTERUITCAMERA", cameraUnavailable: "Camera niet beschikbaar", allowCamera: "Sta camera toe" }, media: { progress: "Voortgang", repeatOne: "Herhalen", previousTrack: "Vorige", playPause: "Play/Pauze", nextTrack: "Volgende", shuffle: "Shuffle", volume: "Volume", collapse: "Inklappen", expandPanel: "Uitklappen" }, leaflet: { zoomIn: "Inzoomen", zoomOut: "Uitzoomen" }, nearby: { refresh: "Vernieuwen", closePanel: "Sluiten" } } },
+  sv: { translation: { common: { language: "Visningsspråk", phoneAutoConnect: "Telefon autoanslutning", customization: "Anpassning", changeFontSize: "Ändra teckenstorlek", changeThemeColour: "Ändra temafärg", linked: "Ansluten: {{name}}", unpaired: "Ej ansluten · skanna QR", unlinkPhone: "Koppla från", themeLight: "Ljus", themeDark: "Mörk", themePurple: "Lila", close: "Stäng", search: "Sök", selectDisplayLanguage: "Välj visningsspråk", home: "Hem", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dubbeltryck för Hem", unitKm: "km" }, sidebar: { settings: "Inställningar", map: "Karta", voice: "Röst", bluetooth: "Bluetooth", car: "Bil" }, topbar: { searchLocked: "Sök (låst vid backning)", searchBar: "Sökfält", gearShortcutTip: "Tips: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D för växel" }, map: { enterDestination: "Ange destination", routingTo: "Rutt till: {{destination}}", nearbyStations: "Närliggande laddstationer", navigateToStation: "Navigera till {{station}}", endNavigation: "Avsluta navigering", navigation: "Navigering", tapToEnlarge: "Tryck för att förstora", openFullMap: "Öppna helkarta", searchDestination: "Sök destination", geoUnavailable: "GPS ej tillgängligt. Demo-position tills plats tillåts.", homeShortcut: "Hem", navigateHome: "Navigera hem" }, voice: { listening: "Lyssnar…", sayCommand: "Säg ett kommando…", notSupported: "Röstigenkänning stöds inte i den här webbläsaren.", tapToStart: "Tryck för att börja lyssna" }, search: { voiceSearch: "Röstsök", stop: "Stoppa" }, bluetooth: { title: "Bluetooth", deviceName: "Enhetsnamn", pairedDevice: "Parat", availableDevices: "Tillgängliga enheter", unpairedShort: "Ej parat · ingen enhet", unpair: "Avpara" }, brightness: { auto: "Auto", manual: "Manuell", decrease: "Minska ljusstyrka", increase: "Öka ljusstyrka", toggle: "Växla auto/manuell", autoToManual: "Auto - tryck för Manuell", manualToAuto: "Manuell - tryck för Auto" }, climate: { decrease: "Sänk temperatur", increase: "Höj temperatur", ac: "A/C", ventDown: "Ner", ventMiddle: "Mitten", ventUp: "Upp" }, status: { nearbyCharging: "NÄRLIGGANDE LADDSTATION", left: "Kvar", traveled: "Kört", back: "Tillbaka" }, traffic: { tooClose: "FÖR NÄRA - HÅLL AVSTÅND", warning: "VARNING", closeWarning: "Minimera varning", live: "LIVE", view360: "360° vy", fullscreenHint: "Smart trafik - dra (360°)" }, notFound: { title: "Sidan hittades inte", goHome: "Hem" }, reverse: { topView: "TOPPVY", reverseCam: "BACKKAMERA", cameraUnavailable: "Kamera ej tillgänglig", allowCamera: "Tillåt kamera" }, media: { progress: "Förlopp", repeatOne: "Upprepa", previousTrack: "Föregående", playPause: "Spela/Paus", nextTrack: "Nästa", shuffle: "Blanda", volume: "Volym", collapse: "Fäll ihop", expandPanel: "Fäll ut" }, leaflet: { zoomIn: "Zooma in", zoomOut: "Zooma ut" }, nearby: { refresh: "Uppdatera", closePanel: "Stäng" } } },
+  pl: { translation: { common: { language: "Język wyświetlania", phoneAutoConnect: "Automatyczne łączenie telefonu", customization: "Personalizacja", changeFontSize: "Zmień rozmiar czcionki", changeThemeColour: "Zmień kolor motywu", linked: "Połączono: {{name}}", unpaired: "Niepołączono · zeskanuj QR", unlinkPhone: "Odłącz", themeLight: "Jasny", themeDark: "Ciemny", themePurple: "Fioletowy", close: "Zamknij", search: "Szukaj", selectDisplayLanguage: "Wybierz język", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Dwuklik aby wrócić", unitKm: "km" }, sidebar: { settings: "Ustawienia", map: "Mapa", voice: "Głos", bluetooth: "Bluetooth", car: "Auto" }, topbar: { searchLocked: "Szukaj (zablokowane podczas cofania)", searchBar: "Pasek wyszukiwania", gearShortcutTip: "Wskazówka: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D zmienia bieg" }, map: { enterDestination: "Wpisz cel", routingTo: "Trasa do: {{destination}}", nearbyStations: "Pobliskie stacje ładowania", navigateToStation: "Nawiguj do {{station}}", endNavigation: "Zakończ nawigację", navigation: "Nawigacja", tapToEnlarge: "Dotknij aby powiększyć", openFullMap: "Otwórz pełną mapę", searchDestination: "Szukaj celu", geoUnavailable: "GPS niedostępny. Używamy lokalizacji demo do czasu zezwolenia.", homeShortcut: "Dom", navigateHome: "Nawiguj do domu" }, voice: { listening: "Słucham…", sayCommand: "Powiedz komendę…", notSupported: "Rozpoznawanie mowy nie jest wspierane w tej przeglądarce.", tapToStart: "Dotknij, aby zacząć słuchać" }, search: { voiceSearch: "Wyszukiwanie głosowe", stop: "Stop" }, bluetooth: { title: "Bluetooth", deviceName: "Nazwa urządzenia", pairedDevice: "Sparowane urządzenie", availableDevices: "Dostępne urządzenia", unpairedShort: "Brak pary · brak urządzenia", unpair: "Rozparuj" }, brightness: { auto: "Auto", manual: "Ręcznie", decrease: "Zmniejsz jasność", increase: "Zwiększ jasność", toggle: "Przełącz auto/ręcznie", autoToManual: "Auto - dotknij na Ręcznie", manualToAuto: "Ręcznie - dotknij na Auto" }, climate: { decrease: "Obniż temperaturę", increase: "Podnieś temperaturę", ac: "A/C", ventDown: "Dół", ventMiddle: "Środek", ventUp: "Góra" }, status: { nearbyCharging: "POBLISKA STACJA ŁADOWANIA", left: "Pozostało", traveled: "Przejechano", back: "Wstecz" }, traffic: { tooClose: "ZA BLISKO - ZACHOWAJ ODSTĘP", warning: "OSTRZEŻENIE", closeWarning: "Minimalizuj", live: "NA ŻYWO", view360: "Widok 360°", fullscreenHint: "Smart traffic - przeciągnij (360°)" }, notFound: { title: "Nie znaleziono strony", goHome: "Strona główna" }, reverse: { topView: "WIDOK Z GÓRY", reverseCam: "KAMERA COFANIA", cameraUnavailable: "Kamera niedostępna", allowCamera: "Zezwól na kamerę" }, media: { progress: "Postęp", repeatOne: "Powtarzaj", previousTrack: "Poprzedni", playPause: "Odtwórz/Pauza", nextTrack: "Następny", shuffle: "Losowo", volume: "Głośność", collapse: "Zwiń", expandPanel: "Rozwiń" }, leaflet: { zoomIn: "Powiększ", zoomOut: "Pomniejsz" }, nearby: { refresh: "Odśwież", closePanel: "Zamknij" } } },
+  uk: { translation: { common: { language: "Мова інтерфейсу", phoneAutoConnect: "Автопідключення телефону", customization: "Налаштування", changeFontSize: "Змінити розмір шрифту", changeThemeColour: "Змінити тему", linked: "Підключено: {{name}}", unpaired: "Не підключено · скануйте QR", unlinkPhone: "Від’єднати", themeLight: "Світла", themeDark: "Темна", themePurple: "Фіолетова", close: "Закрити", search: "Пошук", selectDisplayLanguage: "Вибрати мову", home: "Додому", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Подвійний тап — додому", unitKm: "км" }, sidebar: { settings: "Налаштування", map: "Карта", voice: "Голос", bluetooth: "Bluetooth", car: "Авто" }, topbar: { searchLocked: "Пошук (заблоковано під час заднього ходу)", searchBar: "Пошук", gearShortcutTip: "Порада: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — зміна передачі" }, map: { enterDestination: "Введіть пункт призначення", routingTo: "Маршрут: {{destination}}", nearbyStations: "Поруч зарядні станції", navigateToStation: "Навігація до {{station}}", endNavigation: "Завершити навігацію", navigation: "Навігація", tapToEnlarge: "Натисніть для збільшення", openFullMap: "Відкрити повну карту", searchDestination: "Пошук пункту", geoUnavailable: "GPS недоступний. Використовується демо-локація до дозволу.", homeShortcut: "Дім", navigateHome: "Додому" }, voice: { listening: "Слухаю…", sayCommand: "Скажіть команду…", notSupported: "Розпізнавання мовлення не підтримується у цьому браузері.", tapToStart: "Натисніть, щоб почати слухати" }, search: { voiceSearch: "Голосовий пошук", stop: "Стоп" }, bluetooth: { title: "Bluetooth", deviceName: "Назва пристрою", pairedDevice: "Підключений пристрій", availableDevices: "Доступні пристрої", unpairedShort: "Не підключено · немає пристрою", unpair: "Від’єднати" }, brightness: { auto: "Авто", manual: "Вручну", decrease: "Зменшити яскравість", increase: "Збільшити яскравість", toggle: "Авто/вручну", autoToManual: "Авто - натисніть для вручну", manualToAuto: "Вручну - натисніть для авто" }, climate: { decrease: "Знизити температуру", increase: "Підвищити температуру", ac: "A/C", ventDown: "Вниз", ventMiddle: "По центру", ventUp: "Вгору" }, status: { nearbyCharging: "ПОРУЧ ЗАРЯДКА", left: "Залишилось", traveled: "Проїхано", back: "Назад" }, traffic: { tooClose: "ЗАНАДТО БЛИЗЬКО - ТРИМАЙТЕ ДИСТАНЦІЮ", warning: "ПОПЕРЕДЖЕННЯ", closeWarning: "Згорнути", live: "LIVE", view360: "360°", fullscreenHint: "Розумний трафік — перетягуйте (360°)" }, notFound: { title: "Сторінку не знайдено", goHome: "Додому" }, reverse: { topView: "ВИД ЗВЕРХУ", reverseCam: "КАМЕРА ЗАДНЬОГО ХОДУ", cameraUnavailable: "Камера недоступна", allowCamera: "Дозвольте камеру" }, media: { progress: "Прогрес", repeatOne: "Повтор", previousTrack: "Попередня", playPause: "Пауза/Пуск", nextTrack: "Наступна", shuffle: "Випадково", volume: "Гучність", collapse: "Згорнути", expandPanel: "Розгорнути" }, leaflet: { zoomIn: "Збільшити", zoomOut: "Зменшити" }, nearby: { refresh: "Оновити", closePanel: "Закрити" } } },
+  fa: { translation: { common: { language: "زبان نمایش", phoneAutoConnect: "اتصال خودکار تلفن", customization: "شخصی‌سازی", changeFontSize: "تغییر اندازه فونت", changeThemeColour: "تغییر رنگ تم", linked: "متصل: {{name}}", unpaired: "متصل نیست · اسکن QR", unlinkPhone: "قطع اتصال", themeLight: "روشن", themeDark: "تیره", themePurple: "بنفش", close: "بستن", search: "جستجو", selectDisplayLanguage: "انتخاب زبان نمایش", home: "خانه", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "برای رفتن به خانه دوبار لمس کنید", unitKm: "km" }, sidebar: { settings: "تنظیمات", map: "نقشه", voice: "صدا", bluetooth: "بلوتوث", car: "خودرو" }, topbar: { searchLocked: "جستجو (در دنده عقب قفل است)", searchBar: "نوار جستجو", gearShortcutTip: "نکته: برای تغییر دنده Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D" }, map: { enterDestination: "مقصد را وارد کنید", routingTo: "مسیر به: {{destination}}", nearbyStations: "ایستگاه‌های شارژ نزدیک", navigateToStation: "مسیریابی به {{station}}", endNavigation: "پایان مسیریابی", navigation: "مسیریابی", tapToEnlarge: "برای بزرگ‌نمایی لمس کنید", openFullMap: "باز کردن نقشه کامل", searchDestination: "جستجوی مقصد", geoUnavailable: "GPS در دسترس نیست. تا اجازه موقعیت، مکان دمو استفاده می‌شود.", homeShortcut: "خانه", navigateHome: "مسیریابی به خانه" }, voice: { listening: "در حال گوش دادن…", sayCommand: "یک فرمان بگویید…", notSupported: "تشخیص صدا در این مرورگر پشتیبانی نمی‌شود.", tapToStart: "برای شروع لمس کنید" }, search: { voiceSearch: "جستجوی صوتی", stop: "توقف" }, bluetooth: { title: "بلوتوث", deviceName: "نام دستگاه", pairedDevice: "دستگاه جفت‌شده", availableDevices: "دستگاه‌های موجود", unpairedShort: "جفت نشده · دستگاهی نیست", unpair: "قطع جفت" }, brightness: { auto: "خودکار", manual: "دستی", decrease: "کاهش روشنایی", increase: "افزایش روشنایی", toggle: "تغییر خودکار/دستی", autoToManual: "خودکار - لمس برای دستی", manualToAuto: "دستی - لمس برای خودکار" }, climate: { decrease: "کاهش دما", increase: "افزایش دما", ac: "A/C", ventDown: "پایین", ventMiddle: "وسط", ventUp: "بالا" }, status: { nearbyCharging: "ایستگاه شارژ نزدیک", left: "باقی‌مانده", traveled: "پیموده", back: "بازگشت" }, traffic: { tooClose: "خیلی نزدیک - فاصله امن را حفظ کنید", warning: "هشدار", closeWarning: "کوچک کردن هشدار", live: "زنده", view360: "نمای 360°", fullscreenHint: "ترافیک هوشمند - برای دیدن اطراف بکشید (360°)" }, notFound: { title: "صفحه پیدا نشد", goHome: "خانه" }, reverse: { topView: "نمای بالا", reverseCam: "دوربین دنده عقب", cameraUnavailable: "دوربین در دسترس نیست", allowCamera: "اجازه دوربین را بدهید" }, media: { progress: "پیشرفت", repeatOne: "تکرار", previousTrack: "قبلی", playPause: "پخش/مکث", nextTrack: "بعدی", shuffle: "تصادفی", volume: "صدا", collapse: "جمع کردن", expandPanel: "باز کردن" }, leaflet: { zoomIn: "بزرگ‌نمایی", zoomOut: "کوچک‌نمایی" }, nearby: { refresh: "بازآوری", closePanel: "بستن" } } },
+  bn: { translation: { common: { language: "ডিসপ্লে ভাষা", phoneAutoConnect: "ফোন অটো-কানেক্ট", customization: "কাস্টমাইজেশন", changeFontSize: "ফন্ট সাইজ বদলান", changeThemeColour: "থিম রং বদলান", linked: "সংযুক্ত: {{name}}", unpaired: "অসংযুক্ত · QR স্ক্যান করুন", unlinkPhone: "আনলিঙ্ক", themeLight: "লাইট", themeDark: "ডার্ক", themePurple: "পার্পল", close: "বন্ধ", search: "সার্চ", selectDisplayLanguage: "ডিসপ্লে ভাষা নির্বাচন করুন", home: "হোম", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "হোমে যেতে ডাবল-ট্যাপ", unitKm: "কিমি" }, sidebar: { settings: "সেটিংস", map: "ম্যাপ", voice: "ভয়েস", bluetooth: "ব্লুটুথ", car: "কার" }, topbar: { searchLocked: "সার্চ (রিভার্সে লক)", searchBar: "সার্চ বার", gearShortcutTip: "টিপ: গিয়ার বদলাতে Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D" }, map: { enterDestination: "গন্তব্য লিখুন", routingTo: "রুট: {{destination}}", nearbyStations: "কাছের চার্জিং স্টেশন", navigateToStation: "{{station}} এ ন্যাভিগেট", endNavigation: "ন্যাভিগেশন শেষ", navigation: "ন্যাভিগেশন", tapToEnlarge: "বড় করতে ট্যাপ", openFullMap: "পূর্ণ ম্যাপ খুলুন", searchDestination: "গন্তব্য খুঁজুন", geoUnavailable: "GPS নেই। অনুমতি না দেওয়া পর্যন্ত ডেমো লোকেশন ব্যবহার হবে।", homeShortcut: "বাড়ি", navigateHome: "বাড়ি যান" }, voice: { listening: "শুনছে…", sayCommand: "একটি কমান্ড বলুন…", notSupported: "এই ব্রাউজারে ভয়েস রিকগনিশন সমর্থিত নয়।", tapToStart: "শুরু করতে ট্যাপ করুন" }, search: { voiceSearch: "ভয়েস সার্চ", stop: "থামুন" }, bluetooth: { title: "ব্লুটুথ", deviceName: "ডিভাইস নাম", pairedDevice: "পেয়ারড ডিভাইস", availableDevices: "উপলব্ধ ডিভাইস", unpairedShort: "অসংযুক্ত · ডিভাইস নেই", unpair: "আনপেয়ার" }, brightness: { auto: "অটো", manual: "ম্যানুয়াল", decrease: "উজ্জ্বলতা কমান", increase: "উজ্জ্বলতা বাড়ান", toggle: "অটো/ম্যানুয়াল বদলান", autoToManual: "অটো - ট্যাপ করে ম্যানুয়াল", manualToAuto: "ম্যানুয়াল - ট্যাপ করে অটো" }, climate: { decrease: "তাপমাত্রা কমান", increase: "তাপমাত্রা বাড়ান", ac: "A/C", ventDown: "নিচে", ventMiddle: "মাঝে", ventUp: "উপরে" }, status: { nearbyCharging: "কাছের চার্জিং স্টেশন", left: "বাকি", traveled: "ভ্রমণ", back: "পেছনে" }, traffic: { tooClose: "খুব কাছে - নিরাপদ দূরত্ব রাখুন", warning: "সতর্কতা", closeWarning: "সতর্কতা ছোট করুন", live: "লাইভ", view360: "360° ভিউ", fullscreenHint: "স্মার্ট ট্রাফিক - টেনে দেখুন (360°)" }, notFound: { title: "পৃষ্ঠা পাওয়া যায়নি", goHome: "হোম" }, reverse: { topView: "টপ ভিউ", reverseCam: "রিভার্স ক্যাম", cameraUnavailable: "ক্যামেরা নেই", allowCamera: "ক্যামেরা অনুমতি দিন" }, media: { progress: "অগ্রগতি", repeatOne: "রিপিট", previousTrack: "আগের", playPause: "প্লে/পজ", nextTrack: "পরের", shuffle: "শাফল", volume: "ভলিউম", collapse: "ভাঁজ", expandPanel: "বড়" }, leaflet: { zoomIn: "জুম ইন", zoomOut: "জুম আউট" }, nearby: { refresh: "রিফ্রেশ", closePanel: "বন্ধ" } } },
+  ur: { translation: { common: { language: "ڈسپلے زبان", phoneAutoConnect: "فون آٹو کنیکٹ", customization: "حسب ضرورت", changeFontSize: "فونٹ سائز تبدیل کریں", changeThemeColour: "تھیم رنگ تبدیل کریں", linked: "منسلک: {{name}}", unpaired: "غیر منسلک · QR اسکین کریں", unlinkPhone: "ان لنک", themeLight: "لائٹ", themeDark: "ڈارک", themePurple: "پرپل", close: "بند کریں", search: "تلاش", selectDisplayLanguage: "ڈسپلے زبان منتخب کریں", home: "ہوم", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "ہوم کیلئے ڈبل ٹیپ", unitKm: "کلومیٹر" }, sidebar: { settings: "سیٹنگز", map: "نقشہ", voice: "آواز", bluetooth: "بلوٹوتھ", car: "کار" }, topbar: { searchLocked: "تلاش (ریورس میں لاک)", searchBar: "تلاش بار", gearShortcutTip: "ٹپ: گیئر بدلنے کیلئے Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D" }, map: { enterDestination: "منزل درج کریں", routingTo: "روٹ: {{destination}}", nearbyStations: "قریب چارجنگ اسٹیشن", navigateToStation: "{{station}} تک نیویگیٹ", endNavigation: "نیویگیشن ختم", navigation: "نیویگیشن", tapToEnlarge: "بڑا کرنے کیلئے ٹیپ", openFullMap: "مکمل نقشہ کھولیں", searchDestination: "منزل تلاش کریں", geoUnavailable: "GPS دستیاب نہیں۔ اجازت تک ڈیمو لوکیشن استعمال ہوگی۔", homeShortcut: "گھر", navigateHome: "گھر جائیں" }, voice: { listening: "سن رہا ہے…", sayCommand: "کمانڈ بولیں…", notSupported: "اس براؤزر میں وائس ریکگنیشن دستیاب نہیں۔", tapToStart: "شروع کرنے کیلئے ٹیپ کریں" }, search: { voiceSearch: "وائس سرچ", stop: "روکیں" }, bluetooth: { title: "بلوٹوتھ", deviceName: "ڈیوائس نام", pairedDevice: "پیئرڈ ڈیوائس", availableDevices: "دستیاب ڈیوائسز", unpairedShort: "غیر پیئرڈ · کوئی ڈیوائس نہیں", unpair: "ان پیئر" }, brightness: { auto: "آٹو", manual: "مینول", decrease: "چمک کم کریں", increase: "چمک بڑھائیں", toggle: "آٹو/مینول بدلیں", autoToManual: "آٹو - مینول کیلئے ٹیپ", manualToAuto: "مینول - آٹو کیلئے ٹیپ" }, climate: { decrease: "درجہ حرارت کم کریں", increase: "درجہ حرارت بڑھائیں", ac: "A/C", ventDown: "نیچے", ventMiddle: "درمیان", ventUp: "اوپر" }, status: { nearbyCharging: "قریب چارجنگ اسٹیشن", left: "باقی", traveled: "سفر", back: "واپس" }, traffic: { tooClose: "بہت قریب - محفوظ فاصلہ رکھیں", warning: "انتباہ", closeWarning: "انتباہ کم کریں", live: "لائیو", view360: "360° ویو", fullscreenHint: "اسمارٹ ٹریفک - گھسیٹیں (360°)" }, notFound: { title: "صفحہ نہیں ملا", goHome: "ہوم" }, reverse: { topView: "اوپر سے منظر", reverseCam: "ریورس کیم", cameraUnavailable: "کیمرا دستیاب نہیں", allowCamera: "کیمرا اجازت دیں" }, media: { progress: "پیش رفت", repeatOne: "دہرائیں", previousTrack: "پچھلا", playPause: "چلائیں/روکیں", nextTrack: "اگلا", shuffle: "شفّل", volume: "والیوم", collapse: "سمیٹیں", expandPanel: "پھیلائیں" }, leaflet: { zoomIn: "زوم اِن", zoomOut: "زوم آؤٹ" }, nearby: { refresh: "ریفریش", closePanel: "بند" } } },
+  fil: { translation: { common: { language: "Wika ng display", phoneAutoConnect: "Awtomatikong koneksyon ng phone", customization: "Pag-customize", changeFontSize: "Baguhin ang laki ng font", changeThemeColour: "Baguhin ang kulay ng tema", linked: "Nakakonekta: {{name}}", unpaired: "Hindi nakakonekta · i-scan ang QR", unlinkPhone: "I-unlink", themeLight: "Maliwanag", themeDark: "Madilim", themePurple: "Lila", close: "Isara", search: "Hanapin", selectDisplayLanguage: "Piliin ang wika", home: "Home", sidebarItemTitle: "{{label}} — {{hint}}", doubleTapHome: "Double-tap para sa Home", unitKm: "km" }, sidebar: { settings: "Mga Setting", map: "Mapa", voice: "Boses", bluetooth: "Bluetooth", car: "Sasakyan" }, topbar: { searchLocked: "Search (naka-lock habang reverse)", searchBar: "Search Bar", gearShortcutTip: "Tip: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para magpalit ng gear" }, map: { enterDestination: "Ilagay ang destinasyon", routingTo: "Ruta papunta: {{destination}}", nearbyStations: "Malalapit na charging station", navigateToStation: "Mag-navigate sa {{station}}", endNavigation: "Tapusin ang navigation", navigation: "Navigation", tapToEnlarge: "I-tap para palakihin", openFullMap: "Buksan ang full map", searchDestination: "Hanapin ang destinasyon", geoUnavailable: "Walang GPS. Gagamit ng demo location hanggang payagan ang location.", homeShortcut: "Bahay", navigateHome: "Umuwi" }, voice: { listening: "Nakikinig…", sayCommand: "Magsabi ng utos…", notSupported: "Hindi supported ang voice recognition sa browser na ito.", tapToStart: "I-tap para magsimulang makinig" }, search: { voiceSearch: "Voice search", stop: "Ihinto" }, bluetooth: { title: "Bluetooth", deviceName: "Pangalan ng device", pairedDevice: "Nakapares na device", availableDevices: "Available na device", unpairedShort: "Hindi nakapares · walang device", unpair: "I-unpair" }, brightness: { auto: "Auto", manual: "Manual", decrease: "Bawasan ang liwanag", increase: "Dagdagan ang liwanag", toggle: "Palit auto/manual", autoToManual: "Auto - tap para Manual", manualToAuto: "Manual - tap para Auto" }, climate: { decrease: "Bawasan ang temperatura", increase: "Dagdagan ang temperatura", ac: "A/C", ventDown: "Baba", ventMiddle: "Gitna", ventUp: "Taas" }, status: { nearbyCharging: "MALAPIT NA CHARGING STATION", left: "Natitira", traveled: "Nalakbay", back: "Bumalik" }, traffic: { tooClose: "MASYADONG MALAPIT - MAGING LIGTAS", warning: "BABALA", closeWarning: "I-minimize", live: "LIVE", view360: "360° View", fullscreenHint: "Smart traffic - i-drag (360°)" }, notFound: { title: "Hindi makita ang pahina", goHome: "Home" }, reverse: { topView: "TOP VIEW", reverseCam: "REVERSE CAM", cameraUnavailable: "Walang camera", allowCamera: "Payagan ang camera" }, media: { progress: "Progress", repeatOne: "Ulitin", previousTrack: "Nakaraan", playPause: "Play/Pause", nextTrack: "Susunod", shuffle: "Shuffle", volume: "Volume", collapse: "I-collapse", expandPanel: "I-expand" }, leaflet: { zoomIn: "Zoom in", zoomOut: "Zoom out" }, nearby: { refresh: "Refresh", closePanel: "Isara" } } },
 } as const;
 
 /**
@@ -2211,10 +2044,15 @@ function fillMissing(target: any, source: any): any {
   return out;
 }
 
-// Localized regional variants: if a key is missing, prefer Malay instead of English fallback.
-for (const lng of ["iba", "melanau", "bidayuh", "kelabit"] as const) {
-  (resources as any)[lng].translation = fillMissing((resources as any)[lng].translation, (resources as any).ms.translation);
-}
+// Iban, Melanau, Bidayuh, Kelabit: full key tree from Bahasa Melayu (`ms`) merged with
+// Sarawak-specific bundles so no English strings appear for missing keys.
+(() => {
+  const cloneMs = () => JSON.parse(JSON.stringify((resources as any).ms.translation));
+  (resources as any).iba.translation = mergeRegionalBase(cloneMs(), IBAN_DISPLAY);
+  (resources as any).melanau.translation = mergeRegionalBase(cloneMs(), MELANAU_DISPLAY);
+  (resources as any).bidayuh.translation = mergeRegionalBase(cloneMs(), BIDAYUH_DISPLAY);
+  (resources as any).kelabit.translation = mergeRegionalBase(cloneMs(), KELABIT_DISPLAY);
+})();
 
 // For the extra languages we only partially translate, fill missing keys from English.
 for (const lng of ["id", "th", "vi", "ja", "ko", "hi", "ar", "ru", "de", "fr", "it", "pt"] as const) {

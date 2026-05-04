@@ -26,7 +26,7 @@ function BluetoothPage() {
   return (
     <CockpitLayout
       leftTop={(
-        <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-[var(--panel)] px-[12px] py-[12px] shadow-sm ring-1 ring-black/5">
+        <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-app-panel px-[12px] py-[12px] shadow-sm ring-1 ring-black/5">
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold">{t("bluetooth.title")}</span>
             <button
@@ -40,10 +40,10 @@ function BluetoothPage() {
             <span className="text-foreground/70">{t("bluetooth.deviceName")}</span>
             <span className="font-semibold">HKI</span>
           </div>
-          <div className="rounded-[16px] bg-[var(--panel-soft)] px-[10px] py-[9px]">
+          <div className="rounded-[16px] bg-app-panel-soft px-[10px] py-[9px]">
             <div className="mb-[6px] text-[11px] font-semibold">{t("bluetooth.pairedDevice")}</div>
             {pairedDevice ? (
-              <div className="rounded-[12px] bg-[var(--panel)] px-[10px] py-[8px] text-xs">
+              <div className="rounded-[12px] bg-app-panel px-[10px] py-[8px] text-xs">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-1.5"><Smartphone className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">{pairedDevice}</span></div>
                   <button onClick={() => setPairedDevice(null)} className="text-[10px] text-foreground/60 hover:underline">{t("bluetooth.unpair")}</button>
@@ -58,7 +58,7 @@ function BluetoothPage() {
               </div>
             )}
           </div>
-          <div className="min-h-0 flex-1 overflow-auto rounded-[16px] bg-[var(--panel-soft)] px-[10px] py-[9px]">
+          <div className="min-h-0 flex-1 overflow-auto rounded-[16px] bg-app-panel-soft px-[10px] py-[9px]">
             <div className="mb-[6px] text-[11px] font-semibold">{t("bluetooth.availableDevices")}</div>
             <ul className="flex flex-col gap-[6px]">
               {AVAILABLE.filter((d) => d.name !== pairedDevice).map(({ name, icon: I }) => (
@@ -66,7 +66,7 @@ function BluetoothPage() {
                   <button
                     disabled={!bluetoothOn}
                     onClick={() => setPairedDevice(name)}
-                    className="flex w-full items-center gap-1.5 rounded-[12px] bg-[var(--panel)] px-[10px] py-[8px] text-left text-xs hover:bg-[var(--active)] disabled:opacity-40"
+                    className="flex w-full items-center gap-1.5 rounded-[12px] bg-app-panel px-[10px] py-[8px] text-left text-xs hover:bg-[var(--active)] disabled:opacity-40"
                   >
                     <I className="h-3.5 w-3.5" /> {name}
                   </button>

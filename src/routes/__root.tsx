@@ -56,15 +56,18 @@ function Frame() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (!e.ctrlKey || e.altKey || e.metaKey) return;
-      const k = e.key.toLowerCase();
-      if (k === "p" || k === "r" || k === "n" || k === "d") {
+      // Gear: Ctrl+Alt+P / R / N / D (avoids plain Ctrl+P etc. clashing with browser shortcuts).
+      if (!e.ctrlKey || !e.altKey) return;
+      const k = e.key.length === 1 ? e.key.toUpperCase() : "";
+      if (k === "P" || k === "R" || k === "N" || k === "D") {
         e.preventDefault();
-        setGear(k.toUpperCase() as "P" | "R" | "N" | "D");
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        setGear(k as "P" | "R" | "N" | "D");
       }
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
   }, [setGear]);
 
   return (

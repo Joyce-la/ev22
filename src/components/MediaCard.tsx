@@ -23,11 +23,7 @@ const PLAYLIST = [
 interface Props {
   expanded?: boolean;
   onToggleExpand?: () => void;
-  /**
-   * When true, render an empty placeholder panel only — no song info, no
-   * controls, no audio interaction. Used on pages like /voice where the
-   * MediaCard is mounted but should not display any music.
-   */
+  /** Empty panel placeholder — no track UI or controls (optional embeds). */
   hidden?: boolean;
 }
 
@@ -98,7 +94,7 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   if (hidden) {
     return (
       <div
-        className="relative flex h-full w-full items-center justify-center rounded-[24px] bg-[var(--panel)] shadow-sm ring-1 ring-black/5"
+        className="relative flex h-full w-full items-center justify-center rounded-[24px] bg-app-panel shadow-sm ring-1 ring-black/5"
         aria-hidden="true"
       />
     );
@@ -107,22 +103,46 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   if (expanded) {
     const remainingSec = Math.max(0, durationSec - currentSec);
     return (
-      <div className="relative flex h-full w-full flex-col gap-2.5 rounded-[24px] bg-[var(--panel)] p-3 shadow-sm ring-1 ring-black/5 animate-fade-in">
-        {/* Album art card */}
-        <div className="relative h-[120px] shrink-0 overflow-hidden rounded-[18px] bg-gradient-to-br from-amber-300 via-rose-400 to-indigo-600 ring-2 ring-sky-400">
+      <div className="relative flex h-full w-full min-h-0 flex-col gap-2.5 rounded-[24px] bg-app-panel p-3 shadow-sm ring-1 ring-black/5 animate-fade-in">
+        {/* Album art header — gradient + title; close sits on this panel (matches voice enlarged layout) */}
+        <div className="relative h-[min(28%,140px)] min-h-[100px] shrink-0 overflow-hidden rounded-[20px] bg-gradient-to-br from-amber-300 via-rose-400 to-indigo-600 ring-2 ring-sky-400/80">
           <div className="absolute inset-0 bg-black/15" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-            <div className="max-w-full whitespace-normal text-[30px] font-extrabold italic uppercase leading-[0.95] tracking-tight text-white drop-shadow">
+          {onToggleExpand && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleExpand();
+              }}
+              className="absolute right-2.5 top-2.5 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/40 text-white ring-1 ring-white/25 hover:bg-black/55"
+              aria-label={t("media.collapse")}
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-10 pt-1 text-center">
+            <div
+              className="max-w-full whitespace-normal font-extrabold italic uppercase leading-[0.95] tracking-tight text-white drop-shadow-md"
+              style={{ fontSize: "clamp(1.1rem, 3.2vmin, 1.85rem)" }}
+            >
               {cur.title}
             </div>
-            <div className="mt-1 max-w-full whitespace-normal text-[10px] font-bold uppercase tracking-[0.16em] text-white/95">
+            <div
+              className="mt-1 max-w-full whitespace-normal font-bold uppercase tracking-[0.16em] text-white/95"
+              style={{ fontSize: "clamp(0.55rem, 0.65rem, 0.8rem)" }}
+            >
               {cur.artist}
             </div>
           </div>
         </div>
 
         {/* Now playing title (left-aligned) */}
-        <div className="px-1 truncate break-words text-[15px] font-semibold leading-none">{cur.title}</div>
+        <div
+          className="px-1 break-words pb-[2px] font-semibold leading-[1.2] line-clamp-3"
+          style={{ fontSize: "clamp(0.85rem, 0.95rem, 1.15rem)" }}
+        >
+          {cur.title}
+        </div>
 
         {/* Progress bar */}
         <div className="px-1">
@@ -132,14 +152,17 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
             className="h-1 w-full accent-foreground"
             aria-label={t("media.progress")}
           />
-          <div className="mt-1 flex items-center justify-between text-[10px] tabular-nums text-foreground/60">
+          <div
+            className="mt-1 flex items-center justify-between tabular-nums text-foreground/60"
+            style={{ fontSize: "clamp(0.55rem, 0.62rem, 0.75rem)" }}
+          >
             <span>{formatTime(currentSec)}</span>
             <span>-{formatTime(remainingSec)}</span>
           </div>
         </div>
 
-        {/* Controls: repeat, prev, play (big circle), next, random */}
-        <div className="flex items-center justify-center gap-6 px-1">
+        {/* Controls: repeat, prev, play (tall pill), next, shuffle */}
+        <div className="flex items-center justify-center gap-5 px-1 sm:gap-6">
           <button
             onClick={() => {
               const next = !repeatOne;
@@ -154,11 +177,16 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
           </button>
           <button onClick={() => skip(-1)} aria-label={t("media.previousTrack")}><SkipBack className="h-5 w-5" /></button>
           <button
+            type="button"
             onClick={() => setPlaying(!playing)}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-foreground text-background shadow"
+            className="flex h-[52px] w-[42px] shrink-0 items-center justify-center rounded-[22px] bg-[var(--active)] text-foreground shadow-md ring-1 ring-foreground/15 transition hover:brightness-110 active:brightness-95"
             aria-label={t("media.playPause")}
           >
-            {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {playing ? (
+              <Pause className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+            ) : (
+              <Play className="h-5 w-5 pl-0.5" strokeWidth={2.5} aria-hidden />
+            )}
           </button>
           <button onClick={() => skip(1)} aria-label={t("media.nextTrack")}><SkipForward className="h-5 w-5" /></button>
           <button
@@ -186,8 +214,8 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
           />
         </div>
 
-        {/* Playlist as light pills */}
-        <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-0.5">
+        {/* Queue — scrollable; current track highlighted */}
+        <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thick] [scrollbar-color:rgba(255,255,255,0.35)_transparent]">
           {PLAYLIST.map((tt, i) => (
             <button
               key={i}
@@ -195,23 +223,18 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
                 setTrackIdx(i);
                 setPlaying(true);
               }}
-              className={`flex w-full items-center gap-2 rounded-[14px] px-3 py-2 text-left text-[12px] ${
+              className={`flex w-full min-w-0 items-center gap-1.5 rounded-[14px] px-3 py-2.5 text-left ${
                 i === trackIdx
-                  ? "bg-[var(--brand)]/20 font-semibold text-foreground ring-1 ring-[var(--brand)]/35"
-                  : "bg-[var(--panel-soft)] hover:brightness-95"
+                  ? "bg-[var(--brand)]/22 font-semibold text-foreground ring-1 ring-[var(--brand)]/40"
+                  : "bg-app-panel-soft/80 hover:brightness-95"
               }`}
+              style={{ fontSize: "clamp(0.65rem, 0.75rem, 0.95rem)" }}
             >
-              <span className="truncate break-words font-medium">{tt.title}</span>
-              <span className="text-foreground/55">– {tt.artist}</span>
+              <span className="min-w-0 truncate font-medium">{tt.title}</span>
+              <span className="shrink-0 text-foreground/55">— {tt.artist}</span>
             </button>
           ))}
         </div>
-
-        {onToggleExpand && (
-          <button onClick={onToggleExpand} className="absolute right-3 top-3 z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black/35 text-white hover:bg-black/50" aria-label={t("media.collapse")}>
-            <X className="h-3 w-3" />
-          </button>
-        )}
       </div>
     );
   }
@@ -221,67 +244,75 @@ export function MediaCard({ expanded = false, onToggleExpand, hidden = false }: 
   const stop = (e: React.SyntheticEvent) => e.stopPropagation();
   return (
     <div
-      className={`relative flex h-full w-full flex-col rounded-[24px] bg-[var(--panel)] px-3 py-2.5 text-foreground shadow-sm ring-1 ring-black/5 transition ${
+      className={`relative flex h-full w-full flex-col rounded-[24px] bg-app-panel px-3 pt-3 pb-2 text-foreground shadow-sm ring-1 ring-black/5 transition ${
         canExpand ? "cursor-pointer hover:ring-black/10" : ""
       }`}
       onClick={canExpand ? onToggleExpand : undefined}
       role={canExpand ? "button" : undefined}
       aria-label={canExpand ? t("media.expandPanel") : undefined}
     >
-      <div className="mb-1.5 truncate break-words text-center text-sm font-bold leading-tight text-foreground/95">
+      <div className="mb-2 break-words pb-[2px] text-center text-sm font-bold leading-[1.2] text-foreground/95 line-clamp-3">
         {cur.title}
       </div>
-      <div className="grid grid-cols-3 items-center gap-1">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            const next = !repeatOne;
-            setRepeatOne(next);
-            if (next) setShuffle(false);
-          }}
-          className={`${repeatOne ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-start`}
-          aria-label={t("media.repeatOne")}
-          aria-pressed={repeatOne}
-        >
-          <Repeat className="h-3.5 w-3.5" />
-        </button>
-        <div className="flex items-center justify-self-center gap-2">
-          <button onClick={(e) => { stop(e); skip(-1); }} aria-label={t("media.previousTrack")}><SkipBack className="h-4 w-4" /></button>
-          <button onClick={(e) => { stop(e); setPlaying(!playing); }} className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--active)] hover:bg-[var(--active)]/80" aria-label={t("media.playPause")}>
-            {playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
+      {/* Controls + slider: fixed-size region (does not scale with font size) */}
+      <div style={{ fontSize: "16px" }}>
+        <div className="grid grid-cols-3 items-center gap-[4px]">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const next = !repeatOne;
+              setRepeatOne(next);
+              if (next) setShuffle(false);
+            }}
+            className={`${repeatOne ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-start`}
+            aria-label={t("media.repeatOne")}
+            aria-pressed={repeatOne}
+          >
+            <Repeat className="h-[14px] w-[14px]" />
           </button>
-          <button onClick={(e) => { stop(e); skip(1); }} aria-label={t("media.nextTrack")}><SkipForward className="h-4 w-4" /></button>
+          <div className="flex items-center justify-self-center gap-[8px]">
+            <button onClick={(e) => { stop(e); skip(-1); }} aria-label={t("media.previousTrack")}><SkipBack className="h-[16px] w-[16px]" /></button>
+            <button
+              onClick={(e) => { stop(e); setPlaying(!playing); }}
+              className="flex items-center justify-center rounded-full bg-[var(--active)] hover:bg-[var(--active)]/80"
+              style={{ width: 36, height: 36 }}
+              aria-label={t("media.playPause")}
+            >
+              {playing ? <Pause className="h-[14px] w-[14px]" /> : <Play className="h-[14px] w-[14px]" />}
+            </button>
+            <button onClick={(e) => { stop(e); skip(1); }} aria-label={t("media.nextTrack")}><SkipForward className="h-[16px] w-[16px]" /></button>
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const next = !shuffle;
+              setShuffle(next);
+              if (next) setRepeatOne(false);
+            }}
+            className={`${shuffle ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-end`}
+            aria-label={t("media.shuffle")}
+            aria-pressed={shuffle}
+          >
+            <Shuffle className="h-[14px] w-[14px]" />
+          </button>
         </div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            const next = !shuffle;
-            setShuffle(next);
-            if (next) setRepeatOne(false);
-          }}
-          className={`${shuffle ? "text-[var(--brand)]" : "text-foreground/80"} justify-self-end`}
-          aria-label={t("media.shuffle")}
-          aria-pressed={shuffle}
-        >
-          <Shuffle className="h-3.5 w-3.5" />
-        </button>
-      </div>
-      <div className="mt-1.5 flex items-center gap-1.5 px-0.5">
-        <Volume2 className="h-3 w-3 shrink-0 text-foreground/85" />
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={volume}
-          onChange={(e) => setVolume(parseFloat(e.target.value))}
-          onClick={stop}
-          onMouseDown={stop}
-          onTouchStart={stop}
-          className="h-1 flex-1 accent-[var(--brand)]"
-          aria-label={t("media.volume")}
-        />
-        <Volume2 className="h-3 w-3 shrink-0 text-foreground/85" />
+        <div className="mt-[6px] flex items-center gap-[6px] px-[2px]">
+          <Volume2 className="h-[12px] w-[12px] shrink-0 text-foreground/85" />
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            onClick={stop}
+            onMouseDown={stop}
+            onTouchStart={stop}
+            className="h-1 flex-1 accent-[var(--brand)]"
+            aria-label={t("media.volume")}
+          />
+          <Volume2 className="h-[12px] w-[12px] shrink-0 text-foreground/85" />
+        </div>
       </div>
     </div>
   );

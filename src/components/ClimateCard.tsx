@@ -11,15 +11,15 @@ export function ClimateCard() {
   const inc = () => setTemp(Math.min(30, +(temp + 0.5).toFixed(1)));
 
   return (
-    <div className="flex h-full min-h-[120px] w-full flex-col justify-between rounded-[28px] bg-[var(--panel)] px-[10px] py-[10px] shadow-sm ring-1 ring-black/5">
+    <div className="flex h-full min-h-[120px] w-full flex-col justify-between rounded-[28px] bg-app-panel px-[10px] py-[10px] shadow-sm ring-1 ring-black/5">
       <div className="flex items-center justify-between gap-[6px]">
-        <button onClick={dec} className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-[var(--panel-soft)] hover:bg-[var(--active)]" aria-label={t("climate.decrease")}>
+        <button onClick={dec} className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-app-panel-soft hover:bg-[var(--active)]" aria-label={t("climate.decrease")}>
           <Minus className="h-4 w-4" />
         </button>
-        <div className="flex h-[46px] min-w-[112px] items-center justify-center rounded-full bg-[var(--panel-soft)] px-4 font-bold tabular-nums text-lg">
+        <div className="flex h-[46px] min-w-[112px] items-center justify-center rounded-full bg-app-panel-soft px-4 font-bold tabular-nums text-lg">
           {temp.toFixed(1)}°C
         </div>
-        <button onClick={inc} className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-[var(--panel-soft)] hover:bg-[var(--active)]" aria-label={t("climate.increase")}>
+        <button onClick={inc} className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-app-panel-soft hover:bg-[var(--active)]" aria-label={t("climate.increase")}>
           <Plus className="h-4 w-4" />
         </button>
       </div>
@@ -29,7 +29,7 @@ export function ClimateCard() {
         <SeatVent direction="both" active={airflowMode === "both"} onSelect={() => setAirflowMode("both")} />
         <button
           onClick={() => setAcOn(!acOn)}
-          className={`flex h-[40px] min-w-[72px] items-center justify-center rounded-full px-4 text-[13px] font-bold transition-all ${acOn ? "bg-[var(--brand)] text-white" : "bg-[var(--panel-soft)] text-foreground"}`}
+          className={`flex h-[40px] min-w-[72px] items-center justify-center rounded-full px-4 text-[13px] font-bold transition-all ${acOn ? "bg-[var(--brand)] text-white" : "bg-app-panel-soft text-foreground"}`}
         >
           {t("climate.ac")}
         </button>
@@ -66,7 +66,7 @@ function SeatVent({
       className={`flex h-[40px] w-[44px] items-center justify-center rounded-full ring-1 ring-black/5 transition-colors ${
         active
           ? "bg-[var(--active)]"
-          : "bg-[var(--panel-soft)] hover:bg-[var(--active)]"
+          : "bg-app-panel-soft hover:bg-[var(--active)]"
       }`}
       aria-label={t(labelKey)}
       aria-pressed={active}

@@ -157,9 +157,22 @@
   --app-border: oklch(0.72 0.18 300 / 0.65);
 }
 
+/*
+ * Surfaces that use --panel / --panel-soft: use full `background` so purple linear-gradients
+ * render. Tailwind `bg-[var(--panel)]` maps to `background-color`, which ignores gradients.
+ */
+.bg-app-panel {
+  background: var(--panel);
+}
+.bg-app-panel-soft {
+  background: var(--panel-soft);
+}
+
 /* Purple theme: stronger card separation */
 .purple [class*="bg-[var(--panel)]"],
-.purple [class*="bg-[var(--panel-soft)]"] {
+.purple [class*="bg-[var(--panel-soft)]"],
+.purple .bg-app-panel,
+.purple .bg-app-panel-soft {
   border: 1px solid oklch(0.9 0.05 300 / 0.28);
   box-shadow:
     0 10px 20px -14px rgba(0, 0, 0, 0.55),

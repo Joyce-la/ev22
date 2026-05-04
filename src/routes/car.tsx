@@ -29,8 +29,13 @@ function CarPage() {
     <CockpitLayout
       leftTop={<TrafficWidget className="h-full w-full" />}
       leftBottom={
-        <div className="flex h-full flex-col rounded-[24px] bg-[var(--panel)] px-2 py-1.5 shadow-sm ring-1 ring-black/5">
-          <div className="mx-auto text-[11px] font-bold leading-none">{t("car.drivingModes")}</div>
+        <div className="flex h-full flex-col rounded-[24px] bg-app-panel px-2 py-1.5 shadow-sm ring-1 ring-black/5">
+          <div
+            className="mx-auto font-bold leading-none"
+            style={{ fontSize: "clamp(10px, calc(11px * var(--hki-font-scale, 1)), 16px)" }}
+          >
+            {t("car.drivingModes")}
+          </div>
           <div className="grid flex-1 grid-cols-3 gap-1.5 pt-1">
             {MODES.map(({ v, labelKey, icon: Icon }) => {
               const active = drivingMode === v;
@@ -39,11 +44,16 @@ function CarPage() {
                   key={v}
                   onClick={() => setDrivingMode(v)}
                   className={`flex flex-col items-center justify-center gap-1 rounded-[14px] border px-1 py-1 transition-all ${
-                    active ? "border-green-400 bg-green-200/70" : "border-border bg-[var(--panel-soft)] hover:bg-[var(--active)]/50"
+                    active ? "border-green-400 bg-green-200/70" : "border-border bg-app-panel-soft hover:bg-[var(--active)]/50"
                   }`}
                 >
                   <Icon className={`h-7 w-7 ${active ? "text-green-700" : ""}`} strokeWidth={1.8} />
-                  <span className={`text-center text-[10px] font-bold leading-[1.1] ${active ? "text-green-800" : ""}`}>{t(labelKey)}</span>
+                  <span
+                    className={`text-center font-bold leading-[1.1] ${active ? "text-green-800" : ""}`}
+                    style={{ fontSize: "clamp(9px, calc(10px * var(--hki-font-scale, 1)), 14px)" }}
+                  >
+                    {t(labelKey)}
+                  </span>
                 </button>
               );
             })}

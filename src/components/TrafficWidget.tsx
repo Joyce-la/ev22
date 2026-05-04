@@ -44,7 +44,10 @@ export function TrafficWidget({ className = "", clickable = true, fullscreen = f
 
       {/* Too-close warning */}
       {tooClose && !warningMinimized && (
-        <div className="absolute left-1/2 top-2 z-10 flex w-[92%] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl bg-red-600/95 px-4 py-3 text-[13px] font-extrabold text-white shadow-2xl ring-1 ring-red-400/30 backdrop-blur animate-fade-in">
+        <div
+          className="absolute left-1/2 top-2 z-10 flex w-[92%] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl bg-red-600/95 px-4 py-3 font-extrabold text-white shadow-2xl ring-1 ring-red-400/30 backdrop-blur animate-fade-in"
+          style={{ fontSize: "clamp(12px, calc(13px * var(--hki-font-scale, 1)), 18px)" }}
+        >
           <AlertTriangle className="h-5 w-5 shrink-0" />
           <div className="min-w-0 flex-1 text-center leading-snug">
             {t("traffic.tooClose")}
@@ -74,7 +77,8 @@ export function TrafficWidget({ className = "", clickable = true, fullscreen = f
             e.stopPropagation();
             setWarningMinimized(false);
           }}
-          className="absolute left-2 top-2 z-10 inline-flex items-center gap-1.5 rounded-full bg-red-600/90 px-2.5 py-1 text-[11px] font-extrabold text-white shadow-lg ring-1 ring-red-400/25 backdrop-blur animate-fade-in"
+          className="absolute left-2 top-2 z-10 inline-flex items-center gap-1.5 rounded-full bg-red-600/90 px-2.5 py-1 font-extrabold text-white shadow-lg ring-1 ring-red-400/25 backdrop-blur animate-fade-in"
+          style={{ fontSize: "clamp(10px, calc(11px * var(--hki-font-scale, 1)), 15px)" }}
           aria-label={t("traffic.tooClose")}
           title={t("traffic.tooClose")}
         >

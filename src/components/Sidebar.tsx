@@ -1,6 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Settings, Map, Mic, Bluetooth, Car } from "lucide-react";
-import homeLogo from "@/assets/home-logo.png";
+import { Settings, Map, Mic, Bluetooth, Car, Home } from "lucide-react";
 import { useApp } from "@/lib/app-context";
 import { useTranslation } from "react-i18next";
 
@@ -20,20 +19,20 @@ export function Sidebar() {
   const navigate = useNavigate();
   const { gear, setMusicExpanded, theme, voicePopupOpen, setVoicePopupOpen } = useApp();
   const reversing = gear === "R";
+  const homeIdleClass =
+    theme === "purple" || theme === "dark"
+      ? "text-white/80 hover:bg-white/10"
+      : "text-foreground/85 hover:bg-black/5";
   return (
     <aside className={`flex w-[60px] shrink-0 flex-col items-center py-[12px] ${reversing ? "bg-transparent" : "bg-[var(--sidebar-bg)]"}`}>
       <Link
         to="/"
         onClick={() => setMusicExpanded(false)}
-        className="mb-[16px] flex h-[52px] w-[52px] items-center justify-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
+        className={`mb-[16px] flex h-[52px] w-[52px] items-center justify-center rounded-[18px] transition-colors ${homeIdleClass}`}
         aria-label={t("common.home")}
+        title={t("common.home")}
       >
-        <img
-          src={homeLogo}
-          alt={t("common.home")}
-          className="h-[46px] w-[46px] object-contain"
-          draggable={false}
-        />
+        <Home className="h-[30px] w-[30px]" strokeWidth={1.6} />
       </Link>
       <div className="flex flex-1 flex-col items-stretch gap-[8px] self-stretch px-0 pt-[8px]">
         {items.map(({ to, icon: Icon, key }) => {

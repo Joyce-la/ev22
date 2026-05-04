@@ -136,18 +136,18 @@ function SettingsPage() {
         {/* LEFT column (Settings) */}
         <div className="flex flex-col" style={{ width: W_LEFT, height: H_LEFT_PANEL, gap: GAP_Y }}>
           {openManual ? (
-            <div className="flex h-full flex-col rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+            <div className="flex h-full flex-col rounded-[28px] bg-app-panel p-[12px] shadow-sm ring-1 ring-black/5">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[0.875rem] font-bold text-foreground">{t("settings.userManualTitle")}</div>
                 <button
                   type="button"
                   onClick={() => setOpenManual(false)}
-                  className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
+                  className="rounded-full bg-app-panel-soft px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
                 >
                   {t("status.back")}
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3 text-[0.72rem] leading-snug text-foreground/70">
+              <div className="flex-1 overflow-y-auto rounded-[18px] bg-app-panel-soft p-3 text-[0.72rem] leading-snug text-foreground/70">
                 <div className="space-y-3">
                   {MANUAL_SECTION_KEYS.map((key) => (
                     <ManualBulletSection key={key} sectionKey={key} />
@@ -156,18 +156,18 @@ function SettingsPage() {
               </div>
             </div>
           ) : openLang ? (
-            <div className="flex h-full flex-col rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+            <div className="flex h-full flex-col rounded-[28px] bg-app-panel p-[12px] shadow-sm ring-1 ring-black/5">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[0.875rem] font-bold text-foreground">{t("common.language")}</div>
                 <button
                   type="button"
                   onClick={() => setOpenLang(false)}
-                  className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
+                  className="rounded-full bg-app-panel-soft px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
                 >
                   {t("status.back")}
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3">
+              <div className="flex-1 overflow-y-auto rounded-[18px] bg-app-panel-soft p-3">
                 <ul className="space-y-1 text-[0.875rem] text-foreground/80">
                   {LANGS.map((l) => (
                     <li key={l.code}>
@@ -190,7 +190,7 @@ function SettingsPage() {
               </div>
             </div>
           ) : (
-            <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+            <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-app-panel p-[12px] shadow-sm ring-1 ring-black/5">
               {/* Display Language */}
               <div>
                 <div className="mb-[4px] flex items-center justify-center gap-2 text-center text-[0.8125rem] font-bold">
@@ -199,7 +199,7 @@ function SettingsPage() {
                 </div>
                 <button
                   onClick={() => { setOpenLang(true); setOpenManual(false); }}
-                  className="flex w-full items-start justify-between gap-3 rounded-[14px] bg-[var(--panel-soft)] px-[12px] py-[8px] text-xs"
+                  className="flex w-full items-start justify-between gap-3 rounded-[14px] bg-app-panel-soft px-[12px] py-[8px] text-xs"
                   aria-label={t("common.selectDisplayLanguage")}
                 >
                   <span className="min-w-0 flex-1 text-left">
@@ -215,7 +215,7 @@ function SettingsPage() {
               </div>
 
               {/* Phone Auto-Connect */}
-              <div className="mt-[2px] flex flex-col items-center rounded-[18px] bg-[var(--panel-soft)] px-[8px] py-[10px]">
+              <div className="mt-[2px] flex flex-col items-center rounded-[18px] bg-app-panel-soft px-[8px] py-[10px]">
                 <div className="mb-[6px] flex items-center gap-2 text-[0.8125rem] font-bold">
                   <Smartphone className="h-4 w-4 text-foreground/70" />
                   {t("common.phoneAutoConnect")}
@@ -233,7 +233,7 @@ function SettingsPage() {
                       try { localStorage.removeItem("hki:linkedPhone"); localStorage.removeItem("hki:linkedAt"); } catch {}
                       setLinkedPhone(null);
                     }}
-                    className="mt-2 rounded-full bg-[var(--panel)] px-3 py-[6px] text-[0.6875rem] font-semibold hover:bg-[var(--active)]"
+                    className="mt-2 rounded-full bg-app-panel px-3 py-[6px] text-[0.6875rem] font-semibold hover:bg-[var(--active)]"
                   >
                     {t("common.unlinkPhone")}
                   </button>
@@ -241,7 +241,7 @@ function SettingsPage() {
               </div>
 
               {/* Customization */}
-              <div className="mt-[2px] min-h-0 flex-1 overflow-auto rounded-[18px] bg-[var(--panel-soft)] px-[10px] py-[10px]">
+              <div className="mt-[2px] min-h-0 flex-1 overflow-auto rounded-[18px] bg-app-panel-soft px-[10px] py-[10px]">
                 <div className="mb-[8px] text-center text-[0.8125rem] font-bold">{t("common.customization")}</div>
                 <div className="flex flex-col gap-2">
                   <div className="text-center text-[0.625rem] font-semibold tracking-wide text-foreground/60">
@@ -284,7 +284,7 @@ function SettingsPage() {
               <button
                 type="button"
                 onClick={() => { setOpenManual(true); setOpenLang(false); }}
-                className="mt-2 w-full rounded-[18px] bg-[var(--panel-soft)] p-3 text-left text-[0.72rem] leading-snug text-foreground/70 transition hover:bg-[var(--panel)]"
+                className="mt-2 w-full rounded-[18px] bg-app-panel-soft p-3 text-left text-[0.72rem] leading-snug text-foreground/70 transition hover:bg-app-panel"
               >
                 <div className="mb-2 flex items-center justify-between text-[0.8125rem] font-bold text-foreground">
                   <span>{t("settings.userManualTitle")}</span>

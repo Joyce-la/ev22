@@ -228,7 +228,7 @@ export function SearchBar() {
       {/* Search bar — 274×52 ≈ 442×95 ratio (4.65:1) */}
       <div
         className={[
-          "relative flex items-center gap-2 overflow-hidden rounded-full bg-[var(--panel)] px-3 shadow-sm ring-1 ring-black/5",
+          "bg-app-panel relative flex items-center gap-2 overflow-hidden rounded-full px-3 shadow-sm ring-1 ring-black/5",
           reversing ? "opacity-40 pointer-events-none" : "",
         ].join(" ")}
         style={{ height: 52 }}
@@ -241,7 +241,7 @@ export function SearchBar() {
         )}
         <button
           onClick={toggleMic}
-          className={`flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full transition ${listening ? "bg-[var(--brand)] text-white animate-mic-pulse" : "bg-[var(--panel-soft)] text-foreground/70 hover:bg-[var(--active)]"}`}
+          className={`flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full transition ${listening ? "bg-[var(--brand)] text-white animate-mic-pulse" : "bg-app-panel-soft text-foreground/70 hover:bg-[var(--active)]"}`}
           aria-label={t("search.voiceSearch")}
         >
           <Mic className="h-[16px] w-[16px]" />
@@ -295,7 +295,10 @@ export function SearchBar() {
 
       {/* Listening overlay — 292×135 ≈ 472×217 ratio (2.18:1) */}
       {listening && (
-        <div className="absolute right-0 top-[60px] z-[1000] overflow-hidden rounded-[24px] bg-[var(--panel)] shadow-2xl ring-1 ring-black/10" style={{ width: 292, height: 135 }}>
+        <div
+          className="bg-app-panel absolute right-0 top-[60px] z-[1000] overflow-hidden rounded-[24px] shadow-2xl ring-1 ring-black/10"
+          style={{ width: 292, height: 135 }}
+        >
           <div className="flex h-full flex-col items-center justify-center gap-2 px-4">
             <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/15">
               <span className="absolute inset-0 animate-ping rounded-full bg-[var(--brand)]/30" />
@@ -305,7 +308,7 @@ export function SearchBar() {
             <div className="line-clamp-1 text-[11px] text-foreground/70">{q || t("voice.sayCommand")}</div>
             <button
               onClick={toggleMic}
-              className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--panel-soft)] hover:bg-[var(--active)]"
+              className="bg-app-panel-soft absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full hover:bg-[var(--active)]"
               aria-label={t("search.stop")}
             >
               <X className="h-3.5 w-3.5" />
@@ -322,7 +325,7 @@ export function SearchBar() {
 
       {/* Suggestions dropdown */}
       {openDropdown && suggestions.length > 0 && (
-        <div className="absolute left-0 right-0 top-[60px] z-[1000] max-h-[220px] overflow-y-auto overscroll-contain rounded-2xl bg-[var(--panel)] shadow-xl ring-1 ring-black/5 animate-fade-in">
+        <div className="bg-app-panel absolute left-0 right-0 top-[60px] z-[1000] max-h-[220px] overflow-y-auto overscroll-contain rounded-2xl shadow-xl ring-1 ring-black/5 animate-fade-in">
           {suggestions.map((m, idx) => (
             <button
               key={m.label + m.to}
@@ -339,7 +342,7 @@ export function SearchBar() {
                 go(m.to);
               }}
               className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-[13px] ${
-                idx === activeIdx ? "bg-[var(--active)]" : "hover:bg-[var(--active)]"
+                idx === activeIdx ? "bg-[var(--secondary)]" : "hover:bg-[var(--secondary)]"
               }`}
             >
               {m.kind === "recent" ? (

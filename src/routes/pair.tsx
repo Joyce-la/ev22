@@ -25,7 +25,7 @@ function PairPage() {
       <CheckCircle2 className="h-16 w-16 text-green-500" />
       <h1 className="text-2xl font-bold">{t("pair.phoneLinked")}</h1>
       <p className="text-foreground/70">{t("pair.pairedAs")}</p>
-      <div className="rounded-2xl bg-[var(--panel)] px-6 py-3 text-3xl font-extrabold text-[var(--brand)] shadow ring-1 ring-black/10">
+      <div className="bg-app-panel rounded-2xl px-6 py-3 text-3xl font-extrabold text-[var(--brand)] shadow ring-1 ring-black/10">
         {name}
       </div>
       <Link to="/settings" className="mt-4 rounded-full bg-[var(--brand)] px-6 py-2 text-sm font-semibold text-white">

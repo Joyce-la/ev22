@@ -46,7 +46,7 @@ export function StatusCard() {
   if (showStations) {
     return (
       <div
-        className="flex h-full w-full cursor-pointer flex-col rounded-[24px] bg-[var(--panel)] px-3 py-2 shadow-sm ring-1 ring-black/5 animate-fade-in"
+        className="flex h-full w-full cursor-pointer flex-col rounded-[24px] bg-app-panel px-3 py-2 shadow-sm ring-1 ring-black/5 animate-fade-in"
         onClick={() => setShowStations(false)}
       >
         <div className="flex items-center gap-1.5 border-b border-black/5 pb-1">
@@ -87,7 +87,7 @@ export function StatusCard() {
   return (
     <button
       onClick={() => setShowStations(true)}
-      className="flex h-full w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-[24px] bg-[var(--panel)] px-2 py-2 text-left shadow-sm ring-1 ring-black/5 transition hover:ring-black/10"
+      className="flex h-full w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-[24px] bg-app-panel px-2 py-2 text-left shadow-sm ring-1 ring-black/5 transition hover:ring-black/10"
     >
       {/* Battery icon */}
       <div className="flex w-[44px] shrink-0 flex-col items-center">
@@ -97,27 +97,53 @@ export function StatusCard() {
           <rect x="9" y={13 + (54 * (1 - batteryLevel))} width="36" height={54 * batteryLevel} rx="3" fill={fillColor} />
         </svg>
       </div>
-      {/* Numbers — 123×48 text block ratio */}
-      <div className="min-w-0 flex flex-1 flex-col justify-center overflow-hidden leading-tight">
-        <div className="shrink-0 truncate whitespace-nowrap font-extrabold leading-none tracking-tight text-3xl">
+      {/* Numbers — sizes respect --hki-font-scale with caps so nothing clips in the fixed slot */}
+      <div className="min-w-0 flex flex-1 flex-col justify-center gap-0.5 overflow-hidden leading-tight">
+        <div
+          className="min-w-0 max-w-full shrink-0 font-extrabold leading-none tracking-tight tabular-nums"
+          style={{ fontSize: "clamp(14px, calc(24px * var(--hki-font-scale, 1)), 26px)" }}
+        >
           {pct}%
         </div>
-        <div className="mt-1 truncate text-[10px] leading-tight"><span className="font-bold">{t("status.left")}</span></div>
-        <div className="truncate text-[10px] leading-tight">
-          <span className="font-extrabold text-[13px]">{left}</span><span className="text-[9px]">{t("common.unitKm")}</span>
+        <div
+          className="min-w-0 break-words font-bold leading-snug"
+          style={{ fontSize: "clamp(8px, calc(10px * var(--hki-font-scale, 1)), 12px)" }}
+        >
+          {t("status.left")}
         </div>
-        <div className="truncate text-[10px] leading-tight">{t("status.traveled")}</div>
-        <div className="truncate text-[10px] leading-tight">
-          <span className="font-extrabold text-[13px]">{Math.floor(traveledKm)}</span><span className="text-[9px]">{t("common.unitKm")}</span>
+        <div className="min-w-0 break-words leading-snug" style={{ fontSize: "clamp(8px, calc(10px * var(--hki-font-scale, 1)), 12px)" }}>
+          <span className="font-extrabold" style={{ fontSize: "clamp(10px, calc(13px * var(--hki-font-scale, 1)), 14px)" }}>{left}</span>
+          <span style={{ fontSize: "clamp(8px, calc(9px * var(--hki-font-scale, 1)), 11px)" }}>{t("common.unitKm")}</span>
+        </div>
+        <div className="min-w-0 break-words leading-snug" style={{ fontSize: "clamp(8px, calc(10px * var(--hki-font-scale, 1)), 12px)" }}>
+          {t("status.traveled")}
+        </div>
+        <div className="min-w-0 break-words leading-snug" style={{ fontSize: "clamp(8px, calc(10px * var(--hki-font-scale, 1)), 12px)" }}>
+          <span className="font-extrabold" style={{ fontSize: "clamp(10px, calc(13px * var(--hki-font-scale, 1)), 14px)" }}>{Math.floor(traveledKm)}</span>
+          <span style={{ fontSize: "clamp(8px, calc(9px * var(--hki-font-scale, 1)), 11px)" }}>{t("common.unitKm")}</span>
         </div>
       </div>
-      {/* Weather */}
-      <div className="flex h-[72px] w-[70px] shrink-0 flex-col items-center justify-center gap-0.5 rounded-[14px] bg-gradient-to-b from-sky-200 to-sky-300 text-center text-slate-800">
-        <Icon className="h-7 w-7" strokeWidth={2} />
-        <div className="font-extrabold leading-none" style={{ fontSize: "clamp(0.9rem, 1rem, 1rem)" }}>
+      {/* Weather — column centered in tile; condition scrolls in a capped band if needed */}
+      <div className="flex h-[86px] w-[108px] shrink-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-[18px] bg-gradient-to-b from-sky-200 to-sky-300 px-1.5 py-1 text-center text-slate-800">
+        <Icon
+          className="shrink-0"
+          strokeWidth={2}
+          style={{
+            width: "clamp(18px, calc(22px * var(--hki-font-scale, 1)), 26px)",
+            height: "clamp(18px, calc(22px * var(--hki-font-scale, 1)), 26px)",
+          }}
+        />
+        <div
+          className="w-full shrink-0 font-extrabold leading-none tabular-nums"
+          style={{ fontSize: "clamp(12px, calc(17px * var(--hki-font-scale, 1)), 20px)" }}
+        >
           {weather.tempC}°
         </div>
-        <div className="w-full break-words px-1 font-semibold leading-none text-center" style={{ fontSize: "clamp(0.6rem, 0.68rem, 0.68rem)" }}>
+        <div
+          className="mx-auto max-h-[38px] min-h-0 w-full max-w-full overflow-y-auto overflow-x-hidden whitespace-normal break-words px-0.5 text-center text-balance font-semibold leading-snug [scrollbar-width:thin]"
+          style={{ fontSize: "clamp(7px, calc(10px * var(--hki-font-scale, 1)), 11px)" }}
+          title={t(`weather.${conditionKey}`)}
+        >
           {t(`weather.${conditionKey}`)}
         </div>
       </div>

@@ -7,7 +7,7 @@ import { ClimateCard } from "@/components/ClimateCard";
 import { BrightnessCard } from "@/components/BrightnessCard";
 import { StatusCard } from "@/components/StatusCard";
 import { Mic } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CockpitLayout } from "@/components/CockpitLayout";
 import { useApp } from "@/lib/app-context";
 import { useTranslation } from "react-i18next";
@@ -37,73 +37,13 @@ function VoicePage() {
   const [needsGesture, setNeedsGesture] = useState(false);
   const [popupAltText, setPopupAltText] = useState(false);
   const recogRef = useRef<any>(null);
-  const { playBeep, language, playing, setPlaying, audioEl, gear, musicExpanded, setMusicExpanded, voicePopupOpen, setVoicePopupOpen } = useApp();
+  const { playBeep, language, gear, musicExpanded, setMusicExpanded, voicePopupOpen, setVoicePopupOpen } = useApp();
   const navigate = useNavigate();
-  const wasPlayingRef = useRef(false);
-  const voiceSessionActiveRef = useRef(false);
   const didChimeRef = useRef(false);
-  const playingRef = useRef(playing);
   const keepListeningRef = useRef(true);
   const lastNavAtRef = useRef(0);
   const navLockedRef = useRef(false);
   const toggleMusic = () => setMusicExpanded(!musicExpanded);
-
-  // Keep this ref in sync immediately (not one-render-late).
-  playingRef.current = playing;
-
-  const forcePauseAudioNow = () => {
-    // 1) Pause via the registered global ref when available.
-    try { audioEl?.pause(); } catch {}
-    // 2) If the ref isn't ready yet (first load), pause the DOM <audio> directly.
-    try {
-      const el = document.querySelector("audio") as HTMLAudioElement | null;
-      el?.pause();
-    } catch {}
-  };
-
-  // Entering the Voice page should immediately pause music display/playback,
-  // even if SpeechRecognition autostart is blocked by the browser.
-  useLayoutEffect(() => {
-    beginVoiceSession();
-    return () => {
-      // Resume when leaving Voice page.
-      endVoiceSession();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const beginVoiceSession = () => {
-    if (voiceSessionActiveRef.current) return;
-    voiceSessionActiveRef.current = true;
-    // Capture whether music was playing right before Voice took over.
-    wasPlayingRef.current = playingRef.current;
-    // Pause playback while on the Voice page (keep the music panel visible).
-    setPlaying(false);
-    forcePauseAudioNow();
-    // One more microtask later to catch engines that start/resume audio slightly after state flips.
-    window.setTimeout(() => forcePauseAudioNow(), 0);
-  };
-
-  const endVoiceSession = () => {
-    if (!voiceSessionActiveRef.current) return;
-    voiceSessionActiveRef.current = false;
-    if (wasPlayingRef.current) {
-      setPlaying(true);
-      // Some browsers need a "kick" after mic usage; try to resume the audio element too.
-      window.setTimeout(() => {
-        try { audioEl?.play?.(); } catch {}
-      }, 0);
-    }
-    wasPlayingRef.current = false;
-  };
-
-  // If the global audio element registers *after* we entered Voice,
-  // pause it immediately so there is no brief "leak" of sound.
-  useEffect(() => {
-    if (!voiceSessionActiveRef.current) return;
-    forcePauseAudioNow();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [audioEl]);
 
   useEffect(() => {
     setSpokenText("");
@@ -150,7 +90,6 @@ function VoicePage() {
     if (!r) return;
     try {
       setNeedsGesture(false);
-      beginVoiceSession();
       r.start();
       setListening(true);
     } catch {
@@ -191,8 +130,6 @@ function VoicePage() {
         .replace(/\s+/g, " ")
         .trim();
       setSpokenText(text);
-      // Keep music paused while on Voice page.
-      beginVoiceSession();
 
       // Only navigate on FINAL results (reduces accidental triggers).
       const finalText = Array.from(e.results)
@@ -285,13 +222,13 @@ function VoicePage() {
       {voicePopupOpen && (
       <div className="pointer-events-none absolute left-1/2 top-2 z-[1500] -translate-x-1/2" style={{ width: 292 }}>
         <div
-          className="pointer-events-auto relative flex h-[135px] flex-col items-center justify-center gap-2 overflow-hidden rounded-[24px] bg-[var(--panel)] px-4 shadow-2xl ring-1 ring-white/10 backdrop-blur-md"
+          className="bg-app-panel pointer-events-auto relative flex h-[135px] flex-col items-center justify-center gap-2 overflow-hidden rounded-[24px] px-4 shadow-2xl ring-1 ring-white/10 backdrop-blur-md"
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Boost contrast (especially in purple theme) without changing layout */}
           <div className="pointer-events-none absolute inset-0 bg-black/30" />
-          <div className={`relative flex h-12 w-12 items-center justify-center rounded-full ${listening ? "bg-[var(--brand)]/20" : "bg-[var(--panel-soft)]"}`}>
+          <div className={`relative flex h-12 w-12 items-center justify-center rounded-full ${listening ? "bg-[var(--brand)]/20" : "bg-app-panel-soft"}`}>
             <span className={`absolute inset-0 animate-ping rounded-full ${listening ? "bg-[var(--brand)]/30" : "bg-foreground/10"}`} />
             <Mic className={`h-6 w-6 ${listening ? "text-[var(--brand)]" : "text-foreground/60"}`} />
           </div>
@@ -311,7 +248,7 @@ function VoicePage() {
         leftTop={musicExpanded ? <MediaCard expanded onToggleExpand={toggleMusic} /> : <TrafficWidget className="h-full w-full" />}
         leftTopLarge={musicExpanded}
         leftMiddle={musicExpanded ? undefined : <MediaCard onToggleExpand={toggleMusic} />}
-        leftBottom={<ClimateCard />}
+        leftBottom={musicExpanded ? undefined : <ClimateCard />}
         centerTop={<MapWidget className="h-full w-full" />}
         centerBottom={<BrightnessCard />}
         rightTop={<GearPanel />}

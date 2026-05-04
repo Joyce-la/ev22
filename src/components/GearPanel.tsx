@@ -31,32 +31,14 @@ export function GearPanel() {
     const next = gear === "P" ? 0 : gear === "R" ? 5 : gear === "N" ? 0 : 70;
     setSpeedKmh(next);
   }, [gear, setSpeedKmh]);
-  
-  // Handle Ctrl+P/D/R/N keyboard shortcuts for gear changes.
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        const key = e.key.toUpperCase();
-        if (key === "P" || key === "D" || key === "R" || key === "N") {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          setGear(key as typeof gear);
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown, true);
-    return () => window.removeEventListener("keydown", handleKeyDown, true);
-  }, [setGear]);
   const reversePanelClass = theme === "purple"
     ? "bg-[#3f226a] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-white/30"
     : theme === "dark"
-    ? "bg-[var(--panel)] text-white shadow-sm ring-1 ring-white/15"
-    : "bg-[var(--panel)] text-foreground shadow-sm ring-1 ring-black/5";
+    ? "bg-app-panel text-white shadow-sm ring-1 ring-white/15"
+    : "bg-app-panel text-foreground shadow-sm ring-1 ring-black/5";
   const reverseIconStripClass = theme === "purple"
     ? "bg-[#4a2a7b] ring-1 ring-white/25"
-    : "bg-[var(--panel-soft)]";
+    : "bg-app-panel-soft";
   const reverseActiveControlClass = theme === "purple" ? "bg-[#8f47ba]" : "bg-[var(--active)]";
   const reverseActiveGearClass = theme === "purple"
     ? "text-white ring-2 ring-[#8f47ba] shadow-[0_0_0_2px_rgba(255,255,255,0.2)]"
@@ -72,17 +54,17 @@ export function GearPanel() {
   return (
     <div
       className={[
-        "flex h-full w-full flex-col rounded-[24px] px-[10px] py-[10px]",
+        "grid h-full w-full grid-rows-[auto_auto_1fr_auto] rounded-[24px] px-[10px] py-[10px] overflow-hidden",
         reversing
           ? reversePanelClass
-          : "bg-[var(--panel)] shadow-sm ring-1 ring-black/5",
+          : "bg-app-panel shadow-sm ring-1 ring-black/5",
       ].join(" ")}
     >
       {/* Top icon row (low / high beam / car) — 4.27:1 ratio */}
       <div
         className={[
           "flex shrink-0 items-center justify-around rounded-full px-[6px]",
-          reversing ? reverseIconStripClass : "bg-[var(--panel-soft)]",
+          reversing ? reverseIconStripClass : "bg-app-panel-soft",
         ].join(" ")}
         style={{ height: 38 }}
       >
@@ -132,14 +114,31 @@ export function GearPanel() {
       </div>
 
       {/* Current gear with arrows */}
-      <div className="mt-[8px] flex shrink-0 items-center justify-between px-[2px]">
-        <button type="button" onClick={prev} disabled={idx === 0} aria-label={t("gear.previousGear")} className="disabled:opacity-30">
+      <div className="mt-[6px] flex shrink-0 items-center justify-between px-[2px]">
+        <button
+          type="button"
+          disabled
+          aria-label={t("gear.previousGear")}
+          title={t("gear.useCtrlShortcut")}
+          className={idx === 0 ? "opacity-30 cursor-default" : "opacity-100 cursor-default"}
+        >
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M2 13 L14 4 L14 9 L42 9 L42 17 L14 17 L14 22 Z" fill={idx === 0 ? "#d1d5db88" : "#22c55e"}/>
           </svg>
         </button>
-        <span className="min-w-[24px] text-center font-extrabold leading-none text-6xl">{gear}</span>
-        <button type="button" onClick={next} disabled={idx === GEARS.length - 1} aria-label={t("gear.nextGear")} className="disabled:opacity-30">
+        <span
+          className="min-w-[24px] text-center font-extrabold leading-none"
+          style={{ fontSize: "clamp(44px, calc(56px * var(--hki-font-scale, 1)), 70px)" }}
+        >
+          {gear}
+        </span>
+        <button
+          type="button"
+          disabled
+          aria-label={t("gear.nextGear")}
+          title={t("gear.useCtrlShortcut")}
+          className={idx === GEARS.length - 1 ? "opacity-30 cursor-default" : "opacity-100 cursor-default"}
+        >
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M42 13 L30 4 L30 9 L2 9 L2 17 L30 17 L30 22 Z" fill={idx === GEARS.length - 1 ? "#d1d5db" : "#22c55e"}/>
           </svg>
@@ -147,7 +146,7 @@ export function GearPanel() {
       </div>
 
       {/* PRND vertical list — 143:414 ratio inside */}
-      <div className="mt-[12px] flex flex-1 flex-col items-center justify-center gap-[12px]">
+      <div className="mt-[8px] flex min-h-0 flex-col items-center justify-center gap-[clamp(6px,1.2vh,10px)]">
         {GEARS.map((g) => {
           const active = g === gear;
           return (
@@ -155,23 +154,35 @@ export function GearPanel() {
               type="button"
               key={g}
               disabled
-              className={`flex h-[48px] w-[48px] items-center justify-center rounded-full font-medium leading-none transition-all text-[2.8rem] cursor-not-allowed ${
+              className={`grid place-items-center overflow-hidden rounded-full font-medium transition-all cursor-not-allowed ${
                 active
                   ? `bg-[var(--active)] ${reversing ? reverseActiveGearClass : "text-foreground ring-2 ring-foreground/15"}`
                   : `${reversing ? reverseMutedTextClass : "text-foreground/85"} opacity-50`
               }`}
               title={t("gear.useCtrlShortcut")}
+              style={{
+                width: "clamp(44px, calc(48px * var(--hki-font-scale, 1)), 56px)",
+                height: "clamp(44px, calc(48px * var(--hki-font-scale, 1)), 56px)",
+              }}
             >
-              {g}
+              <span
+                className="relative top-[1px] block leading-none"
+                style={{ fontSize: "clamp(29px, calc(33px * var(--hki-font-scale, 1)), 42px)" }}
+              >
+                {g}
+              </span>
             </button>
           );
         })}
       </div>
 
       {/* Speed area — 261×171 (1.53:1). P=0, R=5 (slow reverse), N=current, D=70 */}
-      <div className="shrink-0 pb-[2px] pt-[4px] text-center">
+      <div className="shrink-0 pb-[2px] pt-[2px] text-center">
         <div className="flex flex-col items-center justify-center">
-          <div className={`font-extrabold leading-none text-[3.2rem] ${reversing ? reverseSpeedTextClass : ""}`}>
+          <div
+            className={`font-extrabold leading-none ${reversing ? reverseSpeedTextClass : ""}`}
+            style={{ fontSize: "clamp(40px, calc(52px * var(--hki-font-scale, 1)), 64px)" }}
+          >
             {Math.round(speedKmh)}
           </div>
           <div className={`max-w-full text-center text-[12px] font-bold tracking-[0.08em] whitespace-normal break-words leading-tight ${reversing ? reverseSpeedTextClass : "text-foreground/80"}`}>

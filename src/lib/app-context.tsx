@@ -242,7 +242,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.classList.remove("dark", "purple");
     if (theme !== "light") root.classList.add(theme);
+    // Global font scaling (affects rem-based sizing across the app).
     root.style.fontSize = `${16 * fontScale}px`;
+    // Also expose as a variable for places that need finer control.
+    root.style.setProperty("--hki-font-scale", String(fontScale));
   }, [theme, fontScale]);
 
   // Traveled distance integration (km): add speed * dt while driving.

@@ -25,7 +25,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Ketuk kartu musik untuk membuka pemutar dan kontrol pemutaran.",
         "Gunakan main/jeda dan lewati untuk mengganti lagu.",
-        "Papan ketik: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R mengganti gigi saat berkendara.",
+        "Papan ketik: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D mengganti gigi saat berkendara.",
         "Buka halaman ini di Chrome untuk pintasan papan ketik dan dukungan kecerahan terbaik.",
         "Kartu musik ringkas sejajar dengan kartu lain di baris bawah.",
       ],
@@ -70,7 +70,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "แตะการ์ดเพลงเพื่อขยายตัวเล่นและใช้ปุ่มควบคุมการเล่น",
         "ใช้เล่น/หยุดชั่วคราวและข้ามเพื่อเปลี่ยนแทร็ก",
-        "คีย์บอร์ด: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R สลับเกียร์ขณะขับ",
+        "คีย์บอร์ด: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D สลับเกียร์ขณะขับ",
         "เปิดหน้านี้ใน Chrome เพื่อรองรับปุ่มลัดและความสว่างที่ดีที่สุด",
         "การ์ดเพลงแบบกะทัดรัดจัดแนวกับการ์ดอื่นในแถวล่าง",
       ],
@@ -115,7 +115,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Chạm thẻ nhạc để mở rộng trình phát và dùng nút điều khiển.",
         "Dùng phát/tạm dừng và bỏ qua để đổi bài.",
-        "Bàn phím: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R để đổi số khi lái.",
+        "Bàn phím: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D để đổi số khi lái.",
         "Mở trang này trong Chrome để hỗ trợ phím tắt và độ sáng tốt nhất.",
         "Thẻ nhạc gọn xếp thẳng hàng với các thẻ khác ở hàng dưới.",
       ],
@@ -160,7 +160,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "음악 카드를 탭해 플레이어를 펼치고 재생 컨트롤을 사용합니다.",
         "재생/일시정지 및 건너뛰기로 곡을 바꿉니다.",
-        "키보드: 주행 중 Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R로 기어를 바꿉니다.",
+        "키보드: 주행 중 Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D로 기어를 바꿉니다.",
         "단축키와 밝기 지원을 위해 이 페이지는 Chrome에서 여세요.",
         "작은 음악 카드는 아래 줄의 다른 카드와 높이가 맞춰집니다.",
       ],
@@ -205,7 +205,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "प्लेयर खोलने और नियंत्रण के लिए संगीत कार्ड पर टैप करें।",
         "ट्रैक बदलने के लिए चलाएँ/रोकें और स्किप का उपयोग करें।",
-        "कीबोर्ड: ड्राइविंग के दौरान Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R से गियर बदलें।",
+        "कीबोर्ड: ड्राइविंग के दौरान Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D से गियर बदलें।",
         "सर्वोत्तम शॉर्टकट और चमक के लिए यह पेज Chrome में खोलें।",
         "कॉम्पैक्ट संगीत कार्ड निचली पंक्ति में अन्य कार्डों के साथ संरेखित है।",
       ],
@@ -250,7 +250,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "اضغط على بطاقة الموسيقى لتوسيع المشغّل واستخدام عناصر التحكم.",
         "استخدم التشغيل/الإيقاف المؤقت والتخطي لتغيير المقطوعات.",
-        "لوحة المفاتيح: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R لتغيير السرعة أثناء القيادة.",
+        "لوحة المفاتيح: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D لتغيير السرعة أثناء القيادة.",
         "افتح هذه الصفحة في Chrome لأفضل دعم للاختصارات والسطوع.",
         "بطاقة الموسيقى المدمجة تتماشى مع البطاقات الأخرى في الصف السفلي.",
       ],
@@ -295,7 +295,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Нажмите на карточку музыки, чтобы развернуть плеер и элементы управления.",
         "Воспроизведение/пауза и пропуск переключают треки.",
-        "Клавиатура: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R — смена передачи во время движения.",
+        "Клавиатура: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — смена передачи во время движения.",
         "Откройте страницу в Chrome для лучшей поддержки горячих клавиш и яркости.",
         "Компактная карточка музыки выровнена с другими карточками в нижнем ряду.",
       ],
@@ -340,7 +340,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "இசை அட்டையைத் தட்டி பிளேயரை விரிவாக்கி கட்டுப்பாடுகளைப் பயன்படுத்தவும்.",
         "பாடல்களை மாற்ற இயக்க/இடைநிறுத்தம் மற்றும் தவிர்த்தல் பயன்படுத்தவும்.",
-        "விசைப்பலகை: ஓட்டும்போது Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R கியரை மாற்றும்.",
+        "விசைப்பலகை: ஓட்டும்போது Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D கியரை மாற்றும்.",
         "குறுக்குவழி மற்றும் பிரகாச ஆதரவிற்கு இந்தப் பக்கத்தை Chrome இல் திறக்கவும்.",
         "சிறிய இசை அட்டை கீழ் வரிசையிலுள்ள மற்ற அட்டைகளுடன் சீரமைக்கப்படும்.",
       ],
@@ -385,7 +385,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Toca la tarjeta de música para expandir el reproductor y usar los controles.",
         "Usa reproducir/pausa y saltar para cambiar de pista.",
-        "Teclado: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R cambia la marcha al conducir.",
+        "Teclado: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D cambia la marcha al conducir.",
         "Abre esta página en Chrome para el mejor soporte de atajos y brillo.",
         "La tarjeta de música compacta se alinea con las demás en la fila inferior.",
       ],
@@ -430,7 +430,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Tippen Sie auf die Musik-Karte, um den Player zu öffnen und Steuerung zu nutzen.",
         "Wiedergabe/Pause und Überspringen wechseln die Titel.",
-        "Tastatur: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R wechselt den Gang während der Fahrt.",
+        "Tastatur: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D wechselt den Gang während der Fahrt.",
         "Öffnen Sie diese Seite in Chrome für die beste Tastenkürzel- und Helligkeitsunterstützung.",
         "Die kompakte Musik-Karte ist mit den anderen Karten in der unteren Reihe ausgerichtet.",
       ],
@@ -475,7 +475,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Touchez la carte musique pour agrandir le lecteur et utiliser les commandes.",
         "Lecture/pause et saut pour changer de morceau.",
-        "Clavier : Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R change de vitesse en conduisant.",
+        "Clavier : Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D change de vitesse en conduisant.",
         "Ouvrez cette page dans Chrome pour le meilleur support des raccourcis et de la luminosité.",
         "La carte musique compacte s’aligne avec les autres cartes en bas.",
       ],
@@ -520,7 +520,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Tocca la scheda musica per espandere il lettore e usare i controlli.",
         "Play/pausa e salta per cambiare traccia.",
-        "Tastiera: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R cambia marcia in guida.",
+        "Tastiera: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D cambia marcia in guida.",
         "Apri questa pagina in Chrome per il miglior supporto a scorciatoie e luminosità.",
         "La scheda musica compatta è allineata alle altre nella fila inferiore.",
       ],
@@ -565,7 +565,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Toque no cartão de música para expandir o leitor e usar os controlos.",
         "Use reproduzir/pausa e saltar para mudar de faixa.",
-        "Teclado: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R muda a mudança em condução.",
+        "Teclado: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D muda a mudança em condução.",
         "Abra esta página no Chrome para o melhor suporte a atalhos e brilho.",
         "O cartão de música compacto alinha-se com os outros na fila inferior.",
       ],
@@ -610,7 +610,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Oynatıcıyı açmak ve kontrolleri kullanmak için müzik kartına dokunun.",
         "Parça değiştirmek için oynat/duraklat ve atla kullanın.",
-        "Klavye: Sürüş sırasında Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R vites değiştirir.",
+        "Klavye: Sürüş sırasında Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D vites değiştirir.",
         "Kısayol ve parlaklık desteği için bu sayfayı Chrome’da açın.",
         "Kompakt müzik kartı alt sıradaki diğer kartlarla hizalanır.",
       ],
@@ -655,7 +655,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Tik op de muziekkaart om de speler uit te klappen en knoppen te gebruiken.",
         "Gebruik afspelen/pauze en overslaan om van nummer te wisselen.",
-        "Toetsenbord: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R wisselt versnelling tijdens het rijden.",
+        "Toetsenbord: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D wisselt versnelling tijdens het rijden.",
         "Open deze pagina in Chrome voor de beste ondersteuning van sneltoetsen en helderheid.",
         "De compacte muziekkaart sluit aan op andere kaarten in de onderste rij.",
       ],
@@ -700,7 +700,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Tryck på musikkortet för att expandera spelaren och använda kontroller.",
         "Använd spela/pausa och hoppa för att byta spår.",
-        "Tangentbord: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R byter växel under körning.",
+        "Tangentbord: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D byter växel under körning.",
         "Öppna denna sida i Chrome för bäst stöd för kortkommandon och ljusstyrka.",
         "Det kompakta musikkortet linjerar med övriga kort i nedre raden.",
       ],
@@ -745,7 +745,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Dotknij karty muzyki, aby rozwinąć odtwarzacz i użyć przycisków.",
         "Odtwórz/wstrzymaj i pomiń zmieniają utwór.",
-        "Klawiatura: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R zmienia bieg podczas jazdy.",
+        "Klawiatura: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D zmienia bieg podczas jazdy.",
         "Otwórz tę stronę w Chrome, aby uzyskać najlepsze skróty i jasność.",
         "Kompaktowa karta muzyki wyrównuje się z innymi w dolnym rzędzie.",
       ],
@@ -790,7 +790,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "Торкніться картки музики, щоб розгорнути плеєр і керування.",
         "Відтворення/пауза та пропуск змінюють треки.",
-        "Клавіатура: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R — зміна передачі під час руху.",
+        "Клавіатура: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — зміна передачі під час руху.",
         "Відкрийте сторінку в Chrome для найкращої підтримки яскравості та гарячих клавіш.",
         "Компактна картка музики вирівняна з іншими в нижньому ряді.",
       ],
@@ -835,7 +835,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "روی کارت موسیقی بزنید تا پخش‌کننده باز شود و کنترل‌ها را ببینید.",
         "پخش/توقف موقت و رد کردن برای عوض کردن آهنگ.",
-        "صفحه‌کلید: هنگام رانندگی Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R دنده را عوض می‌کند.",
+        "صفحه‌کلید: هنگام رانندگی Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D دنده را عوض می‌کند.",
         "این صفحه را در Chrome باز کنید تا بهترین پشتیبانی میانبر و روشنایی را داشته باشید.",
         "کارت موسیقی فشرده با کارت‌های ردیف پایین هم‌تراز است.",
       ],
@@ -880,7 +880,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "প্লেয়ার খুলতে ও নিয়ন্ত্রণ ব্যবহার করতে সঙ্গীত কার্ডে ট্যাপ করুন।",
         "ট্র্যাক বদলাতে চালান/বিরতি ও এড়িয়ে যান ব্যবহার করুন।",
-        "কীবোর্ড: ড্রাইভিংয়ের সময় Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R গিয়ার বদলায়।",
+        "কীবোর্ড: ড্রাইভিংয়ের সময় Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D গিয়ার বদলায়।",
         "শর্টকাট ও উজ্জ্বলতার সেরা সমর্থনের জন্য এই পৃষ্ঠা Chrome এ খুলুন।",
         "কমপ্যাক্ট সঙ্গীত কার্ড নিচের সারির অন্যান্য কার্ডের সাথে সারিবদ্ধ।",
       ],
@@ -925,7 +925,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "پلیئر کھولنے اور کنٹرول کے لیے موسیقی کارڈ پر ٹیپ کریں۔",
         "ٹریک بدلنے کے لیے چلائیں/روکیں اور اگلا استعمال کریں۔",
-        "کی بورڈ: ڈرائیونگ میں Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R گیئر بدلتا ہے۔",
+        "کی بورڈ: ڈرائیونگ میں Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D گیئر بدلتا ہے۔",
         "شارٹ کٹ اور چمک کے بہترین سپورٹ کے لیے یہ صفحہ Chrome میں کھولیں۔",
         "چھوٹا موسیقی کارڈ نیچی قطار میں دوسرے کارڈز کے ساتھ ہم آہنگ ہے۔",
       ],
@@ -970,7 +970,7 @@ export const USER_MANUAL_BY_LANG: Record<string, UserManualBundle> = {
       points: [
         "I-tap ang music card para buksan ang player at gamitin ang mga kontrol.",
         "Gamitin ang play/pause at skip para palitan ang track.",
-        "Keyboard: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R para magpalit ng gear habang nagmamaneho.",
+        "Keyboard: Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para magpalit ng gear habang nagmamaneho.",
         "Buksan ang pahinang ito sa Chrome para sa pinakamahusay na shortcut at suporta sa liwanag.",
         "Ang compact na music card ay nakahanay sa iba pang card sa ibabang hilera.",
       ],
@@ -1018,7 +1018,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Ketuk untuk melihat panduan lengkap. Mencakup layout dashboard, media, kecerahan, navigasi, dan pemasangan ponsel.",
     userManualHint:
-      "Ketuk kartu musik untuk membuka playlist. Gunakan Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D untuk ganti gigi, dan atur kecerahan ke Auto atau Manual di sini.",
+      "Ketuk kartu musik untuk membuka playlist. Gunakan Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D untuk ganti gigi, dan atur kecerahan ke Auto atau Manual di sini.",
     userManualChrome:
       "Buka halaman ini di Chrome untuk dukungan pintasan keyboard dan kecerahan terbaik.",
   },
@@ -1027,7 +1027,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "แตะเพื่อดูคู่มือฉบับเต็ม ครอบคลุมเลย์เอาต์แดชบอร์ด สื่อและเพลง ความสว่าง การนำทาง และการเชื่อมต่อโทรศัพท์",
     userManualHint:
-      "แตะการ์ดเพลงเพื่อเปิดเพลย์ลิสต์ ใช้ Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D เพื่อเปลี่ยนเกียร์ และตั้งความสว่างเป็นอัตโนมัติหรือปรับเองที่นี่",
+      "แตะการ์ดเพลงเพื่อเปิดเพลย์ลิสต์ ใช้ Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D เพื่อเปลี่ยนเกียร์ และตั้งความสว่างเป็นอัตโนมัติหรือปรับเองที่นี่",
     userManualChrome: "เปิดหน้านี้ใน Chrome เพื่อรองรับปุ่มลัดและความสว่างที่ดีที่สุด",
   },
   vi: {
@@ -1035,7 +1035,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Chạm để xem hướng dẫn đầy đủ: bố cục bảng điều khiển, phương tiện, độ sáng, dẫn đường và ghép điện thoại.",
     userManualHint:
-      "Chạm thẻ nhạc để mở danh sách phát. Dùng Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D để đổi số, và đặt độ sáng Tự động hoặc Thủ công tại đây.",
+      "Chạm thẻ nhạc để mở danh sách phát. Dùng Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D để đổi số, và đặt độ sáng Tự động hoặc Thủ công tại đây.",
     userManualChrome: "Mở trang này trong Chrome để hỗ trợ phím tắt và độ sáng tốt nhất.",
   },
   ko: {
@@ -1043,7 +1043,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "탭하면 전체 설명서를 볼 수 있습니다. 대시보드 레이아웃, 미디어, 밝기, 내비게이션, 휴대폰 연결을 안내합니다.",
     userManualHint:
-      "음악 카드를 탭해 재생목록을 엽니다. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D 로 기어를 바꾸고 여기서 밝기를 자동 또는 수동으로 설정하세요.",
+      "음악 카드를 탭해 재생목록을 엽니다. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D 로 기어를 바꾸고 여기서 밝기를 자동 또는 수동으로 설정하세요.",
     userManualChrome: "단축키와 밝기 지원을 위해 이 페이지는 Chrome에서 여세요.",
   },
   hi: {
@@ -1051,7 +1051,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "पूरा मैनुअल देखने के लिए टैप करें। डैशबोर्ड लेआउट, मीडिया, चमक, नेविगेशन और फ़ोन पेयरिंग शामिल है।",
     userManualHint:
-      "प्लेलिस्ट के लिए संगीत कार्ड टैप करें। गियर बदलने के लिए Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D और चमक यहाँ ऑटो या मैनुअल सेट करें।",
+      "प्लेलिस्ट के लिए संगीत कार्ड टैप करें। गियर बदलने के लिए Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D और चमक यहाँ ऑटो या मैनुअल सेट करें।",
     userManualChrome: "बेहतर शॉर्टकट और चमक के लिए Chrome में यह पेज खोलें।",
   },
   ar: {
@@ -1059,7 +1059,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "اضغط لعرض الدليل الكامل: تخطيط لوحة التحكم، الوسائط، السطوع، الملاحة وربط الهاتف.",
     userManualHint:
-      "اضغط على بطاقة الموسيقى لفتح قائمة التشغيل. استخدم Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D لتغيير الغيار واضبط السطوع تلقائياً أو يدوياً هنا.",
+      "اضغط على بطاقة الموسيقى لفتح قائمة التشغيل. استخدم Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D لتغيير الغيار واضبط السطوع تلقائياً أو يدوياً هنا.",
     userManualChrome: "افتح هذه الصفحة في Chrome لأفضل دعم للاختصارات والسطوع.",
   },
   ru: {
@@ -1067,7 +1067,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Нажмите, чтобы открыть полное руководство: макет панели, медиа, яркость, навигация и сопряжение телефона.",
     userManualHint:
-      "Нажмите на карточку музыки для плейлиста. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D — смена передачи; яркость — Авто или Вручную здесь.",
+      "Нажмите на карточку музыки для плейлиста. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — смена передачи; яркость — Авто или Вручную здесь.",
     userManualChrome: "Откройте страницу в Chrome для лучшей поддержки горячих клавиш и яркости.",
   },
   ta: {
@@ -1075,7 +1075,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "முழு கையேட்டைக் காண தட்டவும்: டாஷ்போர்டு அமைப்பு, ஊடகம், பிரகாசம், வழிசெலுத்தல், தொலைபேசி இணைப்பு.",
     userManualHint:
-      "பிளேலிஸ்டுக்கு இசை அட்டையைத் தட்டவும். Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D கியர் மாற்றம்; பிரகாசம் தானாக/கைமுறை இங்கே.",
+      "பிளேலிஸ்டுக்கு இசை அட்டையைத் தட்டவும். Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D கியர் மாற்றம்; பிரகாசம் தானாக/கைமுறை இங்கே.",
     userManualChrome: "குறுக்குவழி மற்றும் பிரகாசத்திற்கு Chrome இல் இப்பக்கத்தைத் திறக்கவும்.",
   },
   es: {
@@ -1083,7 +1083,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Toca para ver el manual completo: diseño del panel, multimedia, brillo, navegación y emparejamiento del teléfono.",
     userManualHint:
-      "Toca la tarjeta de música para la lista de reproducción. Usa Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D para el cambio y el brillo Auto/Manual aquí.",
+      "Toca la tarjeta de música para la lista de reproducción. Usa Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para el cambio y el brillo Auto/Manual aquí.",
     userManualChrome: "Abre esta página en Chrome para mejores atajos y brillo.",
   },
   de: {
@@ -1091,7 +1091,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Tippen Sie für das vollständige Handbuch: Dashboard-Layout, Medien, Helligkeit, Navigation und Telefonkoppelung.",
     userManualHint:
-      "Musik-Karte für Wiedergabeliste tippen. Mit Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D den Gang wechseln und Helligkeit hier auf Auto oder Manuell.",
+      "Musik-Karte für Wiedergabeliste tippen. Mit Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D den Gang wechseln und Helligkeit hier auf Auto oder Manuell.",
     userManualChrome: "Seite in Chrome öffnen für die beste Tastenkürzel- und Helligkeitsunterstützung.",
   },
   fr: {
@@ -1099,7 +1099,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Touchez pour le manuel complet : disposition du tableau de bord, médias, luminosité, navigation et appairage du téléphone.",
     userManualHint:
-      "Touchez la carte musique pour la playlist. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D pour la vitesse et réglage luminosité Auto/Manuel ici.",
+      "Touchez la carte musique pour la playlist. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D pour la vitesse et réglage luminosité Auto/Manuel ici.",
     userManualChrome: "Ouvrez cette page dans Chrome pour les raccourcis et la luminosité.",
   },
   it: {
@@ -1107,7 +1107,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Tocca per il manuale completo: layout della dashboard, media, luminosità, navigazione e accoppiamento telefono.",
     userManualHint:
-      "Tocca la scheda musica per la playlist. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D per la marcia e luminosità Auto/Manuale qui.",
+      "Tocca la scheda musica per la playlist. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D per la marcia e luminosità Auto/Manuale qui.",
     userManualChrome: "Apri questa pagina in Chrome per scorciatoie e luminosità ottimali.",
   },
   pt: {
@@ -1115,7 +1115,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Toque para ver o manual completo: layout do painel, multimédia, brilho, navegação e emparelhamento do telefone.",
     userManualHint:
-      "Toque no cartão de música para a playlist. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D para a mudança e brilho Auto/Manual aqui.",
+      "Toque no cartão de música para a playlist. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para a mudança e brilho Auto/Manual aqui.",
     userManualChrome: "Abra esta página no Chrome para melhores atalhos e brilho.",
   },
   tr: {
@@ -1123,7 +1123,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Tam kılavuzu görmek için dokunun: gösterge düzeni, medya, parlaklık, navigasyon ve telefon eşleştirme.",
     userManualHint:
-      "Çalma listesi için müzik kartına dokunun. Vites için Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D ve parlaklığı burada Oto/Manuel ayarlayın.",
+      "Çalma listesi için müzik kartına dokunun. Vites için Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D ve parlaklığı burada Oto/Manuel ayarlayın.",
     userManualChrome: "Kısayol ve parlaklık için bu sayfayı Chrome’da açın.",
   },
   nl: {
@@ -1131,7 +1131,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Tik voor de volledige handleiding: dashboardindeling, media, helderheid, navigatie en telefoonkoppeling.",
     userManualHint:
-      "Tik op de muziekkaart voor de afspeellijst. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D voor versnelling en helderheid Auto/Handmatig hier.",
+      "Tik op de muziekkaart voor de afspeellijst. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D voor versnelling en helderheid Auto/Handmatig hier.",
     userManualChrome: "Open deze pagina in Chrome voor de beste sneltoetsen en helderheid.",
   },
   sv: {
@@ -1139,7 +1139,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Tryck för full handbok: instrumentlayout, media, ljusstyrka, navigering och telefonparkoppling.",
     userManualHint:
-      "Tryck på musikkortet för spellistan. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D för växel och ljusstyrka Auto/Manuell här.",
+      "Tryck på musikkortet för spellistan. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D för växel och ljusstyrka Auto/Manuell här.",
     userManualChrome: "Öppna sidan i Chrome för bäst kortkommandon och ljusstyrka.",
   },
   pl: {
@@ -1147,7 +1147,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Dotknij, aby zobaczyć pełną instrukcję: układ pulpitu, multimedia, jasność, nawigacja i parowanie telefonu.",
     userManualHint:
-      "Dotknij karty muzyki, by otworzyć playlistę. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D zmienia bieg; jasność Auto/Ręcznie tutaj.",
+      "Dotknij karty muzyki, by otworzyć playlistę. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D zmienia bieg; jasność Auto/Ręcznie tutaj.",
     userManualChrome: "Otwórz tę stronę w Chrome dla najlepszych skrótów i jasności.",
   },
   uk: {
@@ -1155,7 +1155,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "Натисніть для повного посібника: макет панелі, медіа, яскравість, навігація та підключення телефону.",
     userManualHint:
-      "Торкніться картки музики для плейлиста. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D — передача; яскравість Авто/Вручну тут.",
+      "Торкніться картки музики для плейлиста. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D — передача; яскравість Авто/Вручну тут.",
     userManualChrome: "Відкрийте сторінку в Chrome для найкращих гарячих клавіш і яскравості.",
   },
   fa: {
@@ -1163,7 +1163,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "برای دیدن راهنمای کامل ضربه بزنید: چیدمان داشبورد، رسانه، روشنایی، مسیریابی و اتصال تلفن.",
     userManualHint:
-      "روی کارت موسیقی برای پلی‌لیست بزنید. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D برای دنده و روشنایی خودکار/دستی اینجا.",
+      "روی کارت موسیقی برای پلی‌لیست بزنید. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D برای دنده و روشنایی خودکار/دستی اینجا.",
     userManualChrome: "این صفحه را در Chrome باز کنید تا میانبر و روشنایی بهتر شود.",
   },
   bn: {
@@ -1171,7 +1171,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "সম্পূর্ণ ম্যানুয়াল দেখতে ট্যাপ করুন: ড্যাশবোর্ড, মিডিয়া, উজ্জ্বলতা, ন্যাভিগেশন এবং ফোন পেয়ারিং।",
     userManualHint:
-      "প্লেলিস্টের জন্য সঙ্গীত কার্ডে ট্যাপ করুন। গিয়ারের জন্য Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D এবং উজ্জ্বলতা অটো/ম্যানুয়াল এখানে।",
+      "প্লেলিস্টের জন্য সঙ্গীত কার্ডে ট্যাপ করুন। গিয়ারের জন্য Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D এবং উজ্জ্বলতা অটো/ম্যানুয়াল এখানে।",
     userManualChrome: "শর্টকাট ও উজ্জ্বলতার জন্য Chrome এ এই পৃষ্ঠা খুলুন।",
   },
   ur: {
@@ -1179,7 +1179,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "مکمل دستی دیکھنے کیلئے ٹیپ کریں: ڈیش بورڈ، میڈیا، چمک، نیویگیشن اور فون جوڑنا۔",
     userManualHint:
-      "پلے لسٹ کیلئے موسیقی کارڈ پر ٹیپ کریں۔ گیئر کیلئے Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D اور چمک آٹو/مینول یہاں۔",
+      "پلے لسٹ کیلئے موسیقی کارڈ پر ٹیپ کریں۔ گیئر کیلئے Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D اور چمک آٹو/مینول یہاں۔",
     userManualChrome: "شارٹ کٹ اور چمک کیلئے Chrome میں یہ صفحہ کھولیں۔",
   },
   fil: {
@@ -1187,7 +1187,7 @@ export const USER_MANUAL_UI_BY_LANG: Record<
     userManualTeaser:
       "I-tap para sa buong manwal: layout ng dashboard, media, liwanag, navigation, at pag-link ng telepono.",
     userManualHint:
-      "I-tap ang music card para sa playlist. Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D para sa gear, at liwanag Auto/Manual dito.",
+      "I-tap ang music card para sa playlist. Ctrl+Alt+P / Ctrl+Alt+R / Ctrl+Alt+N / Ctrl+Alt+D para sa gear, at liwanag Auto/Manual dito.",
     userManualChrome: "Buksan ang pahinang ito sa Chrome para sa pinakamahusay na shortcut at suporta sa liwanag.",
   },
 };

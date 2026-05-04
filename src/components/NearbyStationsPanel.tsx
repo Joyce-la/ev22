@@ -106,7 +106,7 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
   if (!open) return null;
 
   return (
-    <div className="absolute left-3 top-[58px] z-[1300] w-[340px] overflow-hidden rounded-2xl bg-[var(--panel)] shadow-2xl ring-1 ring-black/10">
+    <div className="absolute left-3 top-[58px] z-[1300] w-[340px] overflow-hidden rounded-2xl bg-app-panel shadow-2xl ring-1 ring-black/10">
       {/* Destination shortcut (pinned above stations header) */}
       <button
         key={HOME_DESTINATION.id}
@@ -119,7 +119,7 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
         className="group flex w-full items-start gap-2 px-3 py-2 text-left hover:bg-[var(--active)]"
         title={t("map.navigateHome")}
       >
-        <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/75">
+        <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-app-panel-soft text-foreground/75">
           <House className="h-4 w-4" />
         </span>
         <span className="min-w-0 flex-1">

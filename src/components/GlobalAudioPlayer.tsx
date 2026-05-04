@@ -39,7 +39,7 @@ export function GlobalAudioPlayer() {
     setAudioEl,
   } = useApp();
 
-  // Register so other components (Voice/SearchBar) can pause instantly.
+  // Register so other components (e.g. SearchBar in-app voice search) can control playback.
   useEffect(() => {
     setAudioEl(audioRef.current);
     return () => setAudioEl(null);

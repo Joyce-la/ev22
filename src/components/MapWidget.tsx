@@ -60,17 +60,17 @@ export function MapWidget({ className = "", clickable = true, fullscreen = false
     ? "bg-black/55 text-white ring-1 ring-white/35 shadow-md"
     : theme === "dark"
     ? "bg-black/55 text-white ring-1 ring-white/20 shadow-md"
-    : "bg-[var(--panel)]/96 text-foreground ring-1 ring-black/10 shadow-sm";
+    : "bg-app-panel text-foreground ring-1 ring-black/10 shadow-sm";
   const mapHintClass = theme === "purple" || theme === "dark"
     ? "bg-black/50 text-white/95 ring-1 ring-white/25 shadow-md"
-    : "bg-[var(--panel)]/94 text-foreground/80 ring-1 ring-black/8 shadow-sm";
+    : "bg-app-panel text-foreground/80 ring-1 ring-black/8 shadow-sm";
 
   const navLabel = activeRoute
     ? t("map.routingTo", { destination: activeRoute.destinationName })
     : t("map.navigation");
 
   const inner = (
-    <div className={`group relative h-full w-full overflow-hidden rounded-[28px] bg-[var(--panel-soft)] shadow-sm ring-1 ring-black/5 ${className}`}>
+    <div className={`group relative h-full w-full overflow-hidden rounded-[28px] bg-app-panel-soft shadow-sm ring-1 ring-black/5 ${className}`}>
       <LeafletMap
         className="absolute inset-0"
         center={originPos}
@@ -82,11 +82,22 @@ export function MapWidget({ className = "", clickable = true, fullscreen = false
         interactive={fullscreen}
         showZoomButtons={true}
         zoomButtonsPlacement="right"
+        zoomButtonsSize={fullscreen ? "default" : "large"}
       />
       {!fullscreen && (
         <div className="pointer-events-none absolute inset-x-[12px] top-[12px] z-[1100] flex items-center justify-between gap-2">
-          <div className={`max-w-[72%] truncate rounded-full px-[12px] py-[5px] text-[11px] font-semibold backdrop-blur ${mapChipClass}`}>{navLabel}</div>
-          <div className={`shrink-0 rounded-full px-[10px] py-[5px] text-[10px] font-semibold backdrop-blur opacity-95 transition group-hover:opacity-100 ${mapHintClass}`}>{t("map.tapToEnlarge")}</div>
+          <div
+            className={`max-w-[72%] truncate rounded-full px-[12px] py-[5px] font-semibold backdrop-blur ${mapChipClass}`}
+            style={{ fontSize: "clamp(10px, calc(11px * var(--hki-font-scale, 1)), 16px)" }}
+          >
+            {navLabel}
+          </div>
+          <div
+            className={`shrink-0 rounded-full px-[10px] py-[5px] font-semibold backdrop-blur opacity-95 transition group-hover:opacity-100 ${mapHintClass}`}
+            style={{ fontSize: "clamp(9px, calc(10px * var(--hki-font-scale, 1)), 14px)" }}
+          >
+            {t("map.tapToEnlarge")}
+          </div>
         </div>
       )}
       {clickable && !fullscreen && <Link to="/map" className="absolute inset-0 z-[1200] block" aria-label={t("map.openFullMap")} />}

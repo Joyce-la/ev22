@@ -18,25 +18,32 @@ function RegisterMapRef({ mapRef }: { mapRef: React.MutableRefObject<LeafletMapT
 function ZoomButtons({
   tone = "default",
   placement = "right",
+  size = "default",
 }: {
   tone?: "default" | "inverted";
   placement?: "right" | "bottom";
+  size?: "default" | "large";
 }) {
   const { t } = useTranslation();
   const map = useMap();
   const isInverted = tone === "inverted";
+  const btn =
+    size === "large"
+      ? "flex h-12 w-12 items-center justify-center text-2xl font-semibold leading-none"
+      : "flex h-9 w-9 items-center justify-center text-lg font-semibold leading-none";
+  const shell = size === "large" ? "rounded-2xl" : "rounded-xl";
   return (
     <div
-      className={`pointer-events-auto absolute overflow-hidden rounded-xl shadow-sm ring-1 ${
+      className={`pointer-events-auto absolute overflow-hidden shadow-sm ring-1 ${shell} ${
         // Keep above the MapWidget click overlay (z-[1200]).
         placement === "bottom"
           ? "bottom-3 left-1/2 z-[1400] -translate-x-1/2"
           : "right-3 top-1/2 z-[1400] -translate-y-1/2"
-      } ${isInverted ? "bg-black/45 ring-white/20" : "bg-[var(--panel)] ring-black/10"}`}
+      } ${isInverted ? "bg-black/45 ring-white/20" : "bg-app-panel ring-black/10"}`}
     >
       <button
         type="button"
-        className={`flex h-9 w-9 items-center justify-center text-lg font-semibold ${
+        className={`${btn} ${
           isInverted ? "text-[var(--brand)] hover:bg-white/10" : "text-[var(--brand)] hover:bg-[var(--active)]/40"
         }`}
         onClick={() => map.zoomIn()}
@@ -49,7 +56,7 @@ function ZoomButtons({
       />
       <button
         type="button"
-        className={`flex h-9 w-9 items-center justify-center text-lg font-semibold ${
+        className={`${btn} ${
           isInverted ? "text-[var(--brand)] hover:bg-white/10" : "text-[var(--brand)] hover:bg-[var(--active)]/40"
         }`}
         onClick={() => map.zoomOut()}
@@ -81,6 +88,7 @@ export function LeafletMap({
   interactive = true,
   showZoomButtons = true,
   zoomButtonsPlacement = "right",
+  zoomButtonsSize = "default",
 }: {
   className?: string;
   center: LatLngExpression;
@@ -92,12 +100,14 @@ export function LeafletMap({
   interactive?: boolean;
   showZoomButtons?: boolean;
   zoomButtonsPlacement?: "right" | "bottom";
+  /** Larger +/- on compact maps (e.g. dashboard widget). */
+  zoomButtonsSize?: "default" | "large";
 }) {
   const { theme } = useApp();
 
   // Avoid SSR crashes (Leaflet touches window/document).
   if (typeof window === "undefined") {
-    return <div className={`h-full w-full bg-[var(--panel-soft)] ${className}`} />;
+    return <div className={`h-full w-full bg-app-panel-soft ${className}`} />;
   }
 
   // Workaround for react-leaflet hydration edge cases: keep a stable key.
@@ -142,7 +152,9 @@ export function LeafletMap({
         )}
         {destination && <CircleMarker center={destination} radius={8} pathOptions={{ color: "#111827", weight: 3, fillOpacity: 1, fillColor: "#111827" }} />}
         <FitToBounds bounds={bounds ?? null} />
-        {showZoomButtons && <ZoomButtons tone={zoomTone as any} placement={zoomButtonsPlacement} />}
+        {showZoomButtons && (
+          <ZoomButtons tone={zoomTone as any} placement={zoomButtonsPlacement} size={zoomButtonsSize} />
+        )}
       </MapContainer>
     </div>
   );

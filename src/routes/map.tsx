@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { GearPanel } from "@/components/GearPanel.tsx";
 import { BrightnessCard } from "@/components/BrightnessCard";
 import { StatusCard } from "@/components/StatusCard";
-import { MediaCard } from "@/components/MediaCard";
 import { ClimateCard } from "@/components/ClimateCard";
 import { Search, Menu } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -29,11 +28,14 @@ export const Route = createFileRoute("/map")({
 function MapPage() {
   const { t } = useTranslation();
   const { destination: initialDest } = Route.useSearch();
-  const { activeRoute, setActiveRoute, musicExpanded, setMusicExpanded } = useApp();
+  const { activeRoute, setActiveRoute, setMusicExpanded } = useApp();
   const navigate = useNavigate();
   const ignoreNextSearchSyncRef = useRef(false);
 
-  const toggleMusic = () => setMusicExpanded(!musicExpanded);
+  // Map is for navigation only — never keep the large music overlay state here.
+  useEffect(() => {
+    setMusicExpanded(false);
+  }, [setMusicExpanded]);
 
   const parseDirect = (raw: string) => {
     const s = (raw ?? "").trim();
@@ -216,7 +218,7 @@ function MapPage() {
         {/* Map column */}
         <div className="flex flex-col relative" style={{ width: W_MAP_COL, gap: GAP_Y }}>
           <form
-            className="relative flex items-center gap-2 rounded-full bg-[var(--panel)] px-4 shadow-sm ring-1 ring-black/5"
+            className="bg-app-panel relative flex items-center gap-2 rounded-full px-4 shadow-sm ring-1 ring-black/5"
             style={{ height: H_SEARCH }}
             onSubmit={(e) => {
               e.preventDefault();
@@ -322,11 +324,6 @@ function MapPage() {
               </button>
             ) : null}
           </div>
-          {musicExpanded && (
-            <div className="absolute left-0 z-[1100]" style={{ top: 0, width: W_MAP_COL, height: H_GEAR }}>
-              <MediaCard expanded onToggleExpand={toggleMusic} />
-            </div>
-          )}
           {/* Bottom row of left+center columns */}
           <div className="grid grid-cols-2 gap-2 items-stretch" style={{ height: H_BOTTOM }}>
             <ClimateCard />
