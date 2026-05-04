@@ -128,6 +128,7 @@ function SettingsPage() {
                       <li>Tap the music card to expand the player and access playback controls.</li>
                       <li>Use the play/pause and skip buttons to manage tracks.</li>
                       <li>Keyboard shortcuts: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R switch gears while driving.</li>
+                      <li>Open this page in Chrome for the best keyboard shortcut and brightness support.</li>
                       <li>The music card matches the battery card height for a clean bottom row.</li>
                     </ul>
                   </div>

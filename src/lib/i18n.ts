@@ -57,6 +57,8 @@ const resources = {
       gear: {
         lowBeam: "Low beam",
         highBeam: "High beam",
+        flashlightLow: "Flashlight low",
+        flashlightHigh: "Flashlight high",
         doors: "Doors",
         doorOpenTitle: "Door open - click to close",
         doorClosedTitle: "Doors closed - click to simulate open",
@@ -68,6 +70,7 @@ const resources = {
       settings: {
         userManualTitle: "Website User Manual",
         userManualHint: "Tap the music card to open your playlist. Use Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D to switch gear, and set brightness to Auto or Manual here.",
+        userManualChrome: "Open this page in Chrome for the best keyboard shortcut and brightness support.",
       },
       search: {
         voiceSearch: "Voice search",
@@ -193,6 +196,8 @@ const resources = {
       gear: {
         lowBeam: "Lampu rendah",
         highBeam: "Lampu tinggi",
+        flashlightLow: "Senter rendah",
+        flashlightHigh: "Senter tinggi",
         doors: "Pintu",
         doorOpenTitle: "Pintu terbuka - klik untuk tutup",
         doorClosedTitle: "Pintu tertutup - klik untuk simulasi buka",

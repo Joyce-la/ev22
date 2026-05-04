@@ -202,7 +202,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(t);
   }, [autoTheme]);
 
-  // Auto brightness: if the browser exposes screen brightness, use it; otherwise fall back to theme defaults.
+  // Auto brightness: if the browser exposes screen brightness, follow it directly; otherwise fall back to theme defaults.
   useEffect(() => {
     if (!autoBrightness) return;
 
@@ -210,9 +210,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const scr = typeof window !== "undefined" ? (window as any).screen : null;
       const raw = scr?.brightness;
       if (typeof raw === "number" && raw >= 0 && raw <= 1) {
-        // If the screen itself is dim, make the app brighter; if the screen is bright, keep a comfortable level.
-        const target = 0.35 + (1 - raw) * 0.55;
-        setBrightnessState(Math.min(1, Math.max(0.3, target)));
+        const target = Math.min(1, Math.max(0.3, raw));
+        setBrightnessState(target);
         return;
       }
 
@@ -220,8 +219,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
 
     updateBrightness();
+    if (typeof window !== "undefined") {
+      const scr = (window as any).screen;
+      if (scr && typeof scr.addEventListener === "function") {
+        scr.addEventListener("change", updateBrightness);
+      }
+    }
     const id = window.setInterval(updateBrightness, 5000);
-    return () => window.clearInterval(id);
+    return () => {
+      window.clearInterval(id);
+      if (typeof window !== "undefined") {
+        const scr = (window as any).screen;
+        if (scr && typeof scr.removeEventListener === "function") {
+          scr.removeEventListener("change", updateBrightness);
+        }
+      }
+    };
   }, [autoBrightness, theme]);
 
   // Apply theme class

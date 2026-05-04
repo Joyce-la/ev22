@@ -19,6 +19,8 @@ export function GearPanel() {
   const { gear, setGear, theme, speedKmh, setSpeedKmh } = useApp();
   const navigate = useNavigate();
   const [activeControl, setActiveControl] = useState<"low" | "high" | "car">("car");
+  const [flashlightOn, setFlashlightOn] = useState(false);
+  const [flashlightLevel, setFlashlightLevel] = useState<"low" | "high">("low");
   const [doorOpen, setDoorOpen] = useState(false);
   const idx = GEARS.indexOf(gear);
   const prev = () => idx > 0 && setGear(GEARS[idx - 1]);
@@ -37,13 +39,15 @@ export function GearPanel() {
         const key = e.key.toUpperCase();
         if (key === "P" || key === "D" || key === "R" || key === "N") {
           e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
           setGear(key as typeof gear);
         }
       }
     };
-    
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [setGear]);
   const reversePanelClass = theme === "purple"
     ? "bg-[#3f226a] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] ring-1 ring-white/30"
@@ -83,17 +87,33 @@ export function GearPanel() {
         style={{ height: 38 }}
       >
         {[
-          { key: "low" as const, icon: <img src={lowBeamIcon} alt="" className="h-[18px] w-[32px] object-contain" style={beamIconStyle} />, label: t("gear.lowBeam") },
-          { key: "high" as const, icon: <img src={highBeamIcon} alt="" className="h-[18px] w-[32px] object-contain" style={beamIconStyle} />, label: t("gear.highBeam") },
+          { key: "low" as const, icon: <img src={lowBeamIcon} alt="" className="h-[18px] w-[32px] object-contain" style={beamIconStyle} />, label: t("gear.flashlightLow") },
+          { key: "high" as const, icon: <img src={highBeamIcon} alt="" className="h-[18px] w-[32px] object-contain" style={beamIconStyle} />, label: t("gear.flashlightHigh") },
           { key: "car" as const, icon: <img src={doorOpen ? doorOpenThemeIcon : doorClosedThemeIcon} alt="" className="h-[18px] w-[30px] object-contain" />, label: t("gear.doors") },
         ].map(({ key, icon, label }) => {
-          const active = activeControl === key;
+          const active = key === "car"
+            ? activeControl === "car"
+            : flashlightOn && flashlightLevel === key;
+
           return (
             <button
+              type="button"
               key={key}
               onClick={() => {
-                setActiveControl(key);
-                if (key === "car") setDoorOpen((d) => !d);
+                if (key === "car") {
+                  setActiveControl(key);
+                  setDoorOpen((d) => !d);
+                  return;
+                }
+                const nextLevel = key as "low" | "high";
+                if (flashlightOn && flashlightLevel === nextLevel) {
+                  setFlashlightOn(false);
+                  setActiveControl("car");
+                } else {
+                  setFlashlightOn(true);
+                  setFlashlightLevel(nextLevel);
+                  setActiveControl(nextLevel);
+                }
               }}
               className={`flex h-[28px] flex-1 items-center justify-center rounded-full transition mx-[2px] ${
                 active
@@ -113,13 +133,13 @@ export function GearPanel() {
 
       {/* Current gear with arrows */}
       <div className="mt-[8px] flex shrink-0 items-center justify-between px-[2px]">
-        <button onClick={prev} disabled={idx === 0} aria-label={t("gear.previousGear")} className="disabled:opacity-30">
+        <button type="button" onClick={prev} disabled={idx === 0} aria-label={t("gear.previousGear")} className="disabled:opacity-30">
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M2 13 L14 4 L14 9 L42 9 L42 17 L14 17 L14 22 Z" fill={idx === 0 ? "#d1d5db88" : "#22c55e"}/>
           </svg>
         </button>
         <span className="min-w-[24px] text-center font-extrabold leading-none text-6xl">{gear}</span>
-        <button onClick={next} disabled={idx === GEARS.length - 1} aria-label={t("gear.nextGear")} className="disabled:opacity-30">
+        <button type="button" onClick={next} disabled={idx === GEARS.length - 1} aria-label={t("gear.nextGear")} className="disabled:opacity-30">
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M42 13 L30 4 L30 9 L2 9 L2 17 L30 17 L30 22 Z" fill={idx === GEARS.length - 1 ? "#d1d5db" : "#22c55e"}/>
           </svg>
@@ -132,6 +152,7 @@ export function GearPanel() {
           const active = g === gear;
           return (
             <button
+              type="button"
               key={g}
               disabled
               className={`flex h-[48px] w-[48px] items-center justify-center rounded-full font-medium leading-none transition-all text-[2.8rem] cursor-not-allowed ${
