@@ -80,9 +80,9 @@ function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: num
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
-function formatKm(km: number) {
-  if (km < 10) return `${km.toFixed(1)} km`;
-  return `${Math.round(km)} km`;
+function formatKm(km: number, unit: string) {
+  if (km < 10) return `${km.toFixed(1)} ${unit}`;
+  return `${Math.round(km)} ${unit}`;
 }
 
 interface Props {
@@ -117,17 +117,17 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
           onSelect(HOME_DESTINATION);
         }}
         className="group flex w-full items-start gap-2 px-3 py-2 text-left hover:bg-[var(--active)]"
-        title="Navigate home"
+        title={t("map.navigateHome")}
       >
         <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--panel-soft)] text-foreground/75">
           <House className="h-4 w-4" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-[13px] font-medium leading-tight">Home</span>
+          <span className="block truncate text-[13px] font-medium leading-tight">{t("map.homeShortcut")}</span>
           <span className="mt-0.5 block truncate text-[11px] leading-tight text-foreground/55">UNIMAS</span>
         </span>
         <span className="flex shrink-0 flex-col items-end gap-1">
-          <span className="text-[12px] font-bold text-[var(--brand)]">0 km</span>
+          <span className="text-[12px] font-bold text-[var(--brand)]">{`0 ${t("common.unitKm")}`}</span>
           <Navigation className="h-3.5 w-3.5 text-[var(--brand)] opacity-0 transition group-hover:opacity-100" />
         </span>
       </button>
@@ -144,8 +144,8 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
             type="button"
             onClick={() => setRefreshKey((k) => k + 1)}
             className="flex h-7 w-7 items-center justify-center rounded-full text-foreground/70 hover:bg-[var(--active)]"
-            aria-label="Refresh"
-            title="Refresh"
+            aria-label={t("nearby.refresh")}
+            title={t("nearby.refresh")}
           >
             <RotateCw className="h-3.5 w-3.5" />
           </button>
@@ -153,8 +153,8 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
             type="button"
             onClick={onClose}
             className="flex h-7 w-7 items-center justify-center rounded-full text-foreground/70 hover:bg-[var(--active)]"
-            aria-label="Close"
-            title="Close"
+            aria-label={t("nearby.closePanel")}
+            title={t("nearby.closePanel")}
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -193,7 +193,7 @@ export function NearbyStationsPanel({ origin, open, onClose, onSelect }: Props) 
               </span>
               <span className="flex shrink-0 flex-col items-end gap-1">
                 <span className="text-[12px] font-bold text-[var(--brand)]">
-                  {formatKm(km)}
+                  {formatKm(km, t("common.unitKm"))}
                 </span>
                 <Navigation className="h-3.5 w-3.5 text-[var(--brand)] opacity-0 transition group-hover:opacity-100" />
               </span>

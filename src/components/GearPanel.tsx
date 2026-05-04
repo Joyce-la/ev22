@@ -160,7 +160,7 @@ export function GearPanel() {
                   ? `bg-[var(--active)] ${reversing ? reverseActiveGearClass : "text-foreground ring-2 ring-foreground/15"}`
                   : `${reversing ? reverseMutedTextClass : "text-foreground/85"} opacity-50`
               }`}
-              title={t("gear.useCtrlShortcut") || "Use Ctrl+P/D/R/N to change gear"}
+              title={t("gear.useCtrlShortcut")}
             >
               {g}
             </button>

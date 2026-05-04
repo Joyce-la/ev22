@@ -97,14 +97,6 @@ function VoicePage() {
     wasPlayingRef.current = false;
   };
 
-  // While staying on the Voice page, keep music playback forced OFF
-  // (even if some component tries to turn it back on).
-  useEffect(() => {
-    if (!voiceSessionActiveRef.current) return;
-    if (playing) setPlaying(false);
-    forcePauseAudioNow();
-  }, [playing, setPlaying, audioEl]);
-
   // If the global audio element registers *after* we entered Voice,
   // pause it immediately so there is no brief "leak" of sound.
   useEffect(() => {

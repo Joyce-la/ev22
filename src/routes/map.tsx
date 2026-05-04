@@ -65,7 +65,7 @@ function MapPage() {
         ]
       : null,
   );
-  const [routeError, setRouteError] = useState<string | null>(null);
+  const [routeErrorKey, setRouteErrorKey] = useState<string | null>(null);
   const [stationsOpen, setStationsOpen] = useState(false);
 
   // If the URL search param changes (e.g. user taps a station in the bottom-right widget),
@@ -103,7 +103,7 @@ function MapPage() {
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
-      setRouteError(null);
+      setRouteErrorKey(null);
 
       const q = activeDestination.trim();
       if (!q) {
@@ -114,7 +114,7 @@ function MapPage() {
         return;
       }
       if (!origin) {
-        setRouteError("Waiting for GPS location…");
+        setRouteErrorKey("map.errors.waitingGps");
         return;
       }
 
@@ -155,7 +155,7 @@ function MapPage() {
         const geoJson: Array<{ lat: string; lon: string; display_name?: string }> = await geoRes.json();
         const first = geoJson?.[0];
         if (!first) {
-          setRouteError("Destination not found.");
+          setRouteErrorKey("map.errors.destinationNotFound");
           return;
         }
         dLat = Number(first.lat);
@@ -163,7 +163,7 @@ function MapPage() {
       }
 
       if (!Number.isFinite(dLat) || !Number.isFinite(dLng)) {
-        setRouteError("Destination not found.");
+        setRouteErrorKey("map.errors.destinationNotFound");
         return;
       }
 
@@ -176,7 +176,7 @@ function MapPage() {
       const rJson: any = await rRes.json();
       const coords: [number, number][] | undefined = rJson?.routes?.[0]?.geometry?.coordinates;
       if (!coords || coords.length < 2) {
-        setRouteError("Route not available.");
+        setRouteErrorKey("map.errors.routeNotAvailable");
         return;
       }
       const latLngPairs: Array<[number, number]> = coords.map(([lng, lat]) => [lat, lng]);
@@ -193,7 +193,7 @@ function MapPage() {
       });
     };
 
-    run().catch(() => setRouteError("Routing failed."));
+    run().catch(() => setRouteErrorKey("map.errors.routingFailed"));
     return () => {
       cancelled = true;
     };
@@ -251,7 +251,7 @@ function MapPage() {
             <button
               type="submit"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--active)] text-foreground/90 hover:brightness-95"
-              aria-label="Search destination"
+              aria-label={t("map.searchDestination")}
             >
               <Search className="h-4 w-4" />
             </button>
@@ -290,12 +290,12 @@ function MapPage() {
             )}
             {geoError && (
               <div className="pointer-events-none absolute bottom-3 left-1/2 z-[1100] -translate-x-1/2 rounded-lg bg-black/60 px-3 py-1.5 text-xs text-white">
-                GPS unavailable. Route starts from current location when permission is allowed.
+                {t("map.geoUnavailable")}
               </div>
             )}
-            {routeError && (
+            {routeErrorKey && (
               <div className="pointer-events-none absolute bottom-3 right-3 z-[1100] rounded-lg bg-black/55 px-2.5 py-1 text-[11px] text-white/95">
-                {routeError}
+                {t(routeErrorKey)}
               </div>
             )}
             {(routeLine && routeLine.length > 1) || shownDestination ? (
@@ -312,7 +312,7 @@ function MapPage() {
                   setDestPos(null);
                   setRouteLine(null);
                   setMapBounds(null);
-                  setRouteError(null);
+                  setRouteErrorKey(null);
                   setActiveRoute(null);
                 }}
                 className="absolute bottom-3 left-1/2 z-[1200] -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-[12px] font-bold text-white backdrop-blur hover:bg-black/70"

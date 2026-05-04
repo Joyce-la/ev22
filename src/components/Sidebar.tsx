@@ -26,11 +26,11 @@ export function Sidebar() {
         to="/"
         onClick={() => setMusicExpanded(false)}
         className="mb-[16px] flex h-[52px] w-[52px] items-center justify-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
-        aria-label="Home"
+        aria-label={t("common.home")}
       >
         <img
           src={homeLogo}
-          alt="Home"
+          alt={t("common.home")}
           className="h-[46px] w-[46px] object-contain"
           draggable={false}
         />
@@ -48,7 +48,7 @@ export function Sidebar() {
               key={to}
               to={to}
               aria-label={label}
-              title={`${label} (double-tap to go home)`}
+              title={t("common.sidebarItemTitle", { label, hint: t("common.doubleTapHome") })}
               onClick={() => {
                 if (to === "/bluetooth") setMusicExpanded(false);
                 if (to === "/voice") {

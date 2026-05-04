@@ -288,7 +288,7 @@ export function SearchBar() {
           placeholder={reversing ? t("topbar.searchLocked") : t("topbar.searchBar")}
           className="min-w-0 flex-1 bg-transparent text-[0.95rem] leading-tight outline-none placeholder:text-foreground/55"
         />
-        <button onClick={onSearch} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full text-foreground/70 hover:bg-[var(--active)]" aria-label="Search">
+        <button onClick={onSearch} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full text-foreground/70 hover:bg-[var(--active)]" aria-label={t("common.search")}>
           <Search className="h-[16px] w-[16px]" />
         </button>
       </div>

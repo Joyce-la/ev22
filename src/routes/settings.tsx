@@ -54,6 +54,41 @@ const THEMES: { v: Theme; labelKey: string }[] = [
   { v: "purple", labelKey: "common.themePurple" },
 ];
 
+const MANUAL_SECTION_KEYS = ["home", "media", "brightness", "navigation", "phone"] as const;
+
+/** i18next must return string[]; object `{0,1,…}` breaks Array.isArray after bad merges — normalize. */
+function normalizeStringList(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw as string[];
+  if (raw && typeof raw === "object") {
+    const o = raw as Record<string, unknown>;
+    const keys = Object.keys(o).filter((k) => /^\d+$/.test(k));
+    if (keys.length) return keys.sort((a, b) => Number(a) - Number(b)).map((k) => String(o[k]));
+  }
+  return [];
+}
+
+function ManualBulletSection({ sectionKey }: { sectionKey: (typeof MANUAL_SECTION_KEYS)[number] }) {
+  const { t } = useTranslation();
+  const pointsKey = `settings.manual.${sectionKey}.points`;
+  const titleKey = `settings.manual.${sectionKey}.title`;
+
+  const raw = t(pointsKey, { returnObjects: true });
+  const points = normalizeStringList(raw);
+
+  const titleRaw = String(t(titleKey));
+  const title = titleRaw !== titleKey ? titleRaw : "";
+  return (
+    <div>
+      <p className="font-semibold">{title}</p>
+      <ul className="list-disc pl-4 text-foreground/80">
+        {points.map((line, i) => (
+          <li key={i}>{line}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function getLanguageLabelFontSize(label: string) {
   const length = Array.from(label).length;
   if (length >= 20) return 11;
@@ -109,54 +144,14 @@ function SettingsPage() {
                   onClick={() => setOpenManual(false)}
                   className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
                 >
-                  Back
+                  {t("status.back")}
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3 text-[0.72rem] leading-snug text-foreground/70">
                 <div className="space-y-3">
-                  <div>
-                    <p className="font-semibold">Home dashboard</p>
-                    <ul className="list-disc pl-4 text-foreground/80">
-                      <li>The left column shows traffic or media controls depending on the current screen.</li>
-                      <li>The center column shows navigation, maps, and brightness controls.</li>
-                      <li>The right column shows driving gear, battery level, and weather status.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Media and music</p>
-                    <ul className="list-disc pl-4 text-foreground/80">
-                      <li>Tap the music card to expand the player and access playback controls.</li>
-                      <li>Use the play/pause and skip buttons to manage tracks.</li>
-                      <li>Keyboard shortcuts: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R switch gears while driving.</li>
-                      <li>Open this page in Chrome for the best keyboard shortcut and brightness support.</li>
-                      <li>The music card matches the battery card height for a clean bottom row.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Brightness and climate</p>
-                    <ul className="list-disc pl-4 text-foreground/80">
-                      <li>Auto mode adjusts brightness based on your screen brightness when available.</li>
-                      <li>If the screen is dim, auto mode will make the app brighter for better visibility.</li>
-                      <li>Manual mode lets you tune brightness directly with the plus/minus buttons.</li>
-                      <li>Height alignment is preserved with the battery card and other bottom cards.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Navigation and map</p>
-                    <ul className="list-disc pl-4 text-foreground/80">
-                      <li>Use the search bar on the map screen to set your destination.</li>
-                      <li>Tap nearby stations or traffic alerts for quick route updates.</li>
-                      <li>The map card stays aligned with the gear card for balanced top-row layout.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Phone pairing and settings</p>
-                    <ul className="list-disc pl-4 text-foreground/80">
-                      <li>Scan the QR code to connect your phone automatically.</li>
-                      <li>Change language, theme, and font size from this settings panel.</li>
-                      <li>The settings panel is where you can review controls and update preferences.</li>
-                    </ul>
-                  </div>
+                  {MANUAL_SECTION_KEYS.map((key) => (
+                    <ManualBulletSection key={key} sectionKey={key} />
+                  ))}
                 </div>
               </div>
             </div>
@@ -169,7 +164,7 @@ function SettingsPage() {
                   onClick={() => setOpenLang(false)}
                   className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
                 >
-                  Back
+                  {t("status.back")}
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3">
@@ -205,7 +200,7 @@ function SettingsPage() {
                 <button
                   onClick={() => { setOpenLang(true); setOpenManual(false); }}
                   className="flex w-full items-start justify-between gap-3 rounded-[14px] bg-[var(--panel-soft)] px-[12px] py-[8px] text-xs"
-                  aria-label="Select display language"
+                  aria-label={t("common.selectDisplayLanguage")}
                 >
                   <span className="min-w-0 flex-1 text-left">
                     <span
@@ -295,9 +290,7 @@ function SettingsPage() {
                   <span>{t("settings.userManualTitle")}</span>
                   <ChevronDown className="h-4 w-4 transition-transform" />
                 </div>
-                <p className="text-[0.72rem] text-foreground/70">
-                  Tap to view the full manual. Includes dashboard layout, media controls, brightness, navigation, and phone pairing.
-                </p>
+                <p className="text-[0.72rem] text-foreground/70">{t("settings.userManualTeaser")}</p>
               </button>
             </div>
           )}

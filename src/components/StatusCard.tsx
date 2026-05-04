@@ -104,11 +104,11 @@ export function StatusCard() {
         </div>
         <div className="mt-1 truncate text-[10px] leading-tight"><span className="font-bold">{t("status.left")}</span></div>
         <div className="truncate text-[10px] leading-tight">
-          <span className="font-extrabold text-[13px]">{left}</span><span className="text-[9px]">km</span>
+          <span className="font-extrabold text-[13px]">{left}</span><span className="text-[9px]">{t("common.unitKm")}</span>
         </div>
         <div className="truncate text-[10px] leading-tight">{t("status.traveled")}</div>
         <div className="truncate text-[10px] leading-tight">
-          <span className="font-extrabold text-[13px]">{Math.floor(traveledKm)}</span><span className="text-[9px]">km</span>
+          <span className="font-extrabold text-[13px]">{Math.floor(traveledKm)}</span><span className="text-[9px]">{t("common.unitKm")}</span>
         </div>
       </div>
       {/* Weather */}

@@ -2,6 +2,18 @@ import { useEffect, useMemo, useRef } from "react";
 import { MapContainer, TileLayer, CircleMarker, Polyline, useMap } from "react-leaflet";
 import type { LatLngBoundsExpression, LatLngExpression, Map as LeafletMapType } from "leaflet";
 import { useApp } from "@/lib/app-context";
+import { useTranslation } from "react-i18next";
+
+function RegisterMapRef({ mapRef }: { mapRef: React.MutableRefObject<LeafletMapType | null> }) {
+  const map = useMap();
+  useEffect(() => {
+    mapRef.current = map;
+    return () => {
+      if (mapRef.current === map) mapRef.current = null;
+    };
+  }, [map, mapRef]);
+  return null;
+}
 
 function ZoomButtons({
   tone = "default",
@@ -10,6 +22,7 @@ function ZoomButtons({
   tone?: "default" | "inverted";
   placement?: "right" | "bottom";
 }) {
+  const { t } = useTranslation();
   const map = useMap();
   const isInverted = tone === "inverted";
   return (
@@ -27,7 +40,7 @@ function ZoomButtons({
           isInverted ? "text-[var(--brand)] hover:bg-white/10" : "text-[var(--brand)] hover:bg-[var(--active)]/40"
         }`}
         onClick={() => map.zoomIn()}
-        aria-label="Zoom in"
+        aria-label={t("leaflet.zoomIn")}
       >
         +
       </button>
@@ -40,7 +53,7 @@ function ZoomButtons({
           isInverted ? "text-[var(--brand)] hover:bg-white/10" : "text-[var(--brand)] hover:bg-[var(--active)]/40"
         }`}
         onClick={() => map.zoomOut()}
-        aria-label="Zoom out"
+        aria-label={t("leaflet.zoomOut")}
       >
         −
       </button>
@@ -111,10 +124,8 @@ export function LeafletMap({
         zoomControl={false}
         attributionControl={false}
         className="h-full w-full"
-        whenReady={(e) => {
-          mapRef.current = e.target as LeafletMapType;
-        }}
       >
+        <RegisterMapRef mapRef={mapRef} />
         <TileLayer
           // Free OSM tiles (for demos). For production you should use your own tile provider.
           url={tileUrl}
