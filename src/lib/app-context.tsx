@@ -210,12 +210,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const scr = typeof window !== "undefined" ? (window as any).screen : null;
       const raw = scr?.brightness;
       if (typeof raw === "number" && raw >= 0 && raw <= 1) {
-        const target = Math.min(1, Math.max(0.3, raw));
-        setBrightnessState(target);
+        setBrightnessState(raw);
         return;
       }
 
-      setBrightnessState(theme === "dark" ? 0.85 : 0.7);
+      setBrightnessState(1);
     };
 
     updateBrightness();

@@ -1,0 +1,28 @@
+node_modules/@tanstack/react-router/dist/esm/ClientOnly.d.ts(1,21): error TS1259: Module '"C:/Users/User/Downloads/evevvvvvvvvvvvvv/ev dashboard v2/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/@tanstack/react-router/dist/esm/route.d.ts(2,21): error TS1259: Module '"C:/Users/User/Downloads/evevvvvvvvvvvvvv/ev dashboard v2/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+src/components/GearPanel.tsx(1,24): error TS2307: Cannot find module '@/lib/app-context' or its corresponding type declarations.
+src/components/GearPanel.tsx(5,25): error TS2307: Cannot find module '@/assets/low-beam.png' or its corresponding type declarations.
+src/components/GearPanel.tsx(6,26): error TS2307: Cannot find module '@/assets/high-beam.png' or its corresponding type declarations.
+src/components/GearPanel.tsx(7,34): error TS2307: Cannot find module '@/assets/door-open-custom.png' or its corresponding type declarations.
+src/components/GearPanel.tsx(8,32): error TS2307: Cannot find module '@/assets/door-close-custom.png' or its corresponding type declarations.
+src/components/GearPanel.tsx(9,33): error TS2307: Cannot find module '@/assets/door-closed-white.png' or its corresponding type declarations.
+src/components/GearPanel.tsx(73,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(82,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(90,40): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(91,41): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(92,40): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(99,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(135,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(136,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(143,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(144,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(147,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(148,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(155,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(156,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(162,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(166,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(184,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(185,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(186,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/components/GearPanel.tsx(189,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
