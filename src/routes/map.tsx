@@ -67,6 +67,7 @@ function MapPage() {
   );
   const [routeError, setRouteError] = useState<string | null>(null);
   const [stationsOpen, setStationsOpen] = useState(false);
+  const [navigationActive, setNavigationActive] = useState(false);
 
   // If the URL search param changes (e.g. user taps a station in the bottom-right widget),
   // sync it into the input + routing label + active routing state.
@@ -91,6 +92,15 @@ function MapPage() {
   useEffect(() => {
     setGeoError(false);
   }, []);
+
+  useEffect(() => {
+    if (routeLine && routeLine.length > 1 && activeDestination.trim()) {
+      const timer = window.setTimeout(() => setNavigationActive(true), 3000);
+      return () => window.clearTimeout(timer);
+    }
+    setNavigationActive(false);
+    return undefined;
+  }, [routeLine, activeDestination]);
 
   const center: LatLngExpression = useMemo(() => {
     if (origin) return [origin.lat, origin.lng];
@@ -225,64 +235,77 @@ function MapPage() {
       <div className="flex items-stretch" style={{ width: W_MAP_COL + W_RIGHT + GAP, gap: GAP }}>
         {/* Map column */}
         <div className="flex flex-col relative" style={{ width: W_MAP_COL, gap: GAP_Y }}>
-          <form
-            className="relative flex items-center gap-2 rounded-full bg-[var(--panel)] px-4 shadow-sm ring-1 ring-black/5"
-            style={{ height: H_SEARCH }}
-            onSubmit={(e) => {
-              e.preventDefault();
-              const trimmed = destination.trim();
-              if (!trimmed) return;
-              setActiveDestination(trimmed);
-              setShownDestination(trimmed);
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setStationsOpen((v) => !v)}
-              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition ${
-                stationsOpen ? "bg-[var(--active)]" : "hover:bg-[var(--active)]"
-              }`}
-              aria-label={t("map.nearbyStations")}
-              title={t("map.nearbyStations")}
-            >
-              <Menu className="h-5 w-5 text-foreground/70" />
-            </button>
-            <input
-              value={destination}
-              onChange={(e) => {
-                const next = e.target.value;
-                setDestination(next);
-                const trimmed = next.trim();
-                if (trimmed) setShownDestination(trimmed);
+          {!navigationActive ? (
+            <form
+              className="relative flex items-center gap-2 rounded-full bg-[var(--panel)] px-4 shadow-sm ring-1 ring-black/5"
+              style={{ height: H_SEARCH }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const trimmed = destination.trim();
+                if (!trimmed) return;
+                setActiveDestination(trimmed);
+                setShownDestination(trimmed);
               }}
-              placeholder={t("map.enterDestination")}
-              className="flex-1 bg-transparent outline-none placeholder:text-foreground/60 text-base"
-            />
-            <button
-              type="submit"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--active)] text-foreground/90 hover:brightness-95"
-              aria-label="Search destination"
             >
-              <Search className="h-4 w-4" />
-            </button>
-
-            {origin && (
-              <NearbyStationsPanel
-                origin={origin}
-                open={stationsOpen}
-                onClose={() => setStationsOpen(false)}
-                onSelect={(s: ChargingStation) => {
-                  // Show the station name (match reference UI).
-                  setDestination(s.name);
-                  setShownDestination(s.name);
-                  // Route reliably using the station coordinates (OSRM works best with lat/lng).
-                  // We still keep the real address in the station list for display.
-                  setActiveDestination(`@${s.lat},${s.lng}:${s.name}`);
-                  setStationsOpen(false);
+              <button
+                type="button"
+                onClick={() => setStationsOpen((v) => !v)}
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition ${
+                  stationsOpen ? "bg-[var(--active)]" : "hover:bg-[var(--active)]"
+                }`}
+                aria-label={t("map.nearbyStations")}
+                title={t("map.nearbyStations")}
+              >
+                <Menu className="h-5 w-5 text-foreground/70" />
+              </button>
+              <input
+                value={destination}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setDestination(next);
+                  const trimmed = next.trim();
+                  if (trimmed) setShownDestination(trimmed);
                 }}
+                placeholder={t("map.enterDestination")}
+                className="flex-1 bg-transparent outline-none placeholder:text-foreground/60 text-base"
               />
-            )}
-          </form>
+              <button
+                type="submit"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--active)] text-foreground/90 hover:brightness-95"
+                aria-label="Search destination"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
+          ) : (
+            <div
+              className="relative flex items-center justify-between gap-2 rounded-full bg-[var(--panel)] px-4 shadow-sm ring-1 ring-black/5"
+              style={{ height: H_SEARCH }}
+            >
+              <div className="text-sm font-semibold text-foreground/90 truncate">
+                {t("map.routingTo", { destination: shownDestination })}
+              </div>
+              <div className="rounded-full bg-[var(--active)] px-3 py-1 text-xs font-semibold text-foreground">
+                {t("map.navigation")}
+              </div>
+            </div>
+          )}
+          {origin && !navigationActive && (
+            <NearbyStationsPanel
+              origin={origin}
+              open={stationsOpen}
+              onClose={() => setStationsOpen(false)}
+              onSelect={(s: ChargingStation) => {
+                // Show the station name (match reference UI).
+                setDestination(s.name);
+                setShownDestination(s.name);
+                // Route reliably using the station coordinates (OSRM works best with lat/lng).
+                // We still keep the real address in the station list for display.
+                setActiveDestination(`@${s.lat},${s.lng}:${s.name}`);
+                setStationsOpen(false);
+              }}
+            />
+          )}
           <div className="relative overflow-hidden rounded-[24px]" style={{ height: H_MAP }}>
             <LeafletMap
               className="h-full w-full"
@@ -323,6 +346,7 @@ function MapPage() {
                   setRouteLine(null);
                   setMapBounds(null);
                   setRouteError(null);
+                  setNavigationActive(false);
                   setActiveRoute(null);
                 }}
                 className="absolute bottom-3 left-1/2 z-[1200] -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-[12px] font-bold text-white backdrop-blur hover:bg-black/70"
