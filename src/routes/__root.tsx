@@ -4,7 +4,7 @@ import { AppProvider, useApp } from "@/lib/app-context";
 import { Sidebar } from "@/components/Sidebar";
 import { TopBar } from "@/components/TopBar";
 import { ReverseCamera } from "@/components/ReverseCamera";
-import { GearPanel } from "@/components/GearPanel";
+import { GearPanel } from "@/components/GearPanel.tsx";
 import { GlobalAudioPlayer } from "@/components/GlobalAudioPlayer";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/lib/i18n";

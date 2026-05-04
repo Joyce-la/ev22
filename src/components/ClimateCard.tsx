@@ -11,7 +11,7 @@ export function ClimateCard() {
   const inc = () => setTemp(Math.min(30, +(temp + 0.5).toFixed(1)));
 
   return (
-    <div className="flex h-full w-full flex-col justify-between rounded-[28px] bg-[var(--panel)] px-[10px] py-[10px] shadow-sm ring-1 ring-black/5">
+    <div className="flex h-full min-h-[120px] w-full flex-col justify-between rounded-[28px] bg-[var(--panel)] px-[10px] py-[10px] shadow-sm ring-1 ring-black/5">
       <div className="flex items-center justify-between gap-[6px]">
         <button onClick={dec} className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-[var(--panel-soft)] hover:bg-[var(--active)]" aria-label={t("climate.decrease")}>
           <Minus className="h-4 w-4" />

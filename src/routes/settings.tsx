@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GearPanel } from "@/components/GearPanel";
+import { GearPanel } from "@/components/GearPanel.tsx";
 import { BrightnessCard } from "@/components/BrightnessCard";
 import { StatusCard } from "@/components/StatusCard";
 import { MapWidget } from "@/components/MapWidget";
@@ -54,10 +54,20 @@ const THEMES: { v: Theme; labelKey: string }[] = [
   { v: "purple", labelKey: "common.themePurple" },
 ];
 
+function getLanguageLabelFontSize(label: string) {
+  const length = Array.from(label).length;
+  if (length >= 20) return 11;
+  if (length >= 17) return 12;
+  if (length >= 14) return 13;
+  if (length >= 11) return 14;
+  return 15;
+}
+
 function SettingsPage() {
   const { language, setLanguage, fontScale, setFontScale, theme, setThemeManual, linkedPhone, setLinkedPhone } = useApp();
   const { t } = useTranslation();
   const [openLang, setOpenLang] = useState(false);
+  const [openManual, setOpenManual] = useState(false);
 
   // Pick up scanned link from localStorage
   useEffect(() => {
@@ -90,107 +100,206 @@ function SettingsPage() {
       <div className="flex" style={{ width: W_LEFT + W_CENTER + W_RIGHT + GAP_X * 2, gap: GAP_X }}>
         {/* LEFT column (Settings) */}
         <div className="flex flex-col" style={{ width: W_LEFT, height: H_LEFT_PANEL, gap: GAP_Y }}>
-          <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
-            {/* Display Language */}
-            <div>
-              <div className="mb-[4px] flex items-center justify-center gap-2 text-center text-[0.8125rem] font-bold">
-                <Languages className="h-4 w-4 text-foreground/70" />
-                <span>{t("common.language")}</span>
+          {openManual ? (
+            <div className="flex h-full flex-col rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+              <div className="mb-3 flex items-center justify-between">
+                <div className="text-[0.875rem] font-bold text-foreground">{t("settings.userManualTitle")}</div>
+                <button
+                  type="button"
+                  onClick={() => setOpenManual(false)}
+                  className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
+                >
+                  Back
+                </button>
               </div>
-              <button
-                onClick={() => setOpenLang(!openLang)}
-                className="flex w-full items-center justify-between rounded-[14px] bg-[var(--panel-soft)] px-[12px] py-[8px] text-xs"
-                aria-label="Select display language"
-              >
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="truncate">{current.label}</span>
-                </span>
-                <ChevronDown className="h-4 w-4 shrink-0" />
-              </button>
-              {openLang && (
-                <ul className="mt-[4px] max-h-32 overflow-auto rounded-[14px] bg-[var(--panel-soft)] text-xs shadow ring-1 ring-black/5">
+              <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3 text-[0.72rem] leading-snug text-foreground/70">
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-semibold">Home dashboard</p>
+                    <ul className="list-disc pl-4 text-foreground/80">
+                      <li>The left column shows traffic or media controls depending on the current screen.</li>
+                      <li>The center column shows navigation, maps, and brightness controls.</li>
+                      <li>The right column shows driving gear, battery level, and weather status.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Media and music</p>
+                    <ul className="list-disc pl-4 text-foreground/80">
+                      <li>Tap the music card to expand the player and access playback controls.</li>
+                      <li>Use the play/pause and skip buttons to manage tracks.</li>
+                      <li>Keyboard shortcuts: Ctrl+P / Ctrl+N / Ctrl+D / Ctrl+R switch gears while driving.</li>
+                      <li>The music card matches the battery card height for a clean bottom row.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Brightness and climate</p>
+                    <ul className="list-disc pl-4 text-foreground/80">
+                      <li>Auto mode adjusts brightness based on your screen brightness when available.</li>
+                      <li>If the screen is dim, auto mode will make the app brighter for better visibility.</li>
+                      <li>Manual mode lets you tune brightness directly with the plus/minus buttons.</li>
+                      <li>Height alignment is preserved with the battery card and other bottom cards.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Navigation and map</p>
+                    <ul className="list-disc pl-4 text-foreground/80">
+                      <li>Use the search bar on the map screen to set your destination.</li>
+                      <li>Tap nearby stations or traffic alerts for quick route updates.</li>
+                      <li>The map card stays aligned with the gear card for balanced top-row layout.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Phone pairing and settings</p>
+                    <ul className="list-disc pl-4 text-foreground/80">
+                      <li>Scan the QR code to connect your phone automatically.</li>
+                      <li>Change language, theme, and font size from this settings panel.</li>
+                      <li>The settings panel is where you can review controls and update preferences.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : openLang ? (
+            <div className="flex h-full flex-col rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+              <div className="mb-3 flex items-center justify-between">
+                <div className="text-[0.875rem] font-bold text-foreground">{t("common.language")}</div>
+                <button
+                  type="button"
+                  onClick={() => setOpenLang(false)}
+                  className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-[0.72rem] font-semibold text-foreground transition hover:bg-[var(--active)]"
+                >
+                  Back
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto rounded-[18px] bg-[var(--panel-soft)] p-3">
+                <ul className="space-y-1 text-[0.875rem] text-foreground/80">
                   {LANGS.map((l) => (
                     <li key={l.code}>
                       <button
+                        type="button"
                         onClick={() => { setLanguage(l.code); setOpenLang(false); }}
-                        className="block w-full px-3 py-1 text-left hover:bg-[var(--active)]"
+                        className="flex w-full items-start justify-between gap-3 rounded-[14px] px-3 py-2 text-left text-sm transition hover:bg-[var(--active)]"
                       >
-                        {l.label}
+                        <span
+                          className="flex-1 pr-2 text-left break-words leading-tight"
+                          style={{ fontSize: `${getLanguageLabelFontSize(l.label)}px`, maxWidth: "100%" }}
+                        >
+                          {l.label}
+                        </span>
+                        {language === l.code ? <span className="text-[0.72rem] text-foreground/60">✓</span> : null}
                       </button>
                     </li>
                   ))}
                 </ul>
-              )}
+              </div>
             </div>
-
-            {/* Phone Auto-Connect */}
-            <div className="mt-[2px] flex flex-col items-center rounded-[18px] bg-[var(--panel-soft)] px-[8px] py-[10px]">
-              <div className="mb-[6px] flex items-center gap-2 text-[0.8125rem] font-bold">
-                <Smartphone className="h-4 w-4 text-foreground/70" />
-                {t("common.phoneAutoConnect")}
-              </div>
-              <div className="rounded-[12px] bg-white p-[6px] ring-1 ring-black/10">
-                <QRCodeDisplay value={pairUrl} size={88} />
-              </div>
-              <div className="mt-[6px] text-[0.625rem] font-semibold text-foreground/60">
-                {linkedPhone ? t("common.linked", { name: linkedPhone }) : t("common.unpaired")}
-              </div>
-              {linkedPhone && (
+          ) : (
+            <div className="flex h-full flex-col gap-[8px] rounded-[28px] bg-[var(--panel)] p-[12px] shadow-sm ring-1 ring-black/5">
+              {/* Display Language */}
+              <div>
+                <div className="mb-[4px] flex items-center justify-center gap-2 text-center text-[0.8125rem] font-bold">
+                  <Languages className="h-4 w-4 text-foreground/70" />
+                  <span>{t("common.language")}</span>
+                </div>
                 <button
-                  type="button"
-                  onClick={() => {
-                    try { localStorage.removeItem("hki:linkedPhone"); localStorage.removeItem("hki:linkedAt"); } catch {}
-                    setLinkedPhone(null);
-                  }}
-                  className="mt-2 rounded-full bg-[var(--panel)] px-3 py-[6px] text-[0.6875rem] font-semibold hover:bg-[var(--active)]"
+                  onClick={() => { setOpenLang(true); setOpenManual(false); }}
+                  className="flex w-full items-start justify-between gap-3 rounded-[14px] bg-[var(--panel-soft)] px-[12px] py-[8px] text-xs"
+                  aria-label="Select display language"
                 >
-                  {t("common.unlinkPhone")}
+                  <span className="min-w-0 flex-1 text-left">
+                    <span
+                      className="leading-tight break-words whitespace-normal"
+                      style={{ fontSize: `${getLanguageLabelFontSize(current.label)}px`, maxWidth: "100%" }}
+                    >
+                      {current.label}
+                    </span>
+                  </span>
+                  <ChevronDown className="h-4 w-4 shrink-0" />
                 </button>
-              )}
-            </div>
+              </div>
 
-            {/* Customization */}
-            <div className="mt-[2px] min-h-0 flex-1 overflow-auto rounded-[18px] bg-[var(--panel-soft)] px-[10px] py-[10px]">
-              <div className="mb-[8px] text-center text-[0.8125rem] font-bold">{t("common.customization")}</div>
-              <div className="flex flex-col gap-2">
-                <div className="text-center text-[0.625rem] font-semibold tracking-wide text-foreground/60">
-                  {t("common.changeFontSize")}
+              {/* Phone Auto-Connect */}
+              <div className="mt-[2px] flex flex-col items-center rounded-[18px] bg-[var(--panel-soft)] px-[8px] py-[10px]">
+                <div className="mb-[6px] flex items-center gap-2 text-[0.8125rem] font-bold">
+                  <Smartphone className="h-4 w-4 text-foreground/70" />
+                  {t("common.phoneAutoConnect")}
                 </div>
-                <input
-                  type="range"
-                  min={0.8}
-                  max={1.3}
-                  step={0.05}
-                  value={fontScale}
-                  onChange={(e) => setFontScale(parseFloat(e.target.value))}
-                  className="w-full accent-[var(--brand)]"
-                  aria-label={t("common.changeFontSize")}
-                />
-                <div className="text-center text-[0.625rem] font-semibold tracking-wide text-foreground/60">{t("common.changeThemeColour")}</div>
-                <div className="flex gap-2">
-                  {THEMES.map((themeOption) => {
-                    const active = theme === themeOption.v;
-                    const bg = themeOption.v === "purple"
-                      ? "linear-gradient(135deg, oklch(0.55 0.22 320), oklch(0.45 0.20 295))"
-                      : themeOption.v === "dark"
-                      ? "oklch(0.22 0.02 270)"
-                      : "oklch(0.98 0.005 250)";
-                    const fg = themeOption.v === "light" ? "#1f2937" : "#fff";
-                    return (
-                      <button
-                        key={themeOption.v}
-                        type="button"
-                        onClick={() => setThemeManual(themeOption.v)}
-                        aria-pressed={active}
-                        className={`flex-1 rounded-[12px] px-2 py-[8px] text-[0.6875rem] font-bold transition-all active:scale-[0.97] ${active ? "ring-2 ring-[var(--brand)] shadow-md" : "ring-1 ring-black/10 hover:ring-[var(--brand)]/60"}`}
-                        style={{ background: bg, color: fg }}
-                      >{t(themeOption.labelKey)}</button>
-                    );
-                  })}
+                <div className="rounded-[12px] bg-white p-[6px] ring-1 ring-black/10">
+                  <QRCodeDisplay value={pairUrl} size={88} />
+                </div>
+                <div className="mt-[6px] text-[0.625rem] font-semibold text-foreground/60">
+                  {linkedPhone ? t("common.linked", { name: linkedPhone }) : t("common.unpaired")}
+                </div>
+                {linkedPhone && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      try { localStorage.removeItem("hki:linkedPhone"); localStorage.removeItem("hki:linkedAt"); } catch {}
+                      setLinkedPhone(null);
+                    }}
+                    className="mt-2 rounded-full bg-[var(--panel)] px-3 py-[6px] text-[0.6875rem] font-semibold hover:bg-[var(--active)]"
+                  >
+                    {t("common.unlinkPhone")}
+                  </button>
+                )}
+              </div>
+
+              {/* Customization */}
+              <div className="mt-[2px] min-h-0 flex-1 overflow-auto rounded-[18px] bg-[var(--panel-soft)] px-[10px] py-[10px]">
+                <div className="mb-[8px] text-center text-[0.8125rem] font-bold">{t("common.customization")}</div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-center text-[0.625rem] font-semibold tracking-wide text-foreground/60">
+                    {t("common.changeFontSize")}
+                  </div>
+                  <input
+                    type="range"
+                    min={0.8}
+                    max={1.3}
+                    step={0.05}
+                    value={fontScale}
+                    onChange={(e) => setFontScale(parseFloat(e.target.value))}
+                    className="w-full accent-[var(--brand)]"
+                    aria-label={t("common.changeFontSize")}
+                  />
+                  <div className="text-center text-[0.625rem] font-semibold tracking-wide text-foreground/60">{t("common.changeThemeColour")}</div>
+                  <div className="flex gap-2">
+                    {THEMES.map((themeOption) => {
+                      const active = theme === themeOption.v;
+                      const bg = themeOption.v === "purple"
+                        ? "linear-gradient(135deg, oklch(0.55 0.22 320), oklch(0.45 0.20 295))"
+                        : themeOption.v === "dark"
+                        ? "oklch(0.22 0.02 270)"
+                        : "oklch(0.98 0.005 250)";
+                      const fg = themeOption.v === "light" ? "#1f2937" : "#fff";
+                      return (
+                        <button
+                          key={themeOption.v}
+                          type="button"
+                          onClick={() => setThemeManual(themeOption.v)}
+                          aria-pressed={active}
+                          className={`flex-1 rounded-[12px] px-2 py-[8px] text-[0.6875rem] font-bold transition-all active:scale-[0.97] ${active ? "ring-2 ring-[var(--brand)] shadow-md" : "ring-1 ring-black/10 hover:ring-[var(--brand)]/60"}`}
+                          style={{ background: bg, color: fg }}
+                        >{t(themeOption.labelKey)}</button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={() => { setOpenManual(true); setOpenLang(false); }}
+                className="mt-2 w-full rounded-[18px] bg-[var(--panel-soft)] p-3 text-left text-[0.72rem] leading-snug text-foreground/70 transition hover:bg-[var(--panel)]"
+              >
+                <div className="mb-2 flex items-center justify-between text-[0.8125rem] font-bold text-foreground">
+                  <span>{t("settings.userManualTitle")}</span>
+                  <ChevronDown className="h-4 w-4 transition-transform" />
+                </div>
+                <p className="text-[0.72rem] text-foreground/70">
+                  Tap to view the full manual. Includes dashboard layout, media controls, brightness, navigation, and phone pairing.
+                </p>
+              </button>
             </div>
-          </div>
+          )}
         </div>
 
         {/* CENTER column */}

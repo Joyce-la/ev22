@@ -35,8 +35,8 @@ const H_RIGHT_TOP = H_TOP_ROW; // gear height (must equal map)
 const H_CENTER_BOT = H_BOTTOM_ROW;
 const H_RIGHT_BOT = H_BOTTOM_ROW; // must match center bottom
 const H_LEFT_TOTAL_TOP = 470; // leftTop + gap + leftMiddle
-const H_LEFT_TOP = 340; // camera/traffic style top card
-const H_LEFT_MID = H_LEFT_TOTAL_TOP - H_LEFT_TOP - GAP_Y;
+const H_LEFT_MID = 120; // match bottom cards for baseline alignment
+const H_LEFT_TOP = H_LEFT_TOTAL_TOP - H_LEFT_MID - GAP_Y;
 const H_LEFT_BOT = 120;
 
 export function CockpitLayout({

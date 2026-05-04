@@ -134,7 +134,7 @@ export function GearPanel() {
             <button
               key={g}
               disabled
-              className={`flex h-[52px] w-[52px] items-center justify-center rounded-full font-medium leading-none transition-all text-5xl cursor-not-allowed ${
+              className={`flex h-[48px] w-[48px] items-center justify-center rounded-full font-medium leading-none transition-all text-[2.8rem] cursor-not-allowed ${
                 active
                   ? `bg-[var(--active)] ${reversing ? reverseActiveGearClass : "text-foreground ring-2 ring-foreground/15"}`
                   : `${reversing ? reverseMutedTextClass : "text-foreground/85"} opacity-50`
@@ -150,10 +150,10 @@ export function GearPanel() {
       {/* Speed area — 261×171 (1.53:1). P=0, R=5 (slow reverse), N=current, D=70 */}
       <div className="shrink-0 pb-[2px] pt-[4px] text-center">
         <div className="flex flex-col items-center justify-center">
-          <div className={`font-extrabold leading-none text-[3.4rem] ${reversing ? reverseSpeedTextClass : ""}`}>
+          <div className={`font-extrabold leading-none text-[3.2rem] ${reversing ? reverseSpeedTextClass : ""}`}>
             {Math.round(speedKmh)}
           </div>
-          <div className={`text-[12px] font-bold tracking-[0.18em] whitespace-normal break-words ${reversing ? reverseSpeedTextClass : "text-foreground/80"}`}>
+          <div className={`max-w-full text-center text-[12px] font-bold tracking-[0.08em] whitespace-normal break-words leading-tight ${reversing ? reverseSpeedTextClass : "text-foreground/80"}`}>
             {t("gear.kmh")}
           </div>
         </div>

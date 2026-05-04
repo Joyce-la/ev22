@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GearPanel } from "@/components/GearPanel";
+import { GearPanel } from "@/components/GearPanel.tsx";
 import { BrightnessCard } from "@/components/BrightnessCard";
 import { StatusCard } from "@/components/StatusCard";
 import { MapWidget } from "@/components/MapWidget";

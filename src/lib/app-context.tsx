@@ -202,10 +202,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(t);
   }, [autoTheme]);
 
-  // Auto brightness: light→0.7, dark→0.85
+  // Auto brightness: if the browser exposes screen brightness, use it; otherwise fall back to theme defaults.
   useEffect(() => {
     if (!autoBrightness) return;
-    setBrightnessState(theme === "dark" ? 0.85 : 0.7);
+
+    const updateBrightness = () => {
+      const scr = typeof window !== "undefined" ? (window as any).screen : null;
+      const raw = scr?.brightness;
+      if (typeof raw === "number" && raw >= 0 && raw <= 1) {
+        // If the screen itself is dim, make the app brighter; if the screen is bright, keep a comfortable level.
+        const target = 0.35 + (1 - raw) * 0.55;
+        setBrightnessState(Math.min(1, Math.max(0.3, target)));
+        return;
+      }
+
+      setBrightnessState(theme === "dark" ? 0.85 : 0.7);
+    };
+
+    updateBrightness();
+    const id = window.setInterval(updateBrightness, 5000);
+    return () => window.clearInterval(id);
   }, [autoBrightness, theme]);
 
   // Apply theme class

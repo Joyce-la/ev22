@@ -63,6 +63,11 @@ const resources = {
         previousGear: "Previous gear",
         nextGear: "Next gear",
         kmh: "KM/H",
+        useCtrlShortcut: "Use Ctrl+P/D/R/N to change gear",
+      },
+      settings: {
+        userManualTitle: "Website User Manual",
+        userManualHint: "Tap the music card to open your playlist. Use Ctrl+P / Ctrl+R / Ctrl+N / Ctrl+D to switch gear, and set brightness to Auto or Manual here.",
       },
       search: {
         voiceSearch: "Voice search",
