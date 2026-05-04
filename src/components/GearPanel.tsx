@@ -133,17 +133,17 @@ export function GearPanel() {
 
       {/* Current gear with arrows */}
       <div className="mt-[8px] flex shrink-0 items-center justify-between px-[2px]">
-        <button type="button" onClick={prev} disabled={idx === 0} aria-label={t("gear.previousGear")} className="disabled:opacity-30">
+        <div className="flex h-[46px] w-[46px] items-center justify-center rounded-full pointer-events-none">
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M2 13 L14 4 L14 9 L42 9 L42 17 L14 17 L14 22 Z" fill={idx === 0 ? "#d1d5db88" : "#22c55e"}/>
           </svg>
-        </button>
+        </div>
         <span className="min-w-[24px] text-center font-extrabold leading-none text-6xl">{gear}</span>
-        <button type="button" onClick={next} disabled={idx === GEARS.length - 1} aria-label={t("gear.nextGear")} className="disabled:opacity-30">
+        <div className="flex h-[46px] w-[46px] items-center justify-center rounded-full pointer-events-none">
           <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
             <path d="M42 13 L30 4 L30 9 L2 9 L2 17 L30 17 L30 22 Z" fill={idx === GEARS.length - 1 ? "#d1d5db" : "#22c55e"}/>
           </svg>
-        </button>
+        </div>
       </div>
 
       {/* PRND vertical list — 143:414 ratio inside */}

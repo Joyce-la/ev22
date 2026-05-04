@@ -1,0 +1,37 @@
+node_modules/@tanstack/react-router/dist/esm/ClientOnly.d.ts(1,21): error TS1259: Module '"C:/Users/User/Downloads/evevvvvvvvvvvvvv/ev dashboard v2/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/@tanstack/react-router/dist/esm/route.d.ts(2,21): error TS1259: Module '"C:/Users/User/Downloads/evevvvvvvvvvvvvv/ev dashboard v2/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+src/routes/map.tsx(2,27): error TS2307: Cannot find module '@/components/GearPanel.tsx' or its corresponding type declarations.
+src/routes/map.tsx(3,32): error TS2307: Cannot find module '@/components/BrightnessCard' or its corresponding type declarations.
+src/routes/map.tsx(4,28): error TS2307: Cannot find module '@/components/StatusCard' or its corresponding type declarations.
+src/routes/map.tsx(5,27): error TS2307: Cannot find module '@/components/MediaCard' or its corresponding type declarations.
+src/routes/map.tsx(6,29): error TS2307: Cannot find module '@/components/ClimateCard' or its corresponding type declarations.
+src/routes/map.tsx(10,28): error TS2307: Cannot find module '@/components/LeafletMap' or its corresponding type declarations.
+src/routes/map.tsx(12,59): error TS2307: Cannot find module '@/components/NearbyStationsPanel' or its corresponding type declarations.
+src/routes/map.tsx(13,24): error TS2307: Cannot find module '@/lib/app-context' or its corresponding type declarations.
+src/routes/map.tsx(17,38): error TS2345: Argument of type '"/map"' is not assignable to parameter of type 'never'.
+src/routes/map.tsx(224,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(225,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(227,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(228,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(239,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(248,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(250,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(261,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(266,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(270,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(286,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(287,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(297,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(302,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(307,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(312,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(336,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(337,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(341,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(342,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(343,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(347,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(348,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(348,43): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(349,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+src/routes/map.tsx(349,45): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.

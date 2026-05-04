@@ -191,6 +191,16 @@ function MapPage() {
         origin: { ...origin },
         routeLine: latLngPairs,
       });
+
+      // If this route was started from the map UI, make the navigation state
+      // explicit in the URL and ensure the page stays on the /map navigation view.
+      if (initialDest !== q) {
+        try {
+          navigate({ to: "/map", search: { destination: q } as any, replace: true });
+        } catch {
+          // ignore runtime navigation failures in browser fallback.
+        }
+      }
     };
 
     run().catch(() => setRouteError("Routing failed."));
