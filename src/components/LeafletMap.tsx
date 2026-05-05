@@ -1,19 +1,8 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Polyline, useMap } from "react-leaflet";
 import type { LatLngBoundsExpression, LatLngExpression, Map as LeafletMapType } from "leaflet";
 import { useApp } from "@/lib/app-context";
 import { useTranslation } from "react-i18next";
-
-function RegisterMapRef({ mapRef }: { mapRef: React.MutableRefObject<LeafletMapType | null> }) {
-  const map = useMap();
-  useEffect(() => {
-    mapRef.current = map;
-    return () => {
-      if (mapRef.current === map) mapRef.current = null;
-    };
-  }, [map, mapRef]);
-  return null;
-}
 
 function ZoomButtons({
   tone = "default",
@@ -104,17 +93,27 @@ export function LeafletMap({
   zoomButtonsSize?: "default" | "large";
 }) {
   const { theme } = useApp();
+  const [mounted, setMounted] = useState(false);
+  const [map, setMap] = useState<LeafletMapType | null>(null);
 
-  // Avoid SSR crashes (Leaflet touches window/document).
-  if (typeof window === "undefined") {
-    return <div className={`h-full w-full bg-app-panel-soft ${className}`} />;
-  }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // Workaround for react-leaflet hydration edge cases: keep a stable key.
-  const key = useMemo(() => "leaflet-map", []);
-  const mapRef = useRef<LeafletMapType | null>(null);
+  useEffect(() => {
+    return () => {
+      if (map) {
+        map.remove();
+      }
+    };
+  }, [map]);
 
   const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+  // Avoid SSR/hydration crashes: render the real map only after client mount.
+  if (typeof window === "undefined" || !mounted) {
+    return <div className={`h-full w-full bg-app-panel-soft ${className}`} />;
+  }
 
   // When tiles are dark, use inverted zoom button surface for better readability.
   const zoomTone = theme === "dark" || theme === "purple" ? "inverted" : "default";
@@ -122,7 +121,7 @@ export function LeafletMap({
   return (
     <div className={`relative h-full w-full ${className}`}>
       <MapContainer
-        key={key}
+        whenCreated={setMap}
         center={center}
         zoom={zoom}
         scrollWheelZoom={interactive}
@@ -135,7 +134,6 @@ export function LeafletMap({
         attributionControl={false}
         className="h-full w-full"
       >
-        <RegisterMapRef mapRef={mapRef} />
         <TileLayer
           // Free OSM tiles (for demos). For production you should use your own tile provider.
           url={tileUrl}

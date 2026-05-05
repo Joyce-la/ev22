@@ -25,16 +25,16 @@ export function Sidebar() {
       : "text-foreground/85 hover:bg-black/5";
   return (
     <aside className={`flex w-[60px] shrink-0 flex-col items-center py-[12px] ${reversing ? "bg-transparent" : "bg-[var(--sidebar-bg)]"}`}>
-      <Link
-        to="/"
-        onClick={() => setMusicExpanded(false)}
-        className={`mb-[16px] flex h-[52px] w-[52px] items-center justify-center rounded-[18px] transition-colors ${homeIdleClass}`}
-        aria-label={t("common.home")}
-        title={t("common.home")}
-      >
-        <Home className="h-[30px] w-[30px]" strokeWidth={1.6} />
-      </Link>
-      <div className="flex flex-1 flex-col items-stretch gap-[8px] self-stretch px-0 pt-[8px]">
+      <div className="flex flex-1 flex-col items-stretch gap-[8px] self-stretch px-0">
+        <Link
+          to="/"
+          onClick={() => setMusicExpanded(false)}
+          className={`flex h-[68px] w-full items-center justify-center rounded-[18px] transition-colors ${homeIdleClass}`}
+          aria-label={t("common.home")}
+          title={t("common.home")}
+        >
+          <Home className="h-[30px] w-[30px]" strokeWidth={1.6} />
+        </Link>
         {items.map(({ to, icon: Icon, key }) => {
           const active = path.startsWith(to);
           const label = t(`sidebar.${key}`);
