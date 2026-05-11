@@ -4,6 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useApp } from "@/lib/app-context";
 import { LeafletMap } from "@/components/LeafletMap";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import {
+  polylineLengthMeters,
+  polylineSuffixFromMeters,
+  positionAlongPolyline,
+} from "@/lib/osrm-navigation";
 
 const FALLBACK: [number, number] = [1.5533, 110.3592];
 
@@ -32,6 +37,37 @@ export function MapWidget({ className = "", clickable = true, fullscreen = false
     () => (activeRoute ? (activeRoute.routeLine as LatLngExpression[]) : null),
     [activeRoute],
   );
+
+  const inLiveNav =
+    !!activeRoute?.navigationHudShown && !!routeLine && routeLine.length > 1;
+  const navProgressM = activeRoute?.navigationProgressMeters ?? 0;
+
+  /** Same polyline interpolation as /map so the widget blue dot tracks the vehicle. */
+  const userMarker: [number, number] = useMemo(() => {
+    if (!inLiveNav || !activeRoute?.routeLine?.length) return originPos;
+    const pairs = activeRoute.routeLine as Array<[number, number]>;
+    const polyLen = polylineLengthMeters(pairs);
+    if (polyLen <= 0) return originPos;
+    const legD = activeRoute.navigationLeg?.legDistanceMeters;
+    const cap = legD != null && legD > 0 ? legD : polyLen;
+    const posM = Math.min(navProgressM * (polyLen / cap), polyLen);
+    const p = positionAlongPolyline(pairs, posM);
+    return [p.lat, p.lng];
+  }, [inLiveNav, activeRoute, navProgressM, originPos]);
+
+  const routeLineDisplayed: LatLngExpression[] | null = useMemo(() => {
+    if (!routeLine || routeLine.length < 2) return null;
+    if (!inLiveNav || !activeRoute?.routeLine?.length) return routeLine;
+    const pairs = activeRoute.routeLine as Array<[number, number]>;
+    const polyLen = polylineLengthMeters(pairs);
+    if (polyLen <= 0) return routeLine;
+    const legD = activeRoute.navigationLeg?.legDistanceMeters;
+    const cap = legD != null && legD > 0 ? legD : polyLen;
+    const posM = Math.min(navProgressM * (polyLen / cap), polyLen);
+    const suffix = polylineSuffixFromMeters(pairs, posM);
+    return suffix.length >= 2 ? (suffix as LatLngExpression[]) : null;
+  }, [routeLine, inLiveNav, activeRoute, navProgressM]);
+
   const bounds: LatLngBoundsExpression | null = useMemo(() => {
     if (!routeLine || routeLine.length < 2) return null;
     let minLat = Infinity;
@@ -75,9 +111,9 @@ export function MapWidget({ className = "", clickable = true, fullscreen = false
         className="absolute inset-0"
         center={originPos}
         zoom={zoom}
-        origin={originPos}
+        origin={userMarker}
         destination={destPos}
-        route={routeLine}
+        route={routeLineDisplayed}
         bounds={bounds}
         interactive={fullscreen}
         showZoomButtons={true}

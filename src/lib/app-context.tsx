@@ -10,7 +10,12 @@ import {
   type SetStateAction,
 } from "react";
 import i18n from "@/lib/i18n";
-import type { NavigationCue, ParsedNavigationLeg } from "@/lib/osrm-navigation";
+import {
+  navRemainingDurationSeconds,
+  polylineLengthMeters,
+  type NavigationCue,
+  type ParsedNavigationLeg,
+} from "@/lib/osrm-navigation";
 
 export type Theme = "light" | "dark" | "purple";
 export type AirflowMode = "face" | "down" | "both";
@@ -18,6 +23,8 @@ export type AirflowMode = "face" | "down" | "both";
 export type LatLng = { lat: number; lng: number };
 export type ActiveRoute = {
   destinationName: string;
+  /** Same string as `activeDestination` when the route was computed (e.g. `@lat,lng:Name`). */
+  routingQueryKey?: string;
   destinationPos: LatLng;
   origin: LatLng;
   // route is stored as [lat, lng] pairs so it can be passed straight to Leaflet.
@@ -26,6 +33,14 @@ export type ActiveRoute = {
   navigationLeg?: ParsedNavigationLeg | null;
   /** First turn-by-turn cue from OSRM when route was computed (optional for older sessions). */
   nextNavigationCue?: NavigationCue | null;
+  /** Simulated distance along the route (meters); saved when leaving /map so navigation can resume. */
+  navigationProgressMeters?: number;
+  /** True after the nav HUD intro delay; when set, returning to /map skips the delay. */
+  navigationHudShown?: boolean;
+  /** OSRM leg `duration` (seconds) for ETA / time remaining. */
+  legDurationSeconds?: number;
+  /** Wall-clock ETA at destination; refreshed when simulated progress advances. */
+  arrivalEpochMs?: number;
 };
 
 interface AppCtx {
@@ -272,6 +287,33 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }, 1000);
     return () => window.clearInterval(id);
   }, [gear, speedKmh]);
+
+  // Simulated navigation progress (meters) — global so MapWidget stays in sync when /map is not mounted.
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      if ((gear !== "D" && gear !== "R") || speedKmh <= 0) return;
+      setActiveRoute((prev) => {
+        if (!prev?.navigationHudShown || !prev.routeLine || prev.routeLine.length < 2) return prev;
+        const pairs = prev.routeLine as Array<[number, number]>;
+        const poly = polylineLengthMeters(pairs);
+        if (poly <= 0) return prev;
+        const legDist = prev.navigationLeg?.legDistanceMeters;
+        const cap = legDist != null && legDist > 0 ? legDist : poly;
+        if (cap <= 0) return prev;
+        const cur = prev.navigationProgressMeters ?? 0;
+        const next = Math.min(cur + speedKmh / 3.6, cap);
+        if (next === cur) return prev;
+        const legDur = prev.legDurationSeconds;
+        let arrivalEpochMs = prev.arrivalEpochMs;
+        if (legDur != null && legDur > 0) {
+          const remainingSec = navRemainingDurationSeconds(legDur, next, pairs, prev.navigationLeg?.legDistanceMeters);
+          arrivalEpochMs = Date.now() + remainingSec * 1000;
+        }
+        return { ...prev, navigationProgressMeters: next, arrivalEpochMs };
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [gear, speedKmh, setActiveRoute]);
 
   // Audio beep (lazy AudioContext)
   const audioCtxRef = useRef<AudioContext | null>(null);

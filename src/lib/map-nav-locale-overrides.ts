@@ -8,6 +8,11 @@ type NavPatch = {
   map?: {
     navAfterMeters?: string;
     navArriveAfterMeters?: string;
+    navRemainingLabel?: string;
+    navArrivalLabel?: string;
+    durationHm?: string;
+    durationH?: string;
+    durationM?: string;
     maneuver?: Record<string, string>;
   };
 };
@@ -22,6 +27,11 @@ const PATCHES: Record<string, NavPatch> = {
     map: {
       navAfterMeters: "{{action}} selepas {{meters}}\u00a0{{unit}}",
       navArriveAfterMeters: "Tiba selepas {{meters}}\u00a0{{unit}}",
+      navRemainingLabel: "Baki",
+      navArrivalLabel: "Tiba",
+      durationHm: "{{hours}}j {{minutes}}m",
+      durationH: "{{hours}}j",
+      durationM: "{{minutes}} min",
       maneuver: m({
         turnLeft: "Belok kiri",
         turnRight: "Belok kanan",
@@ -37,6 +47,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Kekal kiri di persimpangan",
         forkRight: "Kekal kanan di persimpangan",
         roundabout: "Masuk bulatan",
+        roundaboutTakeExit: "Di bulatan, ambil laluan keluar {{exit}}",
+        roundaboutOnto: "Ke jalan {{road}}",
         exitRoundabout: "Keluar bulatan",
         arrive: "Tiba di destinasi",
       }),
@@ -47,6 +59,11 @@ const PATCHES: Record<string, NavPatch> = {
     map: {
       navAfterMeters: "{{meters}}{{unit}}后{{action}}",
       navArriveAfterMeters: "{{meters}}{{unit}}后到达",
+      navRemainingLabel: "剩余",
+      navArrivalLabel: "到达",
+      durationHm: "{{hours}}小时{{minutes}}分钟",
+      durationH: "{{hours}}小时",
+      durationM: "{{minutes}}分钟",
       maneuver: m({
         turnLeft: "左转",
         turnRight: "右转",
@@ -62,6 +79,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "在岔路口靠左",
         forkRight: "在岔路口靠右",
         roundabout: "进入环岛",
+        roundaboutTakeExit: "进入环岛后从第{{exit}}个出口驶出",
+        roundaboutOnto: "驶入{{road}}",
         exitRoundabout: "驶出环岛",
         arrive: "到达目的地",
       }),
@@ -72,6 +91,11 @@ const PATCHES: Record<string, NavPatch> = {
     map: {
       navAfterMeters: "{{meters}}{{unit}}後{{action}}",
       navArriveAfterMeters: "{{meters}}{{unit}}後到達",
+      navRemainingLabel: "剩餘",
+      navArrivalLabel: "到達",
+      durationHm: "{{hours}}小時{{minutes}}分鐘",
+      durationH: "{{hours}}小時",
+      durationM: "{{minutes}}分鐘",
       maneuver: m({
         turnLeft: "左轉",
         turnRight: "右轉",
@@ -87,6 +111,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "在岔路靠左",
         forkRight: "在岔路靠右",
         roundabout: "進入圓環",
+        roundaboutTakeExit: "進入圓環後由第{{exit}}個出口駛出",
+        roundaboutOnto: "駛入{{road}}",
         exitRoundabout: "駛出圓環",
         arrive: "到達目的地",
       }),

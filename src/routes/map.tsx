@@ -10,18 +10,29 @@ import { LeafletMap } from "@/components/LeafletMap";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import { NearbyStationsPanel, type ChargingStation } from "@/components/NearbyStationsPanel";
 import { NavigationCueOverlay } from "@/components/NavigationCueOverlay";
-import { useApp } from "@/lib/app-context";
+import { useApp, type ActiveRoute } from "@/lib/app-context";
 import {
+  navRemainingDurationSeconds,
   parseNavigationLeg,
   parseNextNavigationCue,
   polylineLengthMeters,
   polylineSuffixFromMeters,
   positionAlongPolyline,
+  readOsrmLegDurationSeconds,
   resolveNavigationCue,
 } from "@/lib/osrm-navigation";
 import type { NavigationCue } from "@/lib/osrm-navigation";
 
 type MapSearch = { destination?: string };
+
+function formatRemainingDuration(seconds: number, t: (key: string, opts?: Record<string, unknown>) => string) {
+  const totalMin = Math.max(0, Math.ceil(seconds / 60));
+  const hours = Math.floor(totalMin / 60);
+  const minutes = totalMin % 60;
+  if (hours > 0 && minutes > 0) return t("map.durationHm", { hours, minutes });
+  if (hours > 0) return t("map.durationH", { hours });
+  return t("map.durationM", { minutes: totalMin });
+}
 
 export const Route = createFileRoute("/map")({
   component: MapPage,
@@ -36,11 +47,12 @@ export const Route = createFileRoute("/map")({
  * Sidebar + the rest stay unchanged.
  */
 function MapPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { destination: initialDest } = Route.useSearch();
-  const { activeRoute, setActiveRoute, setMusicExpanded, speedKmh, gear } = useApp();
+  const { activeRoute, setActiveRoute, setMusicExpanded } = useApp();
   const navigate = useNavigate();
   const ignoreNextSearchSyncRef = useRef(false);
+  const skipStaleRouteCheckRef = useRef(true);
 
   // Map is for navigation only — never keep the large music overlay state here.
   useEffect(() => {
@@ -53,12 +65,14 @@ function MapPage() {
     const displayName = (m?.[3]?.trim() || s).trim();
     return { isDirect: !!m, displayName };
   };
-  // If we already have a saved active route, use that destination as the
-  // starting value (so the route stays visible after returning to /map).
-  const initialFromCtx = initialDest ?? activeRoute?.destinationName ?? "";
-  const initialParsed = parseDirect(initialFromCtx);
+  // If we already have a saved active route, use the same routing key OSRM was built with
+  // (`routingQueryKey`, e.g. `@lat,lng:Name`) — not only `destinationName` — so resume matches.
+  const resumeRoutingQuery =
+    (initialDest ?? "").trim() ||
+    (activeRoute?.routingQueryKey ?? activeRoute?.destinationName ?? "").trim();
+  const initialParsed = parseDirect(resumeRoutingQuery || (activeRoute?.destinationName ?? ""));
   const [destination, setDestination] = useState(initialParsed.displayName);
-  const [activeDestination, setActiveDestination] = useState(initialFromCtx);
+  const [activeDestination, setActiveDestination] = useState(resumeRoutingQuery);
   const [shownDestination, setShownDestination] = useState(initialParsed.displayName);
   // Demo default: Kuching as current location.
   const [origin] = useState<{ lat: number; lng: number } | null>({ lat: 1.5533, lng: 110.3592 });
@@ -79,9 +93,16 @@ function MapPage() {
   );
   const [routeErrorKey, setRouteErrorKey] = useState<string | null>(null);
   const [stationsOpen, setStationsOpen] = useState(false);
-  const [navigationActive, setNavigationActive] = useState(false);
-  const [navTraveledMeters, setNavTraveledMeters] = useState(0);
-  const navCapRef = useRef(0);
+  const routeQueryKey = (r: ActiveRoute | null) =>
+    (r?.routingQueryKey ?? r?.destinationName ?? "").trim();
+  const [navClockMs, setNavClockMs] = useState(() => Date.now());
+
+  const [navigationActive, setNavigationActive] = useState(() => {
+    const ar = activeRoute;
+    const q0 = resumeRoutingQuery.trim();
+    return !!(ar?.navigationHudShown && ar.routeLine.length > 1 && routeQueryKey(ar) === q0);
+  });
+  const navTraveledMeters = activeRoute?.navigationProgressMeters ?? 0;
 
   // If the URL search param changes (e.g. user taps a station in the bottom-right widget),
   // sync it into the input + routing label + active routing state.
@@ -108,44 +129,58 @@ function MapPage() {
   }, []);
 
   useEffect(() => {
-    if (routeLine && routeLine.length > 1 && activeDestination.trim()) {
-      const timer = window.setTimeout(() => setNavigationActive(true), 3000);
-      return () => window.clearTimeout(timer);
+    const q = activeDestination.trim();
+    if (!routeLine || routeLine.length < 2 || !q) {
+      setNavigationActive(false);
+      return undefined;
     }
-    setNavigationActive(false);
-    return undefined;
-  }, [routeLine, activeDestination]);
+    if (activeRoute?.navigationHudShown && routeQueryKey(activeRoute) === q) {
+      setNavigationActive(true);
+      return undefined;
+    }
+    const timer = window.setTimeout(() => {
+      setNavigationActive(true);
+      setActiveRoute((prev) =>
+        prev && routeQueryKey(prev) === q ? { ...prev, navigationHudShown: true } : prev,
+      );
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [
+    routeLine,
+    activeDestination,
+    activeRoute?.navigationHudShown,
+    activeRoute?.routingQueryKey,
+    activeRoute?.destinationName,
+    setActiveRoute,
+  ]);
 
   const routePairs = useMemo(
     () => (routeLine && routeLine.length > 1 ? (routeLine as Array<[number, number]>) : null),
     [routeLine],
   );
 
+  // Stop sim on stale route when the user changes the routing string (skip first run — avoid clearing on remount).
   useEffect(() => {
-    const leg = activeRoute?.navigationLeg?.legDistanceMeters;
-    const poly = routePairs ? polylineLengthMeters(routePairs) : 0;
-    navCapRef.current = leg != null && leg > 0 ? leg : poly;
-  }, [activeRoute?.navigationLeg?.legDistanceMeters, routePairs]);
-
-  useEffect(() => {
-    setNavTraveledMeters(0);
-  }, [activeDestination, destPos?.lat, destPos?.lng]);
-
-  useEffect(() => {
-    if (navigationActive) setNavTraveledMeters(0);
-  }, [navigationActive]);
-
-  useEffect(() => {
-    if (!navigationActive) return;
-    const id = window.setInterval(() => {
-      if ((gear !== "D" && gear !== "R") || speedKmh <= 0) return;
-      const cap = navCapRef.current;
-      if (cap <= 0) return;
-      const delta = speedKmh / 3.6;
-      setNavTraveledMeters((m) => Math.min(m + delta, cap));
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [navigationActive, gear, speedKmh]);
+    if (skipStaleRouteCheckRef.current) {
+      skipStaleRouteCheckRef.current = false;
+      return;
+    }
+    const q = activeDestination.trim();
+    if (!q) return;
+    setActiveRoute((prev) => {
+      if (!prev) return prev;
+      const pk = routeQueryKey(prev);
+      if (pk === q) return prev;
+      const legDur = prev.legDurationSeconds;
+      return {
+        ...prev,
+        navigationHudShown: false,
+        navigationProgressMeters: 0,
+        arrivalEpochMs:
+          legDur != null && legDur > 0 ? Date.now() + legDur * 1000 : prev.arrivalEpochMs,
+      };
+    });
+  }, [activeDestination, setActiveRoute]);
 
   const center: LatLngExpression = useMemo(() => {
     if (origin) return [origin.lat, origin.lng];
@@ -165,6 +200,54 @@ function MapPage() {
       distanceMeters: Math.max(0, Math.round(base.distanceMeters - navTraveledMeters)),
     };
   }, [activeRoute?.navigationLeg, activeRoute?.nextNavigationCue, navTraveledMeters]);
+
+  useEffect(() => {
+    if (!navigationActive) return undefined;
+    setNavClockMs(Date.now());
+    const id = window.setInterval(() => setNavClockMs(Date.now()), 30_000);
+    return () => window.clearInterval(id);
+  }, [navigationActive]);
+
+  const remainingDurationSec = useMemo(() => {
+    const legDur = activeRoute?.legDurationSeconds;
+    if (legDur == null || legDur <= 0 || !routePairs || routePairs.length < 2) return null;
+    return navRemainingDurationSeconds(
+      legDur,
+      navTraveledMeters,
+      routePairs,
+      activeRoute?.navigationLeg?.legDistanceMeters,
+    );
+  }, [
+    activeRoute?.legDurationSeconds,
+    activeRoute?.navigationLeg?.legDistanceMeters,
+    navTraveledMeters,
+    routePairs,
+  ]);
+
+  const remainingDurationLabel = useMemo(() => {
+    if (remainingDurationSec == null) return "";
+    return formatRemainingDuration(remainingDurationSec, t);
+  }, [remainingDurationSec, t]);
+
+  const arrivalTimeLabel = useMemo(() => {
+    const arrivalMs =
+      remainingDurationSec != null
+        ? navClockMs + remainingDurationSec * 1000
+        : activeRoute?.arrivalEpochMs ?? null;
+    if (arrivalMs == null) return "";
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }).format(new Date(arrivalMs));
+  }, [activeRoute?.arrivalEpochMs, navClockMs, remainingDurationSec]);
+
+  const navTimeSummary = useMemo(() => {
+    if (!remainingDurationLabel && !arrivalTimeLabel) return "";
+    if (!remainingDurationLabel) return `${t("map.navArrivalLabel")}: ${arrivalTimeLabel}`;
+    if (!arrivalTimeLabel) return `${t("map.navRemainingLabel")}: ${remainingDurationLabel}`;
+    return `${t("map.navRemainingLabel")}: ${remainingDurationLabel} · ${t("map.navArrivalLabel")}: ${arrivalTimeLabel}`;
+  }, [arrivalTimeLabel, remainingDurationLabel, t]);
 
   const userOnRouteLatLng: LatLngExpression | null = useMemo(() => {
     if (!navigationActive || !routePairs || !originLatLng) return originLatLng;
@@ -222,11 +305,7 @@ function MapPage() {
 
       // If we already have a cached route in the global context for the same
       // destination, reuse it (skips a re-fetch when navigating back to /map).
-      if (
-        activeRoute &&
-        activeRoute.destinationName === q &&
-        activeRoute.routeLine.length > 1
-      ) {
+      if (activeRoute && routeQueryKey(activeRoute) === q && activeRoute.routeLine.length > 1) {
         setDestPos(activeRoute.destinationPos);
         setRouteLine(activeRoute.routeLine as LatLngExpression[]);
         setMapBounds([
@@ -242,11 +321,28 @@ function MapPage() {
             .then((rJson) => {
               const leg = parseNavigationLeg(rJson);
               if (!leg) return;
-              setActiveRoute((prev) =>
-                prev && prev.destinationName === q
-                  ? { ...prev, navigationLeg: leg, nextNavigationCue: resolveNavigationCue(leg, 0) }
-                  : prev,
-              );
+              const legDur = readOsrmLegDurationSeconds(rJson);
+              setActiveRoute((prev) => {
+                if (!prev || routeQueryKey(prev) !== q) return prev;
+                const pairs = prev.routeLine as Array<[number, number]>;
+                const remainingSec =
+                  legDur != null && pairs.length >= 2
+                    ? navRemainingDurationSeconds(
+                        legDur,
+                        prev.navigationProgressMeters ?? 0,
+                        pairs,
+                        leg.legDistanceMeters,
+                      )
+                    : (legDur ?? 0);
+                return {
+                  ...prev,
+                  navigationLeg: leg,
+                  nextNavigationCue: resolveNavigationCue(leg, 0),
+                  ...(legDur != null
+                    ? { legDurationSeconds: legDur, arrivalEpochMs: Date.now() + remainingSec * 1000 }
+                    : {}),
+                };
+              });
             })
             .catch(() => {});
         }
@@ -301,6 +397,7 @@ function MapPage() {
       const navLeg = parseNavigationLeg(rJson);
       const nextCue =
         navLeg != null ? resolveNavigationCue(navLeg, 0) : parseNextNavigationCue(rJson);
+      const legDur = readOsrmLegDurationSeconds(rJson);
       const latLngPairs: Array<[number, number]> = coords.map(([lng, lat]) => [lat, lng]);
       if (cancelled) return;
       setRouteLine(latLngPairs as LatLngExpression[]);
@@ -309,11 +406,13 @@ function MapPage() {
       // Persist to global context so other pages (small map widget) can show it.
       setActiveRoute({
         destinationName: displayName,
+        routingQueryKey: q,
         destinationPos: { lat: dLat, lng: dLng },
         origin: { ...origin },
         routeLine: latLngPairs,
         navigationLeg: navLeg ?? undefined,
         nextNavigationCue: nextCue,
+        ...(legDur != null ? { legDurationSeconds: legDur, arrivalEpochMs: Date.now() + legDur * 1000 } : {}),
       });
 
       // If this route was started from the map UI, make the navigation state
@@ -396,8 +495,15 @@ function MapPage() {
               className="bg-app-panel relative flex items-center justify-between gap-2 rounded-full px-4 shadow-sm ring-1 ring-black/5"
               style={{ height: H_SEARCH }}
             >
-              <div className="text-sm font-semibold text-foreground/90 truncate">
-                {t("map.routingTo", { destination: shownDestination })}
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-foreground/90 truncate">
+                  {t("map.routingTo", { destination: shownDestination })}
+                </div>
+                {navTimeSummary ? (
+                  <div className="mt-0.5 text-[11px] font-medium text-muted-foreground truncate">
+                    {navTimeSummary}
+                  </div>
+                ) : null}
               </div>
               <div className="rounded-full bg-[var(--active)] px-3 py-1 text-xs font-semibold text-foreground">
                 {t("map.navigation")}
@@ -430,9 +536,6 @@ function MapPage() {
               route={displayRouteLine}
               bounds={mapBounds}
             />
-            {navigationActive && routeLine && routeLine.length > 1 && liveNavigationCue && !routeErrorKey ? (
-              <NavigationCueOverlay cue={liveNavigationCue} t={t} />
-            ) : null}
             {shownDestination && !navigationActive && (
               <div className="pointer-events-none absolute left-1/2 top-3 z-[1100] -translate-x-1/2 rounded-xl bg-black/65 px-3 py-1.5 text-sm font-medium text-white backdrop-blur">
                 {t("map.routingTo", { destination: shownDestination })}
@@ -464,7 +567,6 @@ function MapPage() {
                   setMapBounds(null);
                   setRouteErrorKey(null);
                   setNavigationActive(false);
-                  setNavTraveledMeters(0);
                   setActiveRoute(null);
                 }}
                 className="absolute bottom-3 left-1/2 z-[1200] -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-[12px] font-bold text-white backdrop-blur hover:bg-black/70"
@@ -476,7 +578,15 @@ function MapPage() {
           </div>
           {/* Bottom row of left+center columns */}
           <div className="grid grid-cols-2 gap-2 items-stretch" style={{ height: H_BOTTOM }}>
-            <ClimateCard />
+            {navigationActive &&
+            routeLine &&
+            routeLine.length > 1 &&
+            liveNavigationCue &&
+            !routeErrorKey ? (
+              <NavigationCueOverlay variant="panel" cue={liveNavigationCue} t={t} />
+            ) : (
+              <ClimateCard />
+            )}
             <BrightnessCard />
           </div>
         </div>

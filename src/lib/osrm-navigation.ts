@@ -4,6 +4,10 @@ export type NavigationCue = {
   maneuverModifier: string | null;
   /** OSRM step `name` (road to enter / current way), when provided. */
   streetName?: string;
+  /** OSRM `maneuver.exit` (1-based exit count) for roundabout / rotary. */
+  roundaboutExit?: number;
+  /** Road name on the leg’s next `exit roundabout` step, when known. */
+  roundaboutExitOnto?: string;
 };
 
 /** OSRM maneuver along the leg with distance from route start to the maneuver point. */
@@ -12,6 +16,8 @@ export type NavigationManeuver = {
   maneuverType: string;
   maneuverModifier: string | null;
   streetName?: string;
+  roundaboutExit?: number;
+  roundaboutExitOnto?: string;
 };
 
 export type ParsedNavigationLeg = {
@@ -109,6 +115,56 @@ export function polylineSuffixFromMeters(
 
 const SKIP_MANEUVER = new Set(["depart", "continue", "new name", "notification"]);
 
+/** OSRM leg `duration` in seconds (driving-time estimate for the leg). */
+export function readOsrmLegDurationSeconds(osrmRouteJson: unknown): number | undefined {
+  const d = (osrmRouteJson as { routes?: Array<{ legs?: Array<{ duration?: unknown }> }> })?.routes?.[0]
+    ?.legs?.[0]?.duration;
+  const n = typeof d === "number" ? d : typeof d === "string" ? Number(d) : NaN;
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
+/** Distance cap used for nav progress (matches polyline vs OSRM leg length). */
+export function navProgressCapMeters(
+  routeLine: Array<[number, number]>,
+  legDistanceMeters: number | undefined,
+): number {
+  const poly = polylineLengthMeters(routeLine);
+  if (poly <= 0) return 0;
+  return legDistanceMeters != null && legDistanceMeters > 0 ? legDistanceMeters : poly;
+}
+
+/** Remaining driving-time estimate (seconds) from simulated progress along the route. */
+export function navRemainingDurationSeconds(
+  legDurationSec: number,
+  traveledMeters: number,
+  routeLine: Array<[number, number]>,
+  legDistanceMeters: number | undefined,
+): number {
+  const cap = navProgressCapMeters(routeLine, legDistanceMeters);
+  if (cap <= 0 || legDurationSec <= 0) return 0;
+  const t = Math.min(Math.max(0, traveledMeters), cap);
+  return Math.max(0, legDurationSec * (1 - t / cap));
+}
+
+function readManeuverExit(raw: unknown): number | undefined {
+  const ex = (raw as { maneuver?: { exit?: unknown } })?.maneuver?.exit;
+  const n = typeof ex === "number" ? ex : typeof ex === "string" ? Number(ex) : NaN;
+  return Number.isFinite(n) && n > 0 ? Math.round(n) : undefined;
+}
+
+/** Name of the way after leaving the roundabout (next `exit roundabout` / `exit rotary` step). */
+function peekRoundaboutExitOnto(steps: unknown[], fromStepIndex: number): string | undefined {
+  for (let j = fromStepIndex + 1; j < steps.length; j++) {
+    const step = steps[j] as { maneuver?: { type?: string }; name?: string };
+    const t = String(step.maneuver?.type ?? "").toLowerCase();
+    if (t === "exit roundabout" || t === "exit rotary") {
+      const name = typeof step.name === "string" ? step.name.trim() : "";
+      return name || undefined;
+    }
+  }
+  return undefined;
+}
+
 /**
  * All announceable maneuvers in order, plus OSRM `arrive` at the leg end.
  * `atRouteMeters` is distance along the route from the origin to the maneuver point.
@@ -125,11 +181,12 @@ export function parseNavigationLeg(osrmRouteJson: unknown): ParsedNavigationLeg 
   const maneuvers: NavigationManeuver[] = [];
   let cum = 0;
 
-  for (const raw of steps) {
+  for (let i = 0; i < steps.length; i++) {
+    const raw = steps[i];
     const step = raw as {
       distance?: number;
       name?: string;
-      maneuver?: { type?: string; modifier?: string };
+      maneuver?: { type?: string; modifier?: string; exit?: unknown };
     };
     const m = step?.maneuver;
     const type = String(m?.type ?? "").toLowerCase();
@@ -152,11 +209,17 @@ export function parseNavigationLeg(osrmRouteJson: unknown): ParsedNavigationLeg 
       break;
     }
 
+    const isRb = type === "roundabout" || type === "rotary";
+    const exitN = isRb ? readManeuverExit(raw) : undefined;
+    const exitOnto = isRb ? peekRoundaboutExitOnto(steps, i) : undefined;
+
     maneuvers.push({
       atRouteMeters: cum,
       maneuverType: type,
       maneuverModifier: m?.modifier != null ? String(m.modifier) : null,
       streetName: wayName || undefined,
+      ...(exitN != null ? { roundaboutExit: exitN } : {}),
+      ...(exitOnto ? { roundaboutExitOnto: exitOnto } : {}),
     });
     cum += safeDist;
   }
@@ -191,6 +254,8 @@ export function resolveNavigationCue(
         maneuverType: m.maneuverType,
         maneuverModifier: m.maneuverModifier,
         streetName: m.streetName,
+        ...(m.roundaboutExit != null ? { roundaboutExit: m.roundaboutExit } : {}),
+        ...(m.roundaboutExitOnto ? { roundaboutExitOnto: m.roundaboutExitOnto } : {}),
       };
     }
   }
@@ -219,10 +284,11 @@ export function parseNextNavigationCue(osrmRouteJson: unknown): NavigationCue | 
     const step = steps[i] as {
       distance?: number;
       name?: string;
-      maneuver?: { type?: string; modifier?: string };
+      maneuver?: { type?: string; modifier?: string; exit?: unknown };
     };
     const m = step?.maneuver;
     const type = String(m?.type ?? "");
+    const typeLower = type.toLowerCase();
     const dist = Number(step?.distance);
     const safeDist = Number.isFinite(dist) ? dist : 0;
 
@@ -247,11 +313,17 @@ export function parseNextNavigationCue(osrmRouteJson: unknown): NavigationCue | 
       };
     }
 
+    const isRb = typeLower === "roundabout" || typeLower === "rotary";
+    const exitN = isRb ? readManeuverExit(steps[i]) : undefined;
+    const exitOnto = isRb ? peekRoundaboutExitOnto(steps, i) : undefined;
+
     return {
       distanceMeters: Math.max(0, Math.round(cumMeters)),
       maneuverType: type,
       maneuverModifier: m?.modifier != null ? String(m.modifier) : null,
       streetName: wayName || undefined,
+      ...(exitN != null ? { roundaboutExit: exitN } : {}),
+      ...(exitOnto ? { roundaboutExitOnto: exitOnto } : {}),
     };
   }
 
