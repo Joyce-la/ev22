@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import { applyLocalizedUserManuals } from "./user-manual-translations";
 import { applyWeatherCarTranslations } from "./weather-car-translations";
 import { mergeRegionalBase } from "./sarawak-merge";
+import { applyMapNavLocaleOverrides } from "./map-nav-locale-overrides";
 import { BIDAYUH_DISPLAY, IBAN_DISPLAY, KELABIT_DISPLAY, MELANAU_DISPLAY } from "./sarawak-dayak-displays";
 
 // Minimal, practical dictionaries to prove end-to-end localization.
@@ -30,6 +31,7 @@ const resources = {
         sidebarItemTitle: "{{label}} — {{hint}}",
         doubleTapHome: "Double-tap icon to go home",
         unitKm: "km",
+        unitM: "m",
       },
       sidebar: {
         settings: "Settings",
@@ -37,6 +39,8 @@ const resources = {
         voice: "Voice",
         bluetooth: "Bluetooth",
         car: "Car",
+        media: "Media",
+        mediaHint: "Show or hide the large music player",
       },
       topbar: {
         searchLocked: "Search (locked while reversing)",
@@ -53,6 +57,26 @@ const resources = {
         tapToEnlarge: "Tap to enlarge",
         openFullMap: "Open full navigation map",
         searchDestination: "Search destination",
+        navAfterMeters: "{{action}} after {{meters}}\u00a0{{unit}}",
+        navArriveAfterMeters: "Arrive after {{meters}}\u00a0{{unit}}",
+        maneuver: {
+          turnLeft: "Turn left",
+          turnRight: "Turn right",
+          sharpLeft: "Sharp left",
+          sharpRight: "Sharp right",
+          slightLeft: "Slight left",
+          slightRight: "Slight right",
+          uturn: "U-turn",
+          straight: "Continue straight",
+          continue: "Continue",
+          merge: "Merge",
+          fork: "Keep direction at fork",
+          forkLeft: "Keep left at fork",
+          forkRight: "Keep right at fork",
+          roundabout: "Enter roundabout",
+          exitRoundabout: "Exit roundabout",
+          arrive: "Arrive",
+        },
         geoUnavailable:
           "GPS unavailable. Routing uses the demo location until location access is allowed.",
         homeShortcut: "Home",
@@ -2044,16 +2068,6 @@ function fillMissing(target: any, source: any): any {
   return out;
 }
 
-// Iban, Melanau, Bidayuh, Kelabit: full key tree from Bahasa Melayu (`ms`) merged with
-// Sarawak-specific bundles so no English strings appear for missing keys.
-(() => {
-  const cloneMs = () => JSON.parse(JSON.stringify((resources as any).ms.translation));
-  (resources as any).iba.translation = mergeRegionalBase(cloneMs(), IBAN_DISPLAY);
-  (resources as any).melanau.translation = mergeRegionalBase(cloneMs(), MELANAU_DISPLAY);
-  (resources as any).bidayuh.translation = mergeRegionalBase(cloneMs(), BIDAYUH_DISPLAY);
-  (resources as any).kelabit.translation = mergeRegionalBase(cloneMs(), KELABIT_DISPLAY);
-})();
-
 // For the extra languages we only partially translate, fill missing keys from English.
 for (const lng of ["id", "th", "vi", "ja", "ko", "hi", "ar", "ru", "de", "fr", "it", "pt"] as const) {
   (resources as any)[lng].translation = fillMissing((resources as any)[lng].translation, (resources as any).en.translation);
@@ -2069,6 +2083,22 @@ for (const lng of ["nl", "sv", "pl", "uk", "fa", "bn", "ur", "fil", "tr"] as con
   if (!(resources as any)[lng]) (resources as any)[lng] = { translation: {} };
   (resources as any)[lng].translation = fillMissing((resources as any)[lng].translation, (resources as any).en.translation);
 }
+
+(resources as any).ms.translation = fillMissing(
+  (resources as any).ms.translation,
+  (resources as any).en.translation,
+);
+
+applyMapNavLocaleOverrides(resources as any);
+
+// Iban, Melanau, Bidayuh, Kelabit: clone Bahasa Melayu after map/nav patches so Sarawak locales inherit Malay navigation strings.
+(() => {
+  const cloneMs = () => JSON.parse(JSON.stringify((resources as any).ms.translation));
+  (resources as any).iba.translation = mergeRegionalBase(cloneMs(), IBAN_DISPLAY);
+  (resources as any).melanau.translation = mergeRegionalBase(cloneMs(), MELANAU_DISPLAY);
+  (resources as any).bidayuh.translation = mergeRegionalBase(cloneMs(), BIDAYUH_DISPLAY);
+  (resources as any).kelabit.translation = mergeRegionalBase(cloneMs(), KELABIT_DISPLAY);
+})();
 
 // Replace any English-filled `settings.manual` with a full manual in the display language.
 applyLocalizedUserManuals(resources as any);

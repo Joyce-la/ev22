@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useApp } from "@/lib/app-context";
+import {
+  CHARGING_DISTANCE_REFERENCE,
+  formatKm,
+  haversineKm,
+  KUCHING_CHARGING_STATIONS,
+} from "@/components/NearbyStationsPanel";
 import { Cloud, CloudRain, CloudSnow, Sun, Zap, Undo2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
-const STATIONS = [
-  // Keep the same distances shown in the widget, but route by coordinates for reliability.
-  { id: "chargev", name: "chargEV Charging Station", type: "AC", distance: "1.5 km", lat: 1.5569, lng: 110.3439 },
-  { id: "jomcharge", name: "JomCharge Charging Station", type: "DC", distance: "3 km", lat: 1.5506, lng: 110.3369 },
-  { id: "shell", name: "Shell Recharge Station", type: "DC", distance: "4.2 km", lat: 1.5489, lng: 110.3392 },
-  { id: "tnb", name: "TNB Electron Hub", type: "AC", distance: "5.8 km", lat: 1.5549, lng: 110.3462 },
-];
 
 export function StatusCard() {
   const { t } = useTranslation();
   const { batteryLevel, weather, traveledKm } = useApp();
   const navigate = useNavigate();
   const [showStations, setShowStations] = useState(false);
+
+  const stationsSorted = useMemo(() => {
+    return KUCHING_CHARGING_STATIONS.map((s) => ({
+      ...s,
+      km: haversineKm(CHARGING_DISTANCE_REFERENCE, s),
+    }))
+      .sort((a, b) => a.km - b.km);
+  }, []);
   const pct = Math.round(batteryLevel * 100);
   const left = Math.round(450 * batteryLevel);
   const fillColor = pct > 50 ? "#22c55e" : pct > 20 ? "#f59e0b" : "#ef4444";
@@ -61,7 +67,7 @@ export function StatusCard() {
           </button>
         </div>
         <div className="flex-1 overflow-y-auto pr-1">
-          {STATIONS.map((s) => (
+          {stationsSorted.map((s) => (
             <button
               key={s.id}
               type="button"
@@ -76,7 +82,7 @@ export function StatusCard() {
                 {s.type}
               </div>
               <div className="flex-1 truncate text-xs font-medium leading-tight">{s.name}</div>
-              <div className="text-xs font-bold text-purple-500">{s.distance}</div>
+              <div className="text-xs font-bold text-purple-500">{formatKm(s.km, t("common.unitKm"))}</div>
             </button>
           ))}
         </div>

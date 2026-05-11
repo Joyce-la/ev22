@@ -9,7 +9,17 @@ import { useTranslation } from "react-i18next";
 import { LeafletMap } from "@/components/LeafletMap";
 import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import { NearbyStationsPanel, type ChargingStation } from "@/components/NearbyStationsPanel";
+import { NavigationCueOverlay } from "@/components/NavigationCueOverlay";
 import { useApp } from "@/lib/app-context";
+import {
+  parseNavigationLeg,
+  parseNextNavigationCue,
+  polylineLengthMeters,
+  polylineSuffixFromMeters,
+  positionAlongPolyline,
+  resolveNavigationCue,
+} from "@/lib/osrm-navigation";
+import type { NavigationCue } from "@/lib/osrm-navigation";
 
 type MapSearch = { destination?: string };
 
@@ -28,7 +38,7 @@ export const Route = createFileRoute("/map")({
 function MapPage() {
   const { t } = useTranslation();
   const { destination: initialDest } = Route.useSearch();
-  const { activeRoute, setActiveRoute, setMusicExpanded } = useApp();
+  const { activeRoute, setActiveRoute, setMusicExpanded, speedKmh, gear } = useApp();
   const navigate = useNavigate();
   const ignoreNextSearchSyncRef = useRef(false);
 
@@ -70,6 +80,8 @@ function MapPage() {
   const [routeErrorKey, setRouteErrorKey] = useState<string | null>(null);
   const [stationsOpen, setStationsOpen] = useState(false);
   const [navigationActive, setNavigationActive] = useState(false);
+  const [navTraveledMeters, setNavTraveledMeters] = useState(0);
+  const navCapRef = useRef(0);
 
   // If the URL search param changes (e.g. user taps a station in the bottom-right widget),
   // sync it into the input + routing label + active routing state.
@@ -104,6 +116,37 @@ function MapPage() {
     return undefined;
   }, [routeLine, activeDestination]);
 
+  const routePairs = useMemo(
+    () => (routeLine && routeLine.length > 1 ? (routeLine as Array<[number, number]>) : null),
+    [routeLine],
+  );
+
+  useEffect(() => {
+    const leg = activeRoute?.navigationLeg?.legDistanceMeters;
+    const poly = routePairs ? polylineLengthMeters(routePairs) : 0;
+    navCapRef.current = leg != null && leg > 0 ? leg : poly;
+  }, [activeRoute?.navigationLeg?.legDistanceMeters, routePairs]);
+
+  useEffect(() => {
+    setNavTraveledMeters(0);
+  }, [activeDestination, destPos?.lat, destPos?.lng]);
+
+  useEffect(() => {
+    if (navigationActive) setNavTraveledMeters(0);
+  }, [navigationActive]);
+
+  useEffect(() => {
+    if (!navigationActive) return;
+    const id = window.setInterval(() => {
+      if ((gear !== "D" && gear !== "R") || speedKmh <= 0) return;
+      const cap = navCapRef.current;
+      if (cap <= 0) return;
+      const delta = speedKmh / 3.6;
+      setNavTraveledMeters((m) => Math.min(m + delta, cap));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [navigationActive, gear, speedKmh]);
+
   const center: LatLngExpression = useMemo(() => {
     if (origin) return [origin.lat, origin.lng];
     return [1.5533, 110.3592];
@@ -111,6 +154,53 @@ function MapPage() {
 
   const originLatLng: LatLngExpression | null = origin ? [origin.lat, origin.lng] : null;
   const destLatLng: LatLngExpression | null = destPos ? [destPos.lat, destPos.lng] : null;
+
+  const liveNavigationCue: NavigationCue | null = useMemo(() => {
+    const leg = activeRoute?.navigationLeg;
+    if (leg) return resolveNavigationCue(leg, navTraveledMeters);
+    const base = activeRoute?.nextNavigationCue;
+    if (!base) return null;
+    return {
+      ...base,
+      distanceMeters: Math.max(0, Math.round(base.distanceMeters - navTraveledMeters)),
+    };
+  }, [activeRoute?.navigationLeg, activeRoute?.nextNavigationCue, navTraveledMeters]);
+
+  const userOnRouteLatLng: LatLngExpression | null = useMemo(() => {
+    if (!navigationActive || !routePairs || !originLatLng) return originLatLng;
+    const polyLen = polylineLengthMeters(routePairs);
+    if (polyLen <= 0) return originLatLng;
+    const legD = activeRoute?.navigationLeg?.legDistanceMeters;
+    const cap = legD != null && legD > 0 ? legD : polyLen;
+    const posM = Math.min(navTraveledMeters * (polyLen / cap), polyLen);
+    const p = positionAlongPolyline(routePairs, posM);
+    return [p.lat, p.lng];
+  }, [
+    navigationActive,
+    routePairs,
+    originLatLng,
+    navTraveledMeters,
+    activeRoute?.navigationLeg?.legDistanceMeters,
+  ]);
+
+  /** While navigating, only draw the path ahead of the vehicle (typical GPS behavior). */
+  const displayRouteLine: LatLngExpression[] | null = useMemo(() => {
+    if (!routeLine || routeLine.length < 2) return null;
+    if (!navigationActive || !routePairs) return routeLine as LatLngExpression[];
+    const polyLen = polylineLengthMeters(routePairs);
+    if (polyLen <= 0) return routeLine as LatLngExpression[];
+    const legD = activeRoute?.navigationLeg?.legDistanceMeters;
+    const cap = legD != null && legD > 0 ? legD : polyLen;
+    const posM = Math.min(navTraveledMeters * (polyLen / cap), polyLen);
+    const suffix = polylineSuffixFromMeters(routePairs, posM);
+    return suffix.length >= 2 ? (suffix as LatLngExpression[]) : null;
+  }, [
+    routeLine,
+    routePairs,
+    navigationActive,
+    navTraveledMeters,
+    activeRoute?.navigationLeg?.legDistanceMeters,
+  ]);
 
   useEffect(() => {
     let cancelled = false;
@@ -143,6 +233,23 @@ function MapPage() {
           [activeRoute.origin.lat, activeRoute.origin.lng],
           [activeRoute.destinationPos.lat, activeRoute.destinationPos.lng],
         ]);
+        if (!activeRoute.navigationLeg && origin) {
+          const o = origin;
+          const d = activeRoute.destinationPos;
+          const enrichUrl = `https://router.project-osrm.org/route/v1/driving/${o.lng},${o.lat};${d.lng},${d.lat}?overview=full&geometries=geojson&steps=true`;
+          fetch(enrichUrl, { headers: { Accept: "application/json" } })
+            .then((r) => r.json())
+            .then((rJson) => {
+              const leg = parseNavigationLeg(rJson);
+              if (!leg) return;
+              setActiveRoute((prev) =>
+                prev && prev.destinationName === q
+                  ? { ...prev, navigationLeg: leg, nextNavigationCue: resolveNavigationCue(leg, 0) }
+                  : prev,
+              );
+            })
+            .catch(() => {});
+        }
         return;
       }
 
@@ -182,8 +289,8 @@ function MapPage() {
       if (cancelled) return;
       setDestPos({ lat: dLat, lng: dLng });
 
-      // 2) Route via OSRM public demo server (no key/billing)
-      const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${dLng},${dLat}?overview=full&geometries=geojson`;
+      // 2) Route via OSRM public demo server (no key/billing); steps=true for turn-by-turn overlay.
+      const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${dLng},${dLat}?overview=full&geometries=geojson&steps=true`;
       const rRes = await fetch(osrmUrl, { headers: { "Accept": "application/json" } });
       const rJson: any = await rRes.json();
       const coords: [number, number][] | undefined = rJson?.routes?.[0]?.geometry?.coordinates;
@@ -191,6 +298,9 @@ function MapPage() {
         setRouteErrorKey("map.errors.routeNotAvailable");
         return;
       }
+      const navLeg = parseNavigationLeg(rJson);
+      const nextCue =
+        navLeg != null ? resolveNavigationCue(navLeg, 0) : parseNextNavigationCue(rJson);
       const latLngPairs: Array<[number, number]> = coords.map(([lng, lat]) => [lat, lng]);
       if (cancelled) return;
       setRouteLine(latLngPairs as LatLngExpression[]);
@@ -202,6 +312,8 @@ function MapPage() {
         destinationPos: { lat: dLat, lng: dLng },
         origin: { ...origin },
         routeLine: latLngPairs,
+        navigationLeg: navLeg ?? undefined,
+        nextNavigationCue: nextCue,
       });
 
       // If this route was started from the map UI, make the navigation state
@@ -313,12 +425,15 @@ function MapPage() {
               className="h-full w-full"
               center={center}
               zoom={15}
-              origin={originLatLng}
+              origin={userOnRouteLatLng}
               destination={destLatLng}
-              route={routeLine}
+              route={displayRouteLine}
               bounds={mapBounds}
             />
-            {shownDestination && (
+            {navigationActive && routeLine && routeLine.length > 1 && liveNavigationCue && !routeErrorKey ? (
+              <NavigationCueOverlay cue={liveNavigationCue} t={t} />
+            ) : null}
+            {shownDestination && !navigationActive && (
               <div className="pointer-events-none absolute left-1/2 top-3 z-[1100] -translate-x-1/2 rounded-xl bg-black/65 px-3 py-1.5 text-sm font-medium text-white backdrop-blur">
                 {t("map.routingTo", { destination: shownDestination })}
               </div>
@@ -349,6 +464,7 @@ function MapPage() {
                   setMapBounds(null);
                   setRouteErrorKey(null);
                   setNavigationActive(false);
+                  setNavTraveledMeters(0);
                   setActiveRoute(null);
                 }}
                 className="absolute bottom-3 left-1/2 z-[1200] -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-[12px] font-bold text-white backdrop-blur hover:bg-black/70"

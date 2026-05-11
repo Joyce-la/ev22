@@ -1,5 +1,16 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState, ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import i18n from "@/lib/i18n";
+import type { NavigationCue, ParsedNavigationLeg } from "@/lib/osrm-navigation";
 
 export type Theme = "light" | "dark" | "purple";
 export type AirflowMode = "face" | "down" | "both";
@@ -11,6 +22,10 @@ export type ActiveRoute = {
   origin: LatLng;
   // route is stored as [lat, lng] pairs so it can be passed straight to Leaflet.
   routeLine: Array<[number, number]>;
+  /** Full turn-by-turn plan from OSRM (preferred for live navigation). */
+  navigationLeg?: ParsedNavigationLeg | null;
+  /** First turn-by-turn cue from OSRM when route was computed (optional for older sessions). */
+  nextNavigationCue?: NavigationCue | null;
 };
 
 interface AppCtx {
@@ -68,7 +83,7 @@ interface AppCtx {
   setMusicExpanded: (v: boolean) => void;
   playBeep: (kind: "warn" | "chime") => void;
   activeRoute: ActiveRoute | null;
-  setActiveRoute: (r: ActiveRoute | null) => void;
+  setActiveRoute: Dispatch<SetStateAction<ActiveRoute | null>>;
   voicePopupOpen: boolean;
   setVoicePopupOpen: (v: boolean) => void;
 }

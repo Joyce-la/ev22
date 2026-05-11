@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Polyline, useMap } from "react-leaflet";
-import type { LatLngBoundsExpression, LatLngExpression, Map as LeafletMapType } from "leaflet";
+import type { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import { useApp } from "@/lib/app-context";
 import { useTranslation } from "react-i18next";
 
@@ -94,19 +94,10 @@ export function LeafletMap({
 }) {
   const { theme } = useApp();
   const [mounted, setMounted] = useState(false);
-  const [map, setMap] = useState<LeafletMapType | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    return () => {
-      if (map) {
-        map.remove();
-      }
-    };
-  }, [map]);
 
   const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
@@ -121,7 +112,6 @@ export function LeafletMap({
   return (
     <div className={`relative h-full w-full ${className}`}>
       <MapContainer
-        whenCreated={setMap}
         center={center}
         zoom={zoom}
         scrollWheelZoom={interactive}

@@ -67,7 +67,10 @@ const HOME_DESTINATION: ChargingStation = {
   lng: 110.4262,
 };
 
-function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+/** Same demo “current location” as `map.tsx` route origin — keep charging distances in sync. */
+export const CHARGING_DISTANCE_REFERENCE = { lat: 1.5533, lng: 110.3592 } as const;
+
+export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const R = 6371;
   const toRad = (d: number) => (d * Math.PI) / 180;
   const dLat = toRad(b.lat - a.lat);
@@ -80,7 +83,7 @@ function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: num
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
-function formatKm(km: number, unit: string) {
+export function formatKm(km: number, unit: string) {
   if (km < 10) return `${km.toFixed(1)} ${unit}`;
   return `${Math.round(km)} ${unit}`;
 }

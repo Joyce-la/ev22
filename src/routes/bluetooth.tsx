@@ -20,7 +20,7 @@ const AVAILABLE = [
 
 function BluetoothPage() {
   const { t } = useTranslation();
-  const { bluetoothOn, setBluetoothOn, pairedDevice, setPairedDevice } = useApp();
+  const { bluetoothOn, setBluetoothOn, pairedDevice, setPairedDevice, theme } = useApp();
   const pairUrl = typeof window !== "undefined" ? `${window.location.origin}/pair` : "/pair";
 
   return (
@@ -31,9 +31,31 @@ function BluetoothPage() {
             <span className="text-[16px] font-bold">{t("bluetooth.title")}</span>
             <button
               onClick={() => setBluetoothOn(!bluetoothOn)}
-              className={`relative h-[24px] w-[42px] rounded-full transition-colors ${bluetoothOn ? "bg-[var(--brand)]" : "bg-foreground/20"}`}
+              className={
+                theme === "purple"
+                  ? `relative h-[24px] w-[42px] rounded-full transition-colors ${
+                      bluetoothOn
+                        ? "bg-white shadow-sm ring-1 ring-inset ring-black/15"
+                        : "bg-black/50 shadow-sm ring-1 ring-white/55"
+                    }`
+                  : `relative h-[24px] w-[42px] rounded-full transition-colors ${
+                      bluetoothOn ? "bg-[var(--brand)]" : "bg-foreground/20"
+                    }`
+              }
             >
-              <span className={`absolute top-[2px] h-[20px] w-[20px] rounded-full bg-background shadow transition-all ${bluetoothOn ? "left-[20px]" : "left-[2px]"}`} />
+              <span
+                className={
+                  theme === "purple"
+                    ? `absolute top-[2px] h-[20px] w-[20px] rounded-full shadow-md transition-all ${
+                        bluetoothOn
+                          ? "left-[20px] bg-[#7c3aed] ring-1 ring-white/50"
+                          : "left-[2px] bg-white ring-1 ring-black/10"
+                      }`
+                    : `absolute top-[2px] h-[20px] w-[20px] rounded-full bg-background shadow transition-all ${
+                        bluetoothOn ? "left-[20px]" : "left-[2px]"
+                      }`
+                }
+              />
             </button>
           </div>
           <div className="flex items-center justify-between text-[11px] leading-none">
