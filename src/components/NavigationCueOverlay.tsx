@@ -159,7 +159,9 @@ function RoundaboutIcon({ cue, className }: { cue: NavigationCue; className: str
     >
       <RotateCw className="h-full w-full" strokeWidth={2.4} aria-hidden />
       {exitNumber ? (
-        <span className="absolute -right-1 -top-1 flex h-[1.4rem] min-w-[1.4rem] items-center justify-center rounded-full bg-foreground px-1 text-[11px] font-extrabold leading-none text-background shadow-md ring-2 ring-background">
+        // Badge is fixed pixel-size and positioned *inside* the icon bounds so
+        // it never extends past the card edge when the user scales fonts up.
+        <span className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-foreground px-[3px] text-[10px] font-extrabold leading-none text-background shadow-md ring-2 ring-background">
           {exitNumber}
         </span>
       ) : null}
@@ -207,8 +209,11 @@ function CueIcon({ cue, className }: { cue: NavigationCue; className: string }) 
   return <Navigation className={className} strokeWidth={2.4} aria-hidden />;
 }
 
-const iconClassOverlay = "h-[3.25rem] w-[3.25rem] shrink-0 text-[var(--brand)] drop-shadow-sm";
-const iconClassPanel = "h-11 w-11 shrink-0 text-[var(--brand)] drop-shadow-sm";
+// Fixed pixel sizes (not rem) so the icon doesn't grow with the global font-size
+// accessibility setting and overflow the bottom-row card. Card height is pinned
+// in px in `routes/map.tsx`, so the icon must be pinned in px to match.
+const iconClassOverlay = "h-[52px] w-[52px] shrink-0 text-[var(--brand)] drop-shadow-sm";
+const iconClassPanel = "h-[44px] w-[44px] shrink-0 text-[var(--brand)] drop-shadow-sm";
 
 export function NavigationCueOverlay({
   cue,
@@ -278,9 +283,13 @@ export function NavigationCueOverlay({
       ? "pointer-events-none relative z-[1] flex h-full min-h-[120px] w-full min-w-0 flex-col overflow-hidden rounded-[28px] bg-app-panel text-foreground shadow-sm ring-1 ring-black/5"
       : "pointer-events-none absolute left-3 top-3 z-[1250] max-w-[min(320px,calc(100%-24px))] overflow-hidden rounded-2xl bg-app-panel/95 text-foreground shadow-xl ring-1 ring-black/10 backdrop-blur-md dark:ring-white/10 purple:ring-[oklch(0.9_0.05_300/0.35)]";
 
+  // For the in-row panel variant, every size is in fixed pixels so the layout
+  // stays stable when the user enlarges the global font-size — otherwise the
+  // icon + text grow but the parent card is pinned to 120px and content gets
+  // clipped at the top of the card.
   const topRow =
     variant === "panel"
-      ? "flex min-h-0 flex-1 items-center gap-3 bg-app-panel-soft px-3 py-2"
+      ? "flex min-h-[60px] flex-1 items-center gap-3 bg-app-panel-soft px-3 py-2"
       : "flex min-h-[5.25rem] items-center gap-4 bg-app-panel-soft px-4 py-3.5";
 
   const bottomRow =
@@ -290,12 +299,12 @@ export function NavigationCueOverlay({
 
   const distClass =
     variant === "panel"
-      ? "min-w-0 text-3xl font-extrabold tabular-nums leading-none tracking-tight text-foreground"
+      ? "min-w-0 text-[28px] font-extrabold tabular-nums leading-none tracking-tight text-foreground"
       : "min-w-0 text-4xl font-extrabold tabular-nums leading-none tracking-tight text-foreground";
 
   const instructionClass =
     variant === "panel"
-      ? "text-sm font-semibold leading-snug text-foreground"
+      ? "text-[13px] font-semibold leading-snug text-foreground"
       : "text-[15px] font-semibold leading-snug text-foreground";
 
   const streetClass =

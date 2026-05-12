@@ -88,6 +88,9 @@ const resources = {
           "GPS unavailable. Routing uses the demo location until location access is allowed.",
         homeShortcut: "Home",
         navigateHome: "Navigate home",
+        currentLocation: "Current Location",
+        locatingAddress: "Locating address…",
+        locationUnavailable: "Location unavailable",
         errors: {
           waitingGps: "Waiting for GPS location…",
           destinationNotFound: "Destination not found.",
@@ -313,6 +316,9 @@ const resources = {
           "GPS tidak tersedia. Laluan menggunakan lokasi demo sehingga kebenaran lokasi diberikan.",
         homeShortcut: "Rumah",
         navigateHome: "Navigasi ke rumah",
+        currentLocation: "Lokasi Semasa",
+        locatingAddress: "Mencari alamat…",
+        locationUnavailable: "Lokasi tidak tersedia",
         errors: {
           waitingGps: "Menunggu lokasi GPS…",
           destinationNotFound: "Destinasi tidak dijumpai.",
@@ -541,6 +547,9 @@ const resources = {
         geoUnavailable: "无法获取 GPS。在允许位置权限前，路线将使用演示位置。",
         homeShortcut: "家",
         navigateHome: "导航回家",
+        currentLocation: "当前位置",
+        locatingAddress: "正在获取地址…",
+        locationUnavailable: "无法获取位置",
         errors: {
           waitingGps: "正在等待 GPS 位置…",
           destinationNotFound: "未找到目的地。",
@@ -763,6 +772,9 @@ const resources = {
         geoUnavailable: "無法取得 GPS。在允許位置權限前，路線將使用示範位置。",
         homeShortcut: "家",
         navigateHome: "導航回家",
+        currentLocation: "目前位置",
+        locatingAddress: "正在取得地址…",
+        locationUnavailable: "無法取得位置",
         errors: {
           waitingGps: "正在等待 GPS 位置…",
           destinationNotFound: "找不到目的地。",
@@ -1192,6 +1204,9 @@ const resources = {
         geoUnavailable: "GPS tidak tersedia. Rute memakai lokasi demo sampai akses lokasi diizinkan.",
         homeShortcut: "Rumah",
         navigateHome: "Navigasi pulang",
+        currentLocation: "Lokasi Saat Ini",
+        locatingAddress: "Mencari alamat…",
+        locationUnavailable: "Lokasi tidak tersedia",
         errors: {
           waitingGps: "Menunggu lokasi GPS…",
           destinationNotFound: "Tujuan tidak ditemukan.",
@@ -1371,6 +1386,9 @@ const resources = {
         geoUnavailable: "ไม่พบ GPS ระบบจะใช้ตำแหน่งตัวอย่างจนกว่าจะอนุญาตตำแหน่ง",
         homeShortcut: "บ้าน",
         navigateHome: "นำทางกลับบ้าน",
+        currentLocation: "ตำแหน่งปัจจุบัน",
+        locatingAddress: "กำลังค้นหาที่อยู่…",
+        locationUnavailable: "ไม่พบตำแหน่ง",
         errors: {
           waitingGps: "กำลังรอ GPS…",
           destinationNotFound: "ไม่พบจุดหมาย",
@@ -1517,6 +1535,9 @@ const resources = {
         geoUnavailable: "Không có GPS. Dùng vị trí demo cho tới khi cho phép vị trí.",
         homeShortcut: "Nhà",
         navigateHome: "Dẫn đường về nhà",
+        currentLocation: "Vị trí hiện tại",
+        locatingAddress: "Đang xác định địa chỉ…",
+        locationUnavailable: "Không xác định được vị trí",
         errors: {
           waitingGps: "Đang chờ GPS…",
           destinationNotFound: "Không tìm thấy điểm đến.",

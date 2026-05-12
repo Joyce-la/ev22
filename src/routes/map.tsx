@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { GearPanel } from "@/components/GearPanel.tsx";
 import { BrightnessCard } from "@/components/BrightnessCard";
 import { StatusCard } from "@/components/StatusCard";
-import { ClimateCard } from "@/components/ClimateCard";
+import { CurrentLocationCard } from "@/components/CurrentLocationCard";
 import { Search, Menu } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,6 +22,7 @@ import {
   resolveNavigationCue,
 } from "@/lib/osrm-navigation";
 import type { NavigationCue } from "@/lib/osrm-navigation";
+import { prefetchPlaceLabel } from "@/lib/reverse-geocode-place";
 
 type MapSearch = { destination?: string };
 
@@ -127,6 +128,13 @@ function MapPage() {
   useEffect(() => {
     setGeoError(false);
   }, []);
+
+  // Warm reverse-geocode cache as soon as the map mounts so the bottom “current
+  // location” card usually shows a street name on first paint (no long “locating”).
+  useEffect(() => {
+    const lng = i18n.resolvedLanguage || i18n.language || "en";
+    prefetchPlaceLabel(origin, lng);
+  }, [origin, i18n.resolvedLanguage, i18n.language]);
 
   useEffect(() => {
     const q = activeDestination.trim();
@@ -585,7 +593,7 @@ function MapPage() {
             !routeErrorKey ? (
               <NavigationCueOverlay variant="panel" cue={liveNavigationCue} t={t} />
             ) : (
-              <ClimateCard />
+              <CurrentLocationCard origin={origin} />
             )}
             <BrightnessCard />
           </div>

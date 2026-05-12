@@ -138,6 +138,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "分岐で左寄り",
         forkRight: "分岐で右寄り",
         roundabout: "ロータリーに入る",
+        roundaboutTakeExit: "ロータリーでは{{exit}}番出口へ",
+        roundaboutOnto: "{{road}}へ向かう",
         exitRoundabout: "ロータリーを出る",
         arrive: "到着",
       }),
@@ -163,6 +165,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "An der Gabelung links halten",
         forkRight: "An der Gabelung rechts halten",
         roundabout: "In den Kreisverkehr einfahren",
+        roundaboutTakeExit: "Am Kreisverkehr Ausfahrt {{exit}} nehmen",
+        roundaboutOnto: "Richtung {{road}}",
         exitRoundabout: "Kreisverkehr verlassen",
         arrive: "Angekommen",
       }),
@@ -188,6 +192,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Gardez la gauche à la bifurcation",
         forkRight: "Gardez la droite à la bifurcation",
         roundabout: "Entrez dans le rond-point",
+        roundaboutTakeExit: "Au rond-point, prenez la sortie {{exit}}",
+        roundaboutOnto: "Vers {{road}}",
         exitRoundabout: "Quittez le rond-point",
         arrive: "Vous êtes arrivé",
       }),
@@ -213,6 +219,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Mantente a la izquierda en la bifurcación",
         forkRight: "Mantente a la derecha en la bifurcación",
         roundabout: "Entra en la rotonda",
+        roundaboutTakeExit: "En la rotonda, toma la salida {{exit}}",
+        roundaboutOnto: "Hacia {{road}}",
         exitRoundabout: "Sal de la rotonda",
         arrive: "Has llegado",
       }),
@@ -238,6 +246,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Tieni la sinistra alla biforcazione",
         forkRight: "Tieni la destra alla biforcazione",
         roundabout: "Entra nella rotonda",
+        roundaboutTakeExit: "Alla rotonda prendi l’uscita {{exit}}",
+        roundaboutOnto: "Verso {{road}}",
         exitRoundabout: "Esci dalla rotonda",
         arrive: "Sei arrivato",
       }),
@@ -263,6 +273,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Mantenha-se à esquerda na bifurcação",
         forkRight: "Mantenha-se à direita na bifurcação",
         roundabout: "Entre na rotatória",
+        roundaboutTakeExit: "Na rotatória, pegue a saída {{exit}}",
+        roundaboutOnto: "Para {{road}}",
         exitRoundabout: "Saia da rotatória",
         arrive: "Chegou",
       }),
@@ -288,6 +300,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "갈림길에서 왼쪽 유지",
         forkRight: "갈림길에서 오른쪽 유지",
         roundabout: "로터리 진입",
+        roundaboutTakeExit: "로터리에서 {{exit}}번 출구로",
+        roundaboutOnto: "{{road}} 방면",
         exitRoundabout: "로터리 출구",
         arrive: "도착",
       }),
@@ -313,6 +327,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Ambil kiri di persimpangan",
         forkRight: "Ambil kanan di persimpangan",
         roundabout: "Masuk bundaran",
+        roundaboutTakeExit: "Di bundaran, ambil keluar {{exit}}",
+        roundaboutOnto: "Menuju {{road}}",
         exitRoundabout: "Keluar bundaran",
         arrive: "Tiba di tujuan",
       }),
@@ -338,6 +354,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "ชิดซ้ายที่แยก",
         forkRight: "ชิดขวาที่แยก",
         roundabout: "เข้าวงเวียน",
+        roundaboutTakeExit: "ที่วงเวียน ออกทางออกที่ {{exit}}",
+        roundaboutOnto: "เข้าสู่ {{road}}",
         exitRoundabout: "ออกจากวงเวียน",
         arrive: "ถึงจุดหมาย",
       }),
@@ -363,6 +381,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Giữ trái tại ngã ba",
         forkRight: "Giữ phải tại ngã ba",
         roundabout: "Vào vòng xuyến",
+        roundaboutTakeExit: "Ở vòng xuyến, đi theo lối ra {{exit}}",
+        roundaboutOnto: "Vào {{road}}",
         exitRoundabout: "Ra khỏi vòng xuyến",
         arrive: "Đến nơi",
       }),
@@ -388,6 +408,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "विभाजन पर बाएँ रहें",
         forkRight: "विभाजन पर दाएँ रहें",
         roundabout: "गोल चक्कर में प्रवेश करें",
+        roundaboutTakeExit: "गोल चक्कर पर निकास {{exit}} लें",
+        roundaboutOnto: "{{road}} की ओर",
         exitRoundabout: "गोल चक्कर से निकलें",
         arrive: "गंतव्य पर पहुँचें",
       }),
@@ -413,6 +435,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "الزم اليسار عند التفرع",
         forkRight: "الزم اليمين عند التفرع",
         roundabout: "ادخل الدوار",
+        roundaboutTakeExit: "في الدوار، خذ المخرج {{exit}}",
+        roundaboutOnto: "باتجاه {{road}}",
         exitRoundabout: "اخرج من الدوار",
         arrive: "لقد وصلت",
       }),
@@ -438,6 +462,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Держитесь левее на развилке",
         forkRight: "Держитесь правее на развилке",
         roundabout: "Въезд на кольцо",
+        roundaboutTakeExit: "На кольце снимите съезд {{exit}}",
+        roundaboutOnto: "На {{road}}",
         exitRoundabout: "Съезд с кольца",
         arrive: "Вы прибыли",
       }),
@@ -463,6 +489,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "பிரிவில் இடதுபுறம் கடைபிடிக்கவும்",
         forkRight: "பிரிவில் வலதுபுறம் கடைபிடிக்கவும்",
         roundabout: "வட்டச் சாலைக்குள் நுழையவும்",
+        roundaboutTakeExit: "வட்டச் சாலையில் {{exit}} வெளியேற்றத்தை எடுக்கவும்",
+        roundaboutOnto: "{{road}} -க்கு",
         exitRoundabout: "வட்டச் சாலையை விட்டு வெளியேறவும்",
         arrive: "இலக்கை அடைந்துவிட்டீர்கள்",
       }),
@@ -488,6 +516,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Ayrımda solda kalın",
         forkRight: "Ayrımda sağda kalın",
         roundabout: "Kavşağa girin",
+        roundaboutTakeExit: "Kavşakta {{exit}} çıkışını kullanın",
+        roundaboutOnto: "{{road}} yönüne",
         exitRoundabout: "Kavşaktan çıkın",
         arrive: "Vardınız",
       }),
@@ -513,6 +543,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Houd links op de splitsing",
         forkRight: "Houd rechts op de splitsing",
         roundabout: "Rij de rotonde op",
+        roundaboutTakeExit: "Neem op de rotonde afslag {{exit}}",
+        roundaboutOnto: "Richting {{road}}",
         exitRoundabout: "Verlaat de rotonde",
         arrive: "U bent gearriveerd",
       }),
@@ -538,6 +570,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Håll vänster vid delning",
         forkRight: "Håll höger vid delning",
         roundabout: "Kör in i rondellen",
+        roundaboutTakeExit: "Ta avfart {{exit}} i rondellen",
+        roundaboutOnto: "Mot {{road}}",
         exitRoundabout: "Lämna rondellen",
         arrive: "Du har anlänt",
       }),
@@ -563,6 +597,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Trzymaj się lewej na rozwidleniu",
         forkRight: "Trzymaj się prawej na rozwidleniu",
         roundabout: "Wjedź na rondo",
+        roundaboutTakeExit: "Na rondzie zajmij zjazd {{exit}}",
+        roundaboutOnto: "W kierunku {{road}}",
         exitRoundabout: "Zjechać z ronda",
         arrive: "Cel osiągnięty",
       }),
@@ -588,6 +624,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Тримайтеся ліворуч на розвилці",
         forkRight: "Тримайтеся праворуч на розвилці",
         roundabout: "В’їзд на кільце",
+        roundaboutTakeExit: "На кільці оберіть з’їзд {{exit}}",
+        roundaboutOnto: "На {{road}}",
         exitRoundabout: "З’їзд з кільця",
         arrive: "Ви прибули",
       }),
@@ -613,6 +651,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "در چندراهه چپ بمانید",
         forkRight: "در چندراهه راست بمانید",
         roundabout: "وارد میدان شوید",
+        roundaboutTakeExit: "در میدان، خروج {{exit}} را بگیرید",
+        roundaboutOnto: "به سمت {{road}}",
         exitRoundabout: "از میدان خارج شوید",
         arrive: "به مقصد رسیدید",
       }),
@@ -638,6 +678,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "মোড়ে বাঁয়ে থাকুন",
         forkRight: "মোড়ে ডানে থাকুন",
         roundabout: "রাউন্ডঅ্যাবাউটে প্রবেশ করুন",
+        roundaboutTakeExit: "রাউন্ডঅ্যাবাউটে {{exit}} নম্বর প্রস্থান নিন",
+        roundaboutOnto: "{{road}}-এ",
         exitRoundabout: "রাউন্ডঅ্যাবাউট ছেড়ে যান",
         arrive: "গন্তব্যে পৌঁছেছেন",
       }),
@@ -663,6 +705,8 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "شاخ پر بائیں رہیں",
         forkRight: "شاخ پر دائیں رہیں",
         roundabout: "چکر میں داخل ہوں",
+        roundaboutTakeExit: "چکر پر {{exit}} نمبر نکاس لیں",
+        roundaboutOnto: "{{road}} کی طرف",
         exitRoundabout: "چکر سے نکلیں",
         arrive: "منزل پر پہنچ گئے",
       }),
@@ -688,10 +732,152 @@ const PATCHES: Record<string, NavPatch> = {
         forkLeft: "Kaliwa sa sangang-daan",
         forkRight: "Kanan sa sangang-daan",
         roundabout: "Pumasok sa roundabout",
+        roundaboutTakeExit: "Sa roundabout, lumabas sa labasan {{exit}}",
+        roundaboutOnto: "Papunta sa {{road}}",
         exitRoundabout: "Lumabas sa roundabout",
         arrive: "Nakarating na",
       }),
     },
+  },
+};
+
+/**
+ * Current-location card strings for map locales that share nav patches — keeps
+ * labels translated even when the base `i18n.ts` slice for that code is thin.
+ */
+const LOCATION_PANEL_I18N: Record<
+  string,
+  { currentLocation: string; locatingAddress: string; locationUnavailable: string }
+> = {
+  ms: {
+    currentLocation: "Lokasi semasa",
+    locatingAddress: "Mencari alamat…",
+    locationUnavailable: "Lokasi tidak tersedia",
+  },
+  "zh-Hans": {
+    currentLocation: "当前位置",
+    locatingAddress: "正在获取地址…",
+    locationUnavailable: "无法获取位置",
+  },
+  "zh-Hant": {
+    currentLocation: "目前位置",
+    locatingAddress: "正在取得地址…",
+    locationUnavailable: "無法取得位置",
+  },
+  ja: {
+    currentLocation: "現在地",
+    locatingAddress: "住所を取得中…",
+    locationUnavailable: "位置を取得できません",
+  },
+  de: {
+    currentLocation: "Aktuelle Position",
+    locatingAddress: "Adresse wird ermittelt…",
+    locationUnavailable: "Standort nicht verfügbar",
+  },
+  fr: {
+    currentLocation: "Position actuelle",
+    locatingAddress: "Recherche de l’adresse…",
+    locationUnavailable: "Position indisponible",
+  },
+  es: {
+    currentLocation: "Ubicación actual",
+    locatingAddress: "Buscando dirección…",
+    locationUnavailable: "Ubicación no disponible",
+  },
+  it: {
+    currentLocation: "Posizione attuale",
+    locatingAddress: "Ricerca dell’indirizzo…",
+    locationUnavailable: "Posizione non disponibile",
+  },
+  pt: {
+    currentLocation: "Localização atual",
+    locatingAddress: "A obter morada…",
+    locationUnavailable: "Localização indisponível",
+  },
+  ko: {
+    currentLocation: "현재 위치",
+    locatingAddress: "주소 확인 중…",
+    locationUnavailable: "위치를 확인할 수 없음",
+  },
+  id: {
+    currentLocation: "Lokasi saat ini",
+    locatingAddress: "Mencari alamat…",
+    locationUnavailable: "Lokasi tidak tersedia",
+  },
+  th: {
+    currentLocation: "ตำแหน่งปัจจุบัน",
+    locatingAddress: "กำลังค้นหาที่อยู่…",
+    locationUnavailable: "ไม่พบตำแหน่ง",
+  },
+  vi: {
+    currentLocation: "Vị trí hiện tại",
+    locatingAddress: "Đang xác định địa chỉ…",
+    locationUnavailable: "Không xác định được vị trí",
+  },
+  hi: {
+    currentLocation: "वर्तमान स्थान",
+    locatingAddress: "पता खोजा जा रहा है…",
+    locationUnavailable: "स्थान उपलब्ध नहीं",
+  },
+  ar: {
+    currentLocation: "الموقع الحالي",
+    locatingAddress: "جارٍ تحديد العنوان…",
+    locationUnavailable: "الموقع غير متاح",
+  },
+  ru: {
+    currentLocation: "Текущее местоположение",
+    locatingAddress: "Получение адреса…",
+    locationUnavailable: "Местоположение недоступно",
+  },
+  ta: {
+    currentLocation: "தற்போதைய இடம்",
+    locatingAddress: "முகவரி தேடுகிறது…",
+    locationUnavailable: "இடம் கிடைக்கவில்லை",
+  },
+  tr: {
+    currentLocation: "Mevcut konum",
+    locatingAddress: "Adres aranıyor…",
+    locationUnavailable: "Konum kullanılamıyor",
+  },
+  nl: {
+    currentLocation: "Huidige locatie",
+    locatingAddress: "Adres opzoeken…",
+    locationUnavailable: "Locatie niet beschikbaar",
+  },
+  sv: {
+    currentLocation: "Nuvarande plats",
+    locatingAddress: "Hämtar adress…",
+    locationUnavailable: "Plats otillgänglig",
+  },
+  pl: {
+    currentLocation: "Bieżąca lokalizacja",
+    locatingAddress: "Ustalanie adresu…",
+    locationUnavailable: "Lokalizacja niedostępna",
+  },
+  uk: {
+    currentLocation: "Поточне місце",
+    locatingAddress: "Отримання адреси…",
+    locationUnavailable: "Місце недоступне",
+  },
+  fa: {
+    currentLocation: "موقعیت فعلی",
+    locatingAddress: "در حال یافتن نشانی…",
+    locationUnavailable: "موقعیت در دسترس نیست",
+  },
+  bn: {
+    currentLocation: "বর্তমান অবস্থান",
+    locatingAddress: "ঠিকানা খোঁজা হচ্ছে…",
+    locationUnavailable: "অবস্থান অনুপলব্ধ",
+  },
+  ur: {
+    currentLocation: "موجودہ مقام",
+    locatingAddress: "پتہ تلاش ہو رہا ہے…",
+    locationUnavailable: "مقام دستیاب نہیں",
+  },
+  fil: {
+    currentLocation: "Kasalukuyang lokasyon",
+    locatingAddress: "Hinahanap ang address…",
+    locationUnavailable: "Hindi available ang lokasyon",
   },
 };
 
@@ -718,5 +904,11 @@ export function applyMapNavLocaleOverrides(resources: Record<string, { translati
     const pack = resources[code];
     if (!pack?.translation) continue;
     deepMergeNav(pack.translation, patch);
+  }
+  for (const [code, labels] of Object.entries(LOCATION_PANEL_I18N)) {
+    const pack = resources[code]?.translation;
+    if (!pack) continue;
+    const curMap = (pack.map as Record<string, unknown>) ?? {};
+    pack.map = { ...curMap, ...labels };
   }
 }
